@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
     implementation files("libs/craftbukkit-1060.jar")
+    implementation files("libs/Essentials.jar")
 }
 
 File ymlFile = file('src/main/resources/plugin.yml') as File

@@ -1,14 +1,15 @@
 main: io.github.aleksandarharalanov.chatguard.ChatGuard
-version: 1.0.1
+version: 2.0.0
 name: ChatGuard
 author: Beezle
 website: github.com/AleksandarHaralanov/ChatGuard
-description: Filters player messages containing specific words.
+description: Blocks blacklisted words, logs actions, prevents spam, mutes offenders, and enforces penalties.
+softdepend: [Essentials]
 
 commands:
   chatguard:
     description: All of ChatGuard's features in one command.
-    usage: /chatguard [help]
+    usage: /chatguard
     aliases: [cg]
 
 permissions:
@@ -19,8 +20,8 @@ permissions:
     description: All ChatGuard permissions.
     default: op
   chatguard.bypass:
-    description: Allows player to bypass the chat filter.
+    description: Allows player to bypass the ChatGuard protection.
     default: op
   chatguard.config:
-    description: Allows player to modify and reload the ChatGuard config.
+    description: Allows player to reload the ChatGuard config.
     default: op

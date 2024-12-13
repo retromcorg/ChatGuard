@@ -1,4 +1,34 @@
-chatguard:
-  toggle: true
-  filter:
-    - fuck
+spam-prevention:
+  enabled: true
+  warn-player: true
+  delay-ms:
+    s0: 500
+    s1: 1000
+    s2: 2000
+    s3: 3000
+    s4: 4000
+    s5: 5000
+
+filter:
+  enabled: true
+  warn-player: true
+  log:
+    console: true
+    local-file: true
+    discord-webhook:
+      enabled: false
+      url: ""
+  mute:
+    enabled: true
+    duration:
+      s0: "5m"
+      s1: "30m"
+      s2: "1h"
+      s3: "2h"
+      s4: "3h"
+      s5: "4h"
+  rules:
+    regex: []
+    terms:
+      whitelist: []
+      blacklist: []

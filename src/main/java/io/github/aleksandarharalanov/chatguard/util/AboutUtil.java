@@ -5,19 +5,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static io.github.aleksandarharalanov.chatguard.util.LoggerUtil.logInfo;
-import static io.github.aleksandarharalanov.chatguard.util.LoggerUtil.logWarning;
+import static org.bukkit.Bukkit.getServer;
+import static io.github.aleksandarharalanov.chatguard.util.ColorUtil.translate;
 
 /**
  * Utility class for displaying plugin information to the command sender.
  * <p>
- * This class provides a method to display detailed information about a plugin, including its name, version,
+ * This class provides methods to display detailed information about a plugin, including its name, version,
  * description, website, and author(s). The information is formatted and sent to the command sender, which can be
  * either a player or the server console.
  */
 public class AboutUtil {
+    private static final Logger logger = getServer().getLogger();
 
     /**
      * Displays detailed information about the specified plugin to the command sender.
@@ -36,13 +38,10 @@ public class AboutUtil {
         String description = plugin.getDescription().getDescription();
         String authors = formatAuthors(plugin.getDescription().getAuthors());
 
-        boolean experimental = isExperimentalVersion(version);
+        boolean isExperimental = isExperimentalVersion(version);
 
-        if (sender instanceof Player) {
-            sendPlayerInfo((Player) sender, name, version, description, website, authors, experimental);
-        } else {
-            sendConsoleInfo(name, version, description, website, authors, experimental);
-        }
+        if (sender instanceof Player) sendPlayerInfo((Player) sender, name, version, description, website, authors, isExperimental);
+        else sendConsoleInfo(name, version, description, website, authors, isExperimental);
     }
 
     /**
@@ -52,13 +51,10 @@ public class AboutUtil {
      * for coloring in the player chat.
      *
      * @param authorsList the list of authors to format
-     *
      * @return a formatted string of authors, or {@code null} if the list is empty or {@code null}
      */
     private static String formatAuthors(List<String> authorsList) {
-        if (authorsList == null || authorsList.isEmpty()) {
-            return null;
-        }
+        if (authorsList == null || authorsList.isEmpty()) return null;
         return authorsList.size() == 1 ? authorsList.get(0) : authorsList.stream()
                 .map(author -> "&e" + author)
                 .collect(Collectors.joining("&7, &e"));
@@ -70,7 +66,6 @@ public class AboutUtil {
      * A version is considered experimental if it contains "snapshot", "alpha", "beta", or "rc".
      *
      * @param version the version string to check
-     *
      * @return {@code true} if the version is experimental, otherwise {@code false}
      */
     private static boolean isExperimentalVersion(String version) {
@@ -96,10 +91,10 @@ public class AboutUtil {
      */
     private static void sendPlayerInfo(Player player, String name, String version, String description, String website, String authors, boolean experimental) {
         if (experimental) {
-            player.sendMessage(ColorUtil.translate("&cRunning an experimental version."));
-            player.sendMessage(ColorUtil.translate("&cMay contain bugs or other types of issues."));
+            player.sendMessage(translate("&cRunning an experimental version."));
+            player.sendMessage(translate("&cMay contain bugs or other types of issues."));
         }
-        player.sendMessage(ColorUtil.translate(String.format("&e%s &7version &e%s", name, version)));
+        player.sendMessage(translate(String.format("&e%s &7version &e%s", name, version)));
         outputMessage(player, "&7", description);
         outputMessage(player, "&7Website: &e", website);
         outputMessage(player, "&7Author(s): &e", authors);
@@ -120,10 +115,10 @@ public class AboutUtil {
      */
     private static void sendConsoleInfo(String name, String version, String description, String website, String authors, boolean experimental) {
         if (experimental) {
-            logWarning("Running an experimental version.");
-            logWarning("May contain bugs or other types of issues.");
+            logger.warning("Running an experimental version.");
+            logger.warning("May contain bugs or other types of issues.");
         }
-        logInfo(String.format("%s version %s", name, version));
+        logger.info(String.format("%s version %s", name, version));
         outputMessage(description);
         outputMessage("Website: ", website);
         outputMessage("Author(s): ", authors != null ? authors.replace("&e", "").replace("&7", "") : null);
@@ -139,9 +134,7 @@ public class AboutUtil {
      * @param message the message to send, or {@code null} if no message should be sent
      */
     private static void outputMessage(Player player, String prefix, String message) {
-        if (message != null) {
-            player.sendMessage(ColorUtil.translate(prefix + message));
-        }
+        if (message != null) player.sendMessage(translate(prefix + message));
     }
 
     /**
@@ -150,9 +143,7 @@ public class AboutUtil {
      * @param message the message to log, or {@code null} if no message should be logged
      */
     private static void outputMessage(String message) {
-        if (message != null) {
-            logInfo(message);
-        }
+        if (message != null) logger.info(message);
     }
 
     /**
@@ -162,8 +153,6 @@ public class AboutUtil {
      * @param message the message to log, or {@code null} if no message should be logged
      */
     private static void outputMessage(String prefix, String message) {
-        if (message != null) {
-            logInfo(prefix + message);
-        }
+        if (message != null) logger.info(prefix + message);
     }
 }
