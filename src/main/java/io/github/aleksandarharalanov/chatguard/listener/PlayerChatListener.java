@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static io.github.aleksandarharalanov.chatguard.ChatGuard.getConfig;
@@ -13,6 +14,7 @@ import static io.github.aleksandarharalanov.chatguard.ChatGuard.getStrikes;
 import static io.github.aleksandarharalanov.chatguard.handler.MessageHandler.checkMessage;
 import static io.github.aleksandarharalanov.chatguard.util.AccessUtil.hasPermission;
 import static io.github.aleksandarharalanov.chatguard.util.ColorUtil.translate;
+import static io.github.aleksandarharalanov.chatguard.util.LoggerUtil.logWarning;
 import static org.bukkit.Bukkit.getServer;
 
 public class PlayerChatListener extends PlayerListener {
@@ -40,12 +42,12 @@ public class PlayerChatListener extends PlayerListener {
             if (lastTimestamp != null) {
                 long elapsed = timestamp - lastTimestamp;
                 int strikeTier = getStrikes().getInt(player.getName(), 0);
-                int delay = getConfig().getInt(String.format("spam-prevention.delay-ms.s%d", strikeTier), 0);
+                int cooldown = getConfig().getInt(String.format("spam-prevention.cooldown-ms.s%d", strikeTier), 0);
 
-                if (elapsed <= delay) {
+                if (elapsed <= cooldown) {
                     boolean isWarnEnabled = getConfig().getBoolean("spam-prevention.warn-player", true);
                     if (isWarnEnabled) {
-                        double remainingTime = (delay - elapsed) / 1000.0;
+                        double remainingTime = (cooldown - elapsed) / 1000.0;
                         player.sendMessage(translate(String.format("&cPlease wait %.2f sec. before sending another message.", remainingTime)));
                     }
                     event.setCancelled(true);
@@ -60,7 +62,7 @@ public class PlayerChatListener extends PlayerListener {
             try {
                 checkMessage(event);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                logWarning(Arrays.toString(e.getStackTrace()));
             }
         }
     }

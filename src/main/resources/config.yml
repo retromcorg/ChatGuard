@@ -1,13 +1,13 @@
 spam-prevention:
   enabled: true
   warn-player: true
-  delay-ms:
-    s0: 500
-    s1: 1000
-    s2: 2000
-    s3: 3000
-    s4: 4000
-    s5: 5000
+  cooldown-ms:
+    s0: 1000
+    s1: 2000
+    s2: 3000
+    s3: 4000
+    s4: 5000
+    s5: 6000
 
 filter:
   enabled: true
@@ -21,12 +21,12 @@ filter:
   mute:
     enabled: true
     duration:
-      s0: "5m"
-      s1: "30m"
-      s2: "1h"
-      s3: "2h"
-      s4: "3h"
-      s5: "4h"
+      s0: "30m"
+      s1: "1h"
+      s2: "2h"
+      s3: "4h"
+      s4: "8h"
+      s5: "24h"
   rules:
     regex: []
     terms:
