@@ -39,7 +39,7 @@ public class ChatGuard extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         final PlayerChatListener playerChatListener = new PlayerChatListener();
         final PlayerJoinListener playerJoinListener = new PlayerJoinListener();
-        pluginManager.registerEvent(Type.PLAYER_CHAT, playerChatListener, Priority.Normal, this);
+        pluginManager.registerEvent(Type.PLAYER_CHAT, playerChatListener, Priority.Lowest, this);
         pluginManager.registerEvent(Type.PLAYER_JOIN, playerJoinListener, Priority.Normal, this);
 
         final ChatGuardCommand command = new ChatGuardCommand();
