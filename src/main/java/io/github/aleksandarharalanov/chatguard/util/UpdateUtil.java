@@ -21,6 +21,7 @@ import static org.bukkit.Bukkit.getServer;
  * It logs messages indicating whether an update is available or if the plugin is up to date.
  */
 public class UpdateUtil {
+
     private static final Logger logger = getServer().getLogger();
 
     /**

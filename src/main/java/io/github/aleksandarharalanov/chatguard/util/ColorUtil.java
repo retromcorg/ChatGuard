@@ -7,6 +7,7 @@ package io.github.aleksandarharalanov.chatguard.util;
  * the appropriate Minecraft color code format using the section sign ({@code §}) symbol.
  */
 public class ColorUtil {
+
     /**
      * Translates color codes in the given text to Minecraft's color code format.
      * <p>

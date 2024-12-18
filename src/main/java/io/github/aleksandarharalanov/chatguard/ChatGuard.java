@@ -15,17 +15,13 @@ import static io.github.aleksandarharalanov.chatguard.util.LoggerUtil.logInfo;
 import static io.github.aleksandarharalanov.chatguard.util.UpdateUtil.checkForUpdates;
 
 public class ChatGuard extends JavaPlugin {
-    private static PluginDescriptionFile pdf;
-    private static ChatGuard plugin;
+
     private static ConfigUtil config;
     private static ConfigUtil strikes;
 
     @Override
     public void onEnable() {
         checkForUpdates(this, "https://api.github.com/repos/AleksandarHaralanov/ChatGuard/releases/latest");
-
-        plugin = this;
-        pdf = getDescription();
 
         config = new ConfigUtil(this, "config.yml");
         config.loadConfig();
@@ -36,25 +32,21 @@ public class ChatGuard extends JavaPlugin {
         final LoggerUtil log = new LoggerUtil(this, "log.txt");
         log.initializeLog();
 
-        PluginManager pluginManager = getServer().getPluginManager();
         final PlayerChatListener playerChatListener = new PlayerChatListener();
         final PlayerJoinListener playerJoinListener = new PlayerJoinListener();
+        PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvent(Type.PLAYER_CHAT, playerChatListener, Priority.Lowest, this);
         pluginManager.registerEvent(Type.PLAYER_JOIN, playerJoinListener, Priority.Normal, this);
 
-        final ChatGuardCommand command = new ChatGuardCommand();
+        final ChatGuardCommand command = new ChatGuardCommand(this);
         getCommand("chatguard").setExecutor(command);
 
-        logInfo(String.format("[%s] v%s Enabled.", pdf.getName(), pdf.getVersion()));
+        logInfo(String.format("[%s] v%s Enabled.", getDescription().getName(), getDescription().getVersion()));
     }
 
     @Override
     public void onDisable() {
-        logInfo(String.format("[%s] v%s Disabled.", pdf.getName(), pdf.getVersion()));
-    }
-
-    public static ChatGuard getInstance() {
-        return plugin;
+        logInfo(String.format("[%s] v%s Disabled.", getDescription().getName(), getDescription().getVersion()));
     }
 
     public static ConfigUtil getConfig() {

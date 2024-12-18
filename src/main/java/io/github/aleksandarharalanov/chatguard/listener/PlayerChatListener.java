@@ -18,6 +18,7 @@ import static io.github.aleksandarharalanov.chatguard.util.LoggerUtil.logWarning
 import static org.bukkit.Bukkit.getServer;
 
 public class PlayerChatListener extends PlayerListener {
+
     private static final HashMap<String, Long> playerTimestamps = new HashMap<>();
 
     @Override

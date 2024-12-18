@@ -19,6 +19,7 @@ import static io.github.aleksandarharalanov.chatguard.util.ColorUtil.translate;
  * either a player or the server console.
  */
 public class AboutUtil {
+
     private static final Logger logger = getServer().getLogger();
 
     /**

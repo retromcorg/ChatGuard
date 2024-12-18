@@ -1,9 +1,11 @@
 package io.github.aleksandarharalanov.chatguard.command;
 
+import io.github.aleksandarharalanov.chatguard.ChatGuard;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
@@ -14,6 +16,13 @@ import static io.github.aleksandarharalanov.chatguard.util.ColorUtil.translate;
 import static io.github.aleksandarharalanov.chatguard.util.LoggerUtil.logInfo;
 
 public class ChatGuardCommand implements CommandExecutor {
+
+    private final ChatGuard plugin;
+
+    public ChatGuardCommand(ChatGuard plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!command.getName().equalsIgnoreCase("chatguard") &&
@@ -28,7 +37,7 @@ public class ChatGuardCommand implements CommandExecutor {
         if (args.length == 1) {
             switch (args[0].toLowerCase()) {
                 case "about":
-                    about(sender, getInstance());
+                    about(sender, plugin);
                     break;
                 case "reload":
                     reloadCommand(sender);

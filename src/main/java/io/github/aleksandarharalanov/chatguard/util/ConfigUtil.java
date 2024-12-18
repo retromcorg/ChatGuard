@@ -21,6 +21,7 @@ import static org.bukkit.Bukkit.getServer;
  * <b>Note:</b> This class allows for flexible management of multiple configuration files, specified by their file name.
  */
 public class ConfigUtil extends Configuration {
+
     private final File configFile;
     private final String pluginName;
     private static final Logger logger = getServer().getLogger();

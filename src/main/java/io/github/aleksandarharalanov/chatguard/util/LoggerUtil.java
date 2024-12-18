@@ -25,6 +25,7 @@ import static org.bukkit.Bukkit.getServer;
  * and easier to maintain. You can also initialize and manage a log file for additional logging purposes.
  */
 public class LoggerUtil extends Configuration {
+
     private static File logFile;
     private static String pluginName;
     private static final Logger logger = getServer().getLogger();

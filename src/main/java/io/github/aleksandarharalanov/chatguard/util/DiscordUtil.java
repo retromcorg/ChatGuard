@@ -11,14 +11,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
+import static org.bukkit.Bukkit.getServer;
+
+// Thanks to k3kdude @ https://gist.github.com/k3kdude/fba6f6b37594eae3d6f9475330733bdb
 public class DiscordUtil {
+
     private final String url;
     private String content;
     private String username;
     private String avatarUrl;
     private boolean tts;
-    private List<EmbedObject> embeds = new ArrayList<>();
+    private final List<EmbedObject> embeds = new ArrayList<>();
+    private static final Logger logger = getServer().getLogger();
 
     public DiscordUtil(String url) {
         this.url = url;
@@ -45,9 +51,7 @@ public class DiscordUtil {
     }
 
     public void execute() throws IOException {
-        if (this.content == null && this.embeds.isEmpty()) {
-            throw new IllegalArgumentException("Set content or add at least one EmbedObject");
-        }
+        if (this.content == null && this.embeds.isEmpty()) logger.warning("Set content or add at least one EmbedObject!");
 
         JSONObject json = new JSONObject();
 
@@ -156,7 +160,7 @@ public class DiscordUtil {
         private Thumbnail thumbnail;
         private Image image;
         private Author author;
-        private List<Field> fields = new ArrayList<>();
+        private final List<Field> fields = new ArrayList<>();
 
         public String getTitle() {
             return title;
@@ -239,9 +243,9 @@ public class DiscordUtil {
             return this;
         }
 
-        private class Footer {
-            private String text;
-            private String iconUrl;
+        private static class Footer {
+            private final String text;
+            private final String iconUrl;
 
             private Footer(String text, String iconUrl) {
                 this.text = text;
@@ -257,8 +261,8 @@ public class DiscordUtil {
             }
         }
 
-        private class Thumbnail {
-            private String url;
+        private static class Thumbnail {
+            private final String url;
 
             private Thumbnail(String url) {
                 this.url = url;
@@ -269,8 +273,8 @@ public class DiscordUtil {
             }
         }
 
-        private class Image {
-            private String url;
+        private static class Image {
+            private final String url;
 
             private Image(String url) {
                 this.url = url;
@@ -281,10 +285,10 @@ public class DiscordUtil {
             }
         }
 
-        private class Author {
-            private String name;
-            private String url;
-            private String iconUrl;
+        private static class Author {
+            private final String name;
+            private final String url;
+            private final String iconUrl;
 
             private Author(String name, String url, String iconUrl) {
                 this.name = name;
@@ -305,10 +309,10 @@ public class DiscordUtil {
             }
         }
 
-        private class Field {
-            private String name;
-            private String value;
-            private boolean inline;
+        private static class Field {
+            private final String name;
+            private final String value;
+            private final boolean inline;
 
             private Field(String name, String value, boolean inline) {
                 this.name = name;
@@ -330,14 +334,12 @@ public class DiscordUtil {
         }
     }
 
-    private class JSONObject {
+    private static class JSONObject {
 
         private final HashMap<String, Object> map = new HashMap<>();
 
         void put(String key, Object value) {
-            if (value != null) {
-                map.put(key, value);
-            }
+            if (value != null) map.put(key, value);
         }
 
         @Override
@@ -351,20 +353,14 @@ public class DiscordUtil {
                 Object val = entry.getValue();
                 builder.append(quote(entry.getKey())).append(":");
 
-                if (val instanceof String) {
-                    builder.append(quote(String.valueOf(val)));
-                } else if (val instanceof Integer) {
-                    builder.append(Integer.valueOf(String.valueOf(val)));
-                } else if (val instanceof Boolean) {
-                    builder.append(val);
-                } else if (val instanceof JSONObject) {
-                    builder.append(val.toString());
-                } else if (val.getClass().isArray()) {
+                if (val instanceof String) builder.append(quote(String.valueOf(val)));
+                else if (val instanceof Integer) builder.append(Integer.valueOf(String.valueOf(val)));
+                else if (val instanceof Boolean) builder.append(val);
+                else if (val instanceof JSONObject) builder.append(val);
+                else if (val.getClass().isArray()) {
                     builder.append("[");
                     int len = Array.getLength(val);
-                    for (int j = 0; j < len; j++) {
-                        builder.append(Array.get(val, j).toString()).append(j != len - 1 ? "," : "");
-                    }
+                    for (int j = 0; j < len; j++) builder.append(Array.get(val, j).toString()).append(j != len - 1 ? "," : "");
                     builder.append("]");
                 }
 

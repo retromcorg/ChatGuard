@@ -23,6 +23,7 @@ import static io.github.aleksandarharalanov.chatguard.util.LoggerUtil.*;
 import static org.bukkit.Bukkit.getServer;
 
 public class MessageHandler {
+
     private static String trigger;
 
     public static void checkMessage(PlayerChatEvent event) throws Exception {

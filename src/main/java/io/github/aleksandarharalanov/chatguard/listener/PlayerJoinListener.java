@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerListener;
 import static io.github.aleksandarharalanov.chatguard.ChatGuard.getStrikes;
 
 public class PlayerJoinListener extends PlayerListener {
+
     @Override
     public void onPlayerJoin(PlayerJoinEvent event) {
         String playerUsername = event.getPlayer().getName();
