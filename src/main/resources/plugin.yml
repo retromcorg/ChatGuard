@@ -1,9 +1,9 @@
 main: io.github.aleksandarharalanov.chatguard.ChatGuard
-version: 2.2.0
+version: 2.3.0
 name: ChatGuard
 author: Beezle
 website: github.com/AleksandarHaralanov/ChatGuard
-description: Blocks blacklisted words, logs actions, prevents spam, mutes offenders, and enforces penalties.
+description: Cancels messages containing blocked words, enforces Essentials temp. mutes, prevents chat spam, logs actions.
 softdepend: [Essentials]
 
 commands:
