@@ -14,6 +14,8 @@ If you'd like additional peace of mind, you're welcome to scan the `.jar` file u
 ### Requirements
 Your b1.7.3 server must be running one of the following APIs: CB1060-CB1092, [Project Poseidon](https://github.com/retromcorg/Project-Poseidon) or [UberBukkit](https://github.com/Moresteck/Project-Poseidon-Uberbukkit).
 
+You also need to be running **Essentials v2.5.8 or newer** for the temporary mutes to work. You can download it from [here](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar).
+
 ---
 ### Usage
 By default, only OPs have permission.
