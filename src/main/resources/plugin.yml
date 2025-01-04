@@ -3,7 +3,7 @@ version: 2.3.0
 name: ChatGuard
 author: Beezle
 website: github.com/AleksandarHaralanov/ChatGuard
-description: Cancels messages containing blocked words, enforces Essentials temp. mutes, prevents chat spam, logs actions.
+description: Cancels messages containing blocked words, enforces Essentials temp. mutes, prevents chat spam, logs actions, implements escalating penalties.
 softdepend: [Essentials]
 
 commands:
