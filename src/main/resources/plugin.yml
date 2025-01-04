@@ -23,5 +23,5 @@ permissions:
     description: Allows player to bypass the ChatGuard protection.
     default: op
   chatguard.config:
-    description: Allows player to reload the ChatGuard config.
+    description: Allows player to reload and modify the ChatGuard configuration.
     default: op
