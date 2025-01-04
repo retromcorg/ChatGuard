@@ -16,8 +16,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static io.github.aleksandarharalanov.chatguard.ChatGuard.getConfig;
-import static io.github.aleksandarharalanov.chatguard.ChatGuard.getStrikes;
+import static io.github.aleksandarharalanov.chatguard.ChatGuard.*;
 import static io.github.aleksandarharalanov.chatguard.util.ColorUtil.translate;
 import static io.github.aleksandarharalanov.chatguard.util.LoggerUtil.*;
 import static org.bukkit.Bukkit.getServer;
@@ -31,7 +30,7 @@ public class MessageHandler {
         String safeMessage = event.getMessage().toLowerCase();
         Set<String> terms = new HashSet<>(getConfig().getStringList("filter.rules.terms.whitelist", new ArrayList<>()));
         for (String term : terms) safeMessage = safeMessage.replaceAll(term, "");
-        if (containsBannedTerms(safeMessage) || matchesRegexPatterns(safeMessage)) filterMessage(event, originalMessage);
+        if (containsBannedTerms(safeMessage) || matchesRegexPatterns(safeMessage)) blockMessage(event, originalMessage);
     }
 
     private static boolean containsBannedTerms(String message) {
@@ -58,18 +57,20 @@ public class MessageHandler {
         return false;
     }
 
-    private static void filterMessage(PlayerChatEvent event, String message) throws Exception {
+    private static void blockMessage(PlayerChatEvent event, String message) throws Exception {
         event.setCancelled(true);
 
         Player player = event.getPlayer();
         boolean isWarnEnabled = getConfig().getBoolean("filter.warn-player", true);
-        if (isWarnEnabled) player.sendMessage(translate("&cMessage blocked for containing banned words."));
+        if (isWarnEnabled) player.sendMessage(translate("&cMessage blocked for containing blocked words."));
 
-        performLogs(player, message);
-        issuePunishments(player);
+        int strike = getStrikes().getInt(player.getName(), 0);
+        String muteDuration = getConfig().getString(String.format("filter.mute.duration.s%d", strike));
+        performLogs(player, message, strike, muteDuration);
+        issuePunishments(player, strike, muteDuration);
     }
 
-    private static void performLogs(Player player, String message) {
+    private static void performLogs(Player player, String message, int strike, String muteDuration) {
         boolean isConsoleLogEnabled = getConfig().getBoolean("filter.log.console", true);
         if (isConsoleLogEnabled) logWarning(String.format("[ChatGuard] <%s> %s", player.getName(), message));
 
@@ -82,45 +83,50 @@ public class MessageHandler {
 
         boolean isDiscordWebhookLogEnabled = getConfig().getBoolean("filter.log.discord-webhook.enabled", true);
         if (isDiscordWebhookLogEnabled) {
-            final long unixTimestamp = System.currentTimeMillis() / 1000;
-            DiscordUtil webhook = new DiscordUtil(getConfig().getString("filter.log.discord-webhook.url"));
-            webhook.addEmbed(new DiscordUtil.EmbedObject()
-                    .setAuthor(player.getName(), null, String.format("https://minotar.net/helm/%s.png", player.getName()))
-                    .addField("Message:", message, false)
-                    .addField("Trigger:", String.format("`%s`", trigger), true)
-                    .addField("IP:", player.getAddress().getAddress().getHostAddress(), true)
-                    .addField("Timestamp:", String.format("<t:%d:f>", unixTimestamp), true)
-                    .setFooter("Message Logger", null)
-                    .setColor(new Color(255, 85, 85))
-            );
+            getServer().getScheduler().scheduleAsyncDelayedTask(getInstance(), () -> {
+                DiscordUtil webhook = new DiscordUtil(getConfig().getString("filter.log.discord-webhook.url"));
+                webhook.setUsername("ChatGuard");
+                webhook.setAvatarUrl("https://github.com/AleksandarHaralanov/ChatGuard/tree/master/assets/ChatGuard-Logo.png");
 
-            try {
-                webhook.execute();
-            } catch (IOException e) {
-                logWarning(Arrays.toString(e.getStackTrace()));
-            }
+                final long unixTimestamp = System.currentTimeMillis() / 1000;
+                DiscordUtil.EmbedObject embed = new DiscordUtil.EmbedObject();
+                embed.setAuthor(player.getName(), null, String.format("https://minotar.net/helm/%s.png", player.getName()))
+                        .addField("Message:", message, false)
+                        .addField("Trigger:", String.format("`%s`", trigger), true)
+                        .addField("IP:", player.getAddress().getAddress().getHostAddress(), true)
+                        .addField("Timestamp:", String.format("<t:%d:f>", unixTimestamp), true)
+                        .setFooter(String.format("ChatGuard v%s ・ Logger", getInstance().getDescription().getVersion()), null)
+                        .setColor(new Color(255, 85, 85));
+
+                if (strike <= 4) embed.setDescription(String.format("S%d > S%d ・ Mute Duration: %s", strike, strike + 1, muteDuration));
+                else embed.setDescription(String.format("S%d ・ Mute Duration: %s", strike, muteDuration));
+
+                webhook.addEmbed(embed);
+
+                try {
+                    webhook.execute();
+                } catch (IOException e) {
+                    logWarning(Arrays.toString(e.getStackTrace()));
+                }
+            }, 0L);
         }
     }
 
-    private static void issuePunishments(Player player) throws Exception {
-        int strikeTier = getStrikes().getInt(player.getName(), 0);
-
+    private static void issuePunishments(Player player, int strike, String muteDuration) throws Exception {
         Essentials essentials = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
         boolean isMuteEnabled = getConfig().getBoolean("filter.mute.enabled", true);
         if (essentials != null && isMuteEnabled) {
-            String muteDuration = getConfig().getString(String.format("filter.mute.duration.s%d", strikeTier));
             User user = essentials.getUser(player.getName());
             user.setMuteTimeout(Util.parseDateDiff(muteDuration, true));
             user.setMuted(true);
             getServer().broadcastMessage(translate(String.format(
-                    "&c[ChatGuard] %s muted for %s. by system; message contains banned words.",
+                    "&c[ChatGuard] %s muted for %s. by system; message contains blocked words.",
                     player.getName(), muteDuration
             )));
         }
 
-        if (strikeTier <= 4) {
-            strikeTier++;
-            getStrikes().setProperty(player.getName(), strikeTier);
+        if (strike <= 4) {
+            getStrikes().setProperty(player.getName(), strike + 1);
             getStrikes().saveConfig();
         }
     }

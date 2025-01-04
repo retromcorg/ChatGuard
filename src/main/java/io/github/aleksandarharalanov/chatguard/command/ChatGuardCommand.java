@@ -5,7 +5,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
@@ -94,22 +93,23 @@ public class ChatGuardCommand implements CommandExecutor {
             else logInfo(message.replaceAll("&.", ""));
         }
     }
-    
+
+    private static void playerNotFound(CommandSender sender, String playerUsername) {
+        sender.sendMessage(translate(String.format("&c%s does not exist in the strikes config.", playerUsername)));
+    }
+
     private static void reloadCommand(CommandSender sender) {
         if (!hasPermission(sender, "chatguard.config", "You don't have permission to reload the ChatGuard config.")) return;
 
         getConfig().loadConfig();
         getStrikes().loadConfig();
 
-        if (sender instanceof Player) sender.sendMessage(translate("&aChatGuard config reloaded."));
-    }
-
-    private static void playerNotFound(CommandSender sender, String playerUsername) {
-        sender.sendMessage(translate(String.format("&c%s does not exist in the strikes config.", playerUsername)));
+        if (sender instanceof Player) sender.sendMessage(translate("&aChatGuard configuration reloaded."));
     }
 
     private static void setPlayerStrikes(CommandSender sender, String playerUsername, int oldStrikes, String setStrikes) {
         int newStrikes;
+
         try {
             newStrikes = Integer.parseInt(setStrikes);
         } catch (NumberFormatException e) {
@@ -125,8 +125,6 @@ public class ChatGuardCommand implements CommandExecutor {
         getStrikes().setProperty(playerUsername, newStrikes);
         getStrikes().saveConfig();
 
-        sender.sendMessage(translate(String.format(
-                "&e%s&7 strikes set from &c%d &7to &c%d&7.", playerUsername, oldStrikes, newStrikes
-        )));
+        sender.sendMessage(translate(String.format("&e%s&7 strikes set from &c%d &7to &c%d&7.", playerUsername, oldStrikes, newStrikes)));
     }
 }

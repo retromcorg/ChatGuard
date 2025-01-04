@@ -7,7 +7,6 @@ import io.github.aleksandarharalanov.chatguard.util.ConfigUtil;
 import io.github.aleksandarharalanov.chatguard.util.LoggerUtil;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,12 +15,15 @@ import static io.github.aleksandarharalanov.chatguard.util.UpdateUtil.checkForUp
 
 public class ChatGuard extends JavaPlugin {
 
+    private static ChatGuard plugin;
     private static ConfigUtil config;
     private static ConfigUtil strikes;
 
     @Override
     public void onEnable() {
         checkForUpdates(this, "https://api.github.com/repos/AleksandarHaralanov/ChatGuard/releases/latest");
+
+        plugin = this;
 
         config = new ConfigUtil(this, "config.yml");
         config.loadConfig();
@@ -47,6 +49,10 @@ public class ChatGuard extends JavaPlugin {
     @Override
     public void onDisable() {
         logInfo(String.format("[%s] v%s Disabled.", getDescription().getName(), getDescription().getVersion()));
+    }
+
+    public static ChatGuard getInstance() {
+        return plugin;
     }
 
     public static ConfigUtil getConfig() {
