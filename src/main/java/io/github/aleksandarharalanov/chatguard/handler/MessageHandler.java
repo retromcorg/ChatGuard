@@ -62,7 +62,7 @@ public class MessageHandler {
 
         Player player = event.getPlayer();
         boolean isWarnEnabled = getConfig().getBoolean("filter.warn-player", true);
-        if (isWarnEnabled) player.sendMessage(translate("&cMessage blocked for containing blocked words."));
+        if (isWarnEnabled) player.sendMessage(translate("&cMessage cancelled for containing blocked words."));
 
         int strike = getStrikes().getInt(player.getName(), 0);
         String muteDuration = getConfig().getString(String.format("filter.mute.duration.s%d", strike));
@@ -115,7 +115,7 @@ public class MessageHandler {
     private static void issuePunishments(Player player, int strike, String muteDuration) throws Exception {
         Essentials essentials = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
         boolean isMuteEnabled = getConfig().getBoolean("filter.mute.enabled", true);
-        if (essentials != null && isMuteEnabled) {
+        if (essentials != null && essentials.isEnabled() && isMuteEnabled) {
             User user = essentials.getUser(player.getName());
             user.setMuteTimeout(Util.parseDateDiff(muteDuration, true));
             user.setMuted(true);
