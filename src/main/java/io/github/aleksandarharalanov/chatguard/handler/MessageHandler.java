@@ -86,7 +86,7 @@ public class MessageHandler {
             getServer().getScheduler().scheduleAsyncDelayedTask(getInstance(), () -> {
                 DiscordUtil webhook = new DiscordUtil(getConfig().getString("filter.log.discord-webhook.url"));
                 webhook.setUsername("ChatGuard");
-                webhook.setAvatarUrl("https://github.com/AleksandarHaralanov/ChatGuard/tree/master/assets/ChatGuard-Logo.png");
+                webhook.setAvatarUrl("https://raw.githubusercontent.com/AleksandarHaralanov/ChatGuard/refs/heads/master/assets/ChatGuard-Logo.png");
 
                 final long unixTimestamp = System.currentTimeMillis() / 1000;
                 DiscordUtil.EmbedObject embed = new DiscordUtil.EmbedObject();
