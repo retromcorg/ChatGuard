@@ -26,10 +26,33 @@ public class PlayerChatListener extends PlayerListener {
         Player player = event.getPlayer();
 
         Essentials essentials = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
-        if (essentials != null) {
+        if (essentials != null && essentials.isEnabled()) {
             User user = essentials.getUser(player.getName());
             if (user.isMuted()) {
                 event.setCancelled(true);
+
+                long remainingMillis = user.getMuteTimeout() - System.currentTimeMillis();
+                int seconds = (int) ((remainingMillis / 1000) % 60);
+                int minutes = (int) ((remainingMillis / (1000 * 60)) % 60);
+                int hours = (int) ((remainingMillis / (1000 * 60 * 60)) % 24);
+                int days = (int) (remainingMillis / (1000 * 60 * 60 * 24));
+
+                StringBuilder timeMessage = new StringBuilder("&7");
+                if (days > 0) timeMessage.append(days).append(" day(s)");
+                if (hours > 0) {
+                    if (timeMessage.length() > 2) timeMessage.append(", ");
+                    timeMessage.append(hours).append(" hour(s)");
+                }
+                if (minutes > 0) {
+                    if (timeMessage.length() > 2) timeMessage.append(", ");
+                    timeMessage.append(minutes).append(" minute(s)");
+                }
+                if (seconds > 0) {
+                    if (timeMessage.length() > 2) timeMessage.append(", ");
+                    timeMessage.append(seconds).append(" second(s)");
+                }
+
+                player.sendMessage(translate(timeMessage.toString()));
                 return;
             }
         }
