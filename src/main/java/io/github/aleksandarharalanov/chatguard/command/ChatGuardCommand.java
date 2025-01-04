@@ -84,8 +84,8 @@ public class ChatGuardCommand implements CommandExecutor {
                 "&e/cg about &7- About ChatGuard.",
                 "&bChatGuard staff commands:",
                 "&e/cg reload &7- Reload ChatGuard config.",
-                "&e/cg strikes [username] &7- View strikes for player.",
-                "&e/cg strikes [username] [0-5] &7- Set strikes for player."
+                "&e/cg strikes <username> &7- View strikes of player.",
+                "&e/cg strikes <username> [0-5] &7- Set strikes of player."
         };
 
         for (String message : messages) {
