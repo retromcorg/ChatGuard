@@ -38,14 +38,14 @@ Use PermissionsEx or similar plugins to grant groups the permission, enabling th
 ##### Wildcard permissions:
 - `chatguard.*` - Wildcard permission that grants all permissions.
 
+---
+### Configurations
+Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
+
 > [!CAUTION]
 > 🔖**v2.3.0**: If your server is not running **Essentials v2.5.8 or newer**, make sure to download and install it. Without it, the entire plugin will break, and in-game messages will fail to send properly.
 >
 > You can find the download [here](#requirements) in the requirements heading.
-
----
-### Configurations
-Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
 
 #### Config
 This is the default `config.yml` configuration file:
