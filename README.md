@@ -79,3 +79,6 @@ filter:
       whitelist: []   # List of terms explicitly allowed in messages.
       blacklist: []   # List of terms that are not allowed in messages.
 ```
+
+> [!NOTE]
+> Strike tiers will only increment if the filter is enabled and a disallowed term or matching regex pattern is detected in someone's message.
