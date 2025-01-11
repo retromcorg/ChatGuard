@@ -38,6 +38,11 @@ Use PermissionsEx or similar plugins to grant groups the permission, enabling th
 ##### Wildcard permissions:
 - `chatguard.*` - Wildcard permission that grants all permissions.
 
+> [!CAUTION]
+> 🔖**v2.3.0**: If your server is not running **Essentials v2.5.8 or newer**, make sure to download and install it. Without it, the entire plugin will break, and in-game messages will fail to send properly.
+>
+> You can find the download [here](#requirements) in the requirements heading.
+
 ---
 ### Configurations
 Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
@@ -80,11 +85,6 @@ filter:
       whitelist: []   # List of terms explicitly allowed in messages.
       blacklist: []   # List of terms that are not allowed in messages.
 ```
-
-> [!CAUTION]
-> 🔖**v2.3.0**: If your server is not running **Essentials v2.5.8 or newer**, make sure to download and install it. Without it, the entire plugin will break, and in-game messages will fail to send properly.
-> 
-> You can find the download [here](#requirements) in the requirements heading.
 
 #### Strikes
 The default `strikes.yml` configuration file is initially empty. When a player joins for the first time after ChatGuard is installed on the server, they are added to the configuration with 0 strikes. From there, the plugin manages their strikes, incrementing them up to a maximum of 5 as necessary. Read note below on how that works.
