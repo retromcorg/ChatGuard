@@ -39,10 +39,10 @@ Use PermissionsEx or similar plugins to grant groups the permission, enabling th
 - `chatguard.*` - Wildcard permission that grants all permissions.
 
 ---
-### Configuration
+### Configurations
 Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
 
-#### Main Config
+#### Config
 This is the default `config.yml` configuration file:
 ```yaml
 spam-prevention:      # Configuration for chat spam prevention.
