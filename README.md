@@ -42,6 +42,7 @@ Use PermissionsEx or similar plugins to grant groups the permission, enabling th
 ### Configuration
 Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
 
+#### Main Config
 This is the default `config.yml` configuration file:
 ```yaml
 spam-prevention:      # Configuration for chat spam prevention.
@@ -79,6 +80,10 @@ filter:
       whitelist: []   # List of terms explicitly allowed in messages.
       blacklist: []   # List of terms that are not allowed in messages.
 ```
+
+#### Strikes
+Default `strikes.yml` configuration file is empty at first. When a player joins for the first time after ChatGuard is installed onto the server, then it adds them to the configuration and sets 0 strikes. Only then, when the plugin does its job, they will increment up to a maximum of 5.
+
 
 > [!NOTE]
 > Strike tiers will only increment if the filter is enabled and a disallowed term or matching regex pattern is detected in someone's message.
