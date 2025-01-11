@@ -85,6 +85,6 @@ filter:
 The default `strikes.yml` configuration file is initially empty. When a player joins for the first time after ChatGuard is installed on the server, they are added to the configuration with 0 strikes. From there, the plugin manages their strikes, incrementing them up to a maximum of 5 as necessary. Read note below on how that works.
 
 > [!NOTE]
-> 🔖 [Version: **v2.3.0**]
+> 🔖 Version: **v2.3.0**
 > 
 > Strike tiers will only increment if the filter is enabled and a disallowed term or matching regex pattern is detected in someone's message.
