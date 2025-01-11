@@ -44,8 +44,8 @@ Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
 
 This is the default `config.yml` configuration file:
 ```yaml
-spam-prevention:
-  enabled: true       # Toggles spam prevention feature.
+spam-prevention:      # Configuration for chat spam prevention.
+  enabled: true       # Toggles chat spam prevention feature.
   warn-player: true   # Sends a warning to the player when they trigger spam prevention.
   cooldown-ms:        # Specifies cooldown durations in milliseconds for different strike tiers (s0-s5).
     s0: 1000
