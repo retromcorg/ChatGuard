@@ -87,4 +87,4 @@ The default `strikes.yml` configuration file is initially empty. When a player j
 > [!NOTE]
 > 🔖 **v2.3.0**
 > 
-> Strike tiers will increment only when the filter is enabled, and a disallowed term or matching regex pattern is detected in a message. Otherwise, all strike tiers will default to 0 unless manually modified in the configuration file or through a command.
+> Strike tiers will increment only when the filter is enabled, and a disallowed term or matching regex pattern is detected in a message. Otherwise, all strike tiers will default to 0 unless manually modified in the configuration file or through the included command.
