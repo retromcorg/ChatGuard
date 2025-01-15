@@ -8,7 +8,7 @@
 ### Contributing
 Consider contributing to ChatGuard to help make it even more versatile and robust.
 
-Visit the [CONTRIBUTING](https://github.com/AleksandarHaralanov/ChatGuard/blob/master/CONTRIBUTING.md) guide for details on how to get started and where to focus your efforts.
+Visit the [CONTRIBUTING](https://github.com/AleksandarHaralanov/ChatGuard/blob/master/.github/CONTRIBUTING.md) guide for details on how to get started and where to focus your efforts.
 
 ---
 ### Download
