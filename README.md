@@ -10,6 +10,8 @@ Consider contributing to ChatGuard to help make it even more versatile and robus
 
 Visit the [CONTRIBUTING](https://github.com/AleksandarHaralanov/ChatGuard/blob/master/.github/CONTRIBUTING.md) guide for details on how to get started and where to focus your efforts.
 
+For any issues with the plugin, please report them [here](https://github.com/AleksandarHaralanov/ChatGuard/issues).
+
 ---
 ### Download
 Latest releases of **ChatGuard** can be found here on [GitHub](https://github.com/AleksandarHaralanov/ChatGuard/releases).<br>
