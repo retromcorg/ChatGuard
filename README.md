@@ -5,8 +5,8 @@
 **ChatGuard** is a Minecraft plugin designed for servers running version b1.7.3. It cancels player messages containing blocked terms or matching RegEx patterns, logs actions (via Discord webhooks, console, or local files), prevents chat spam, issues temporary mutes (requires [Essentials v2.5.8](#requirements)), and enforces escalating penalties via a six strike tier system. The plugin is entirely configurable to the operator's liking.
 
 ---
-### Contributing
-Consider contributing to ChatGuard to help make it even more versatile and robust.
+### Contributing & Reporting Issues
+Consider helping ChatGuard to become even more versatile and robust.
 
 Visit the [CONTRIBUTING](https://github.com/AleksandarHaralanov/ChatGuard/blob/master/.github/CONTRIBUTING.md) guide for details on how to get started and where to focus your efforts.
 
