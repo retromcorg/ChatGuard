@@ -13,4 +13,4 @@ When reading the code, you'll quickly get the hang of it. Focus on optimizing fo
 - Avoid utilizing algorithms with bad space and time complexity. The chat's responsiveness is VERY important.
   - You can read more about Big O notation [here](https://en.wikipedia.org/wiki/Big_O_notation).
 
-Following general Java conventions is generally recommended as a best practice.
+Following general coding conventions is recommended as a best practice, no matter what you are working on.
