@@ -1,5 +1,5 @@
 # Contributing
-ChatGuard has a backlog which you can visit [here](https://github.com/users/AleksandarHaralanov/projects/1).
+ChatGuard has a devlog which you can visit [here](https://github.com/users/AleksandarHaralanov/projects/1).
 
 ## Coding Conventions
 When reading the code, you'll quickly get the hang of it. Focus on optimizing for readability:
