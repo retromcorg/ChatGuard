@@ -2,7 +2,7 @@
 ChatGuard has a devlog which you can visit [here](https://github.com/users/AleksandarHaralanov/projects/1).
 
 ## Coding Conventions
-This is open-source project. Keep in mind the people who will read your code — make it clean and easy to understand.
+This is an open-source project. Keep in mind the people who will read your code — make it clean and easy to understand.
 When reading the code, you'll quickly get the hang of it. Focus on optimizing for readability:
 
 - Do not leave zombie code behind.
