@@ -2,7 +2,7 @@
 ![ChatGuard-Banner.png](assets/ChatGuard-Banner.png)
 
 ## What's ChatGuard?
-**ChatGuard** is a Minecraft plugin designed for servers running version b1.7.3. It cancels player messages containing blocked terms or matching RegEx patterns, logs actions (via Discord webhooks, console, or local files), prevents chat spam, issues temporary mutes (requires [Essentials v2.5.8](#requirements)), and enforces escalating penalties via a six strike tier system. The plugin is entirely configurable to the operator's liking.
+**ChatGuard** is a Minecraft plugin designed for servers running version b1.7.3. It cancels player messages containing blocked terms or matching RegEx patterns, logs actions (via Discord webhooks, console, or local files), prevents chat spam, prompts captcha verification on suspected bot-like behavior, issues temporary mutes (requires [Essentials v2.5.8](#requirements)), and enforces escalating penalties via a six strike tier system. The plugin is entirely configurable to the operator's liking.
 
 ---
 ### Contributing & Reporting Issues
@@ -35,14 +35,16 @@ Use PermissionsEx or similar plugins to grant groups the permission, enabling th
 #### Commands:
 - `/cg` - View ChatGuard commands.
 - `/cg about` - About ChatGuard.
+- `/cg captcha <code>` - Captcha verification.
 - `/cg reload` - `chatguard.config` - Reload ChatGuard configuration.
-- `/cg strikes <username>` - `chatguard.config` - View strikes of player.
-- `/cg strikes <username> [0-5]` - `chatguard.config` - Set strikes of player.
+- `/cg strike <username>` - `chatguard.config` - View strike of player.
+- `/cg strike <username> [0-5]` - `chatguard.config` - Set strike of player.
 
 #### Permissions:
 ##### Single permissions:
 - `chatguard.bypass` - Allows player to bypass the ChatGuard protection.
 - `chatguard.config` - Allows player to reload and modify the ChatGuard configuration.
+- `chatguard.captcha` - Allows player to be notified when someone is prompted a captcha verification.
 ##### Wildcard permissions:
 - `chatguard.*` - Wildcard permission that grants all permissions.
 
@@ -51,7 +53,7 @@ Use PermissionsEx or similar plugins to grant groups the permission, enabling th
 Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
 
 > [!CAUTION]
-> 🔖**v2.3.0**: If your server is not running **Essentials v2.5.8 or newer**, make sure to download and install it. Without it, the entire plugin will break, and in-game messages will fail to send properly.
+> 🔖**v3.0.0**: If your server is not running **Essentials v2.5.8 or newer**, make sure to download and install it. Without it, the entire plugin will break, and in-game messages will fail to send properly.
 >
 > You can find the download [here](#requirements) in the requirements heading.
 
@@ -68,6 +70,19 @@ spam-prevention:      # Configuration for chat spam prevention.
     s3: 4000
     s4: 5000
     s5: 6000
+
+captcha:              # Configuration for captcha verification.
+  enabled: true       # Toggles the captcha verification feature.
+  threshold: 4        # Triggers captcha verification when the same message is sent X times, canceling it on the final attempt.
+  code:               # Characters to be used in the generated captcha and the length of the captcha.
+    characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    length: 5
+  log:
+    console: true     # Logs blocked messages to the server console.
+    local-file: true  # Logs blocked messages to a local file.
+    discord-webhook:  # Logs blocked messages through a Discord webhook by an embed.
+      enabled: false  # Toggles Discord webhook logging.
+      url: ""         # The URL of the Discord webhook.
 
 filter:
   enabled: true       # Toggles the chat filtering feature.
@@ -98,4 +113,4 @@ filter:
 The default `strikes.yml` configuration file is initially empty. When a player joins for the first time after ChatGuard is installed on the server, they are added to the configuration with 0 strikes. From there, the plugin manages their strikes, incrementing them up to a maximum of 5 as necessary. Read note below on how that works.
 
 > [!NOTE]
-> 🔖**v2.3.0**: Strike tiers will increment only when the filter is enabled, and a disallowed term or matching regex pattern is detected in a message. Otherwise, all strike tiers will default to 0 unless manually modified in the configuration file or through the included command.
+> 🔖**v3.0.0**: Strike tiers will increment only when the filter is enabled, and a disallowed term or matching regex pattern is detected in a message. Otherwise, all strike tiers will default to 0 unless manually modified in the configuration file or through the included command.
