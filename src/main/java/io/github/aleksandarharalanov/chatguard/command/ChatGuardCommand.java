@@ -9,7 +9,11 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 import static io.github.aleksandarharalanov.chatguard.ChatGuard.*;
+import static io.github.aleksandarharalanov.chatguard.handler.CaptchaHandler.getPlayerCaptcha;
+import static io.github.aleksandarharalanov.chatguard.handler.PunishmentHandler.getStrike;
+import static io.github.aleksandarharalanov.chatguard.handler.SoundHandler.playSoundCue;
 import static io.github.aleksandarharalanov.chatguard.util.AboutUtil.about;
+import static io.github.aleksandarharalanov.chatguard.util.AccessUtil.commandInGameOnly;
 import static io.github.aleksandarharalanov.chatguard.util.AccessUtil.hasPermission;
 import static io.github.aleksandarharalanov.chatguard.util.ColorUtil.translate;
 import static io.github.aleksandarharalanov.chatguard.util.LoggerUtil.logInfo;
@@ -48,27 +52,48 @@ public class ChatGuardCommand implements CommandExecutor {
         }
 
         if (args.length <= 3) {
-            if (args[0].equalsIgnoreCase("strikes")) {
-                if (!hasPermission(sender, "chatguard.config", "You don't have permission to modify the ChatGuard config.")) return true;
+            switch (args[0].toLowerCase()) {
+                case "strike":
+                    if (!hasPermission(sender, "chatguard.config", "[ChatGuard] You don't have permission to modify the config.")) break;
 
-                String playerUsername = args[1];
-                List<String> keys = getStrikes().getKeys();
-                String foundKey = keys.stream()
-                        .filter(key -> key.equalsIgnoreCase(playerUsername))
-                        .findFirst()
-                        .orElse(null);
-                int playerStrikes = foundKey != null ? getStrikes().getInt(foundKey, 0) : -1;
+                    String playerName = args[1];
+                    List<String> keys = getStrikes().getKeys();
+                    String foundKey = keys.stream()
+                            .filter(key -> key.equalsIgnoreCase(playerName))
+                            .findFirst()
+                            .orElse(null);
+                    int playerStrike = foundKey != null ? getStrike(foundKey) : -1;
 
-                switch (args.length) {
-                    case 2:
-                        if (foundKey != null) sender.sendMessage(translate(String.format("&e%s&7 has &c%d &7strike(s).", foundKey, playerStrikes)));
-                        else playerNotFound(sender, playerUsername);
-                        break;
-                    case 3:
-                        if (foundKey != null) setPlayerStrikes(sender, foundKey, playerStrikes, args[2]);
-                        else playerNotFound(sender, playerUsername);
-                        break;
-                }
+                    switch (args.length) {
+                        case 2:
+                            if (foundKey != null) sender.sendMessage(translate(String.format("&c[ChatGuard] &e%s &cis on strike &e%d&c.", foundKey, playerStrike)));
+                            else playerNotFound(sender, playerName);
+                            break;
+                        case 3:
+                            if (foundKey != null) setPlayerStrikes(sender, foundKey, playerStrike, args[2]);
+                            else playerNotFound(sender, playerName);
+                            break;
+                    }
+                    break;
+                case "captcha":
+                    if (commandInGameOnly(sender)) break;
+
+                    Player player = (Player) sender;
+                    String captchaCode = getPlayerCaptcha().get(player.getName());
+                    if (captchaCode != null) {
+                        String input = args[1];
+                        if (input.equals(captchaCode)) {
+                            getPlayerCaptcha().remove(player.getName());
+                            player.sendMessage(translate("&a[ChatGuard] Captcha verification passed."));
+                            playSoundCue(player,true);
+                        } else {
+                            player.sendMessage(translate("&c[ChatGuard] Please enter the correct captcha code."));
+                            playSoundCue(player,false);
+                        }
+                    } else player.sendMessage(translate("&c[ChatGuard] You don't have an active captcha verification."));
+                    break;
+                default:
+                    break;
             }
             return true;
         }
@@ -82,10 +107,11 @@ public class ChatGuardCommand implements CommandExecutor {
                 "&bChatGuard commands:",
                 "&e/cg &7- Displays this message.",
                 "&e/cg about &7- About ChatGuard.",
+                "&e/cg captcha <code> &7- Captcha verification.",
                 "&bChatGuard staff commands:",
                 "&e/cg reload &7- Reload ChatGuard config.",
-                "&e/cg strikes <username> &7- View strikes of player.",
-                "&e/cg strikes <username> [0-5] &7- Set strikes of player."
+                "&e/cg strike <username> &7- View strike of player.",
+                "&e/cg strike <username> [0-5] &7- Set strike of player."
         };
 
         for (String message : messages) {
@@ -94,37 +120,37 @@ public class ChatGuardCommand implements CommandExecutor {
         }
     }
 
-    private static void playerNotFound(CommandSender sender, String playerUsername) {
-        sender.sendMessage(translate(String.format("&c%s does not exist in the strikes config.", playerUsername)));
+    private static void playerNotFound(CommandSender sender, String playerName) {
+        sender.sendMessage(translate(String.format("&c[ChatGuard] &e%s &cdoes not exist in the configuration.", playerName)));
     }
 
     private static void reloadCommand(CommandSender sender) {
-        if (!hasPermission(sender, "chatguard.config", "You don't have permission to reload the ChatGuard config.")) return;
+        if (!hasPermission(sender, "chatguard.config", "[ChatGuard] You don't have permission to reload the config.")) return;
 
         getConfig().loadConfig();
         getStrikes().loadConfig();
 
-        if (sender instanceof Player) sender.sendMessage(translate("&aChatGuard configuration reloaded."));
+        if (sender instanceof Player) sender.sendMessage(translate("&a[ChatGuard] Configurations reloaded."));
     }
 
-    private static void setPlayerStrikes(CommandSender sender, String playerUsername, int oldStrikes, String setStrikes) {
-        int newStrikes;
+    private static void setPlayerStrikes(CommandSender sender, String playerName, int oldStrike, String setStrike) {
+        int newStrike;
 
         try {
-            newStrikes = Integer.parseInt(setStrikes);
+            newStrike = Integer.parseInt(setStrike);
         } catch (NumberFormatException e) {
-            sender.sendMessage(translate("&cInvalid input. Please enter a number from 0 to 5."));
+            sender.sendMessage(translate("&c[ChatGuard] Invalid input. Please enter a number from 0 to 5."));
             return;
         }
 
-        if (newStrikes < 0 || newStrikes > 5) {
-            sender.sendMessage(translate("&cInvalid range. Please choose from 0 to 5."));
+        if (newStrike < 0 || newStrike > 5) {
+            sender.sendMessage(translate("&c[ChatGuard] Invalid range. Please choose from &e0&c to &e5."));
             return;
         }
 
-        getStrikes().setProperty(playerUsername, newStrikes);
+        getStrikes().setProperty(playerName, newStrike);
         getStrikes().saveConfig();
 
-        sender.sendMessage(translate(String.format("&e%s&7 strikes set from &c%d &7to &c%d&7.", playerUsername, oldStrikes, newStrikes)));
+        sender.sendMessage(translate(String.format("&c[ChatGuard] &e%s &cset from strike &e%d &cto &e%d&c.", playerName, oldStrike, newStrike)));
     }
 }
