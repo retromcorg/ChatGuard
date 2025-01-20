@@ -1,3 +1,6 @@
+miscellaneous:
+  sound-cues: true
+
 spam-prevention:
   enabled: true
   warn-player: true
@@ -8,6 +11,20 @@ spam-prevention:
     s3: 4000
     s4: 5000
     s5: 6000
+
+captcha:
+  enabled: true
+  threshold: 4
+  code:
+    characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    length: 5
+  log:
+    console: true
+    local-file: true
+    discord-webhook:
+      enabled: false
+      url: ""
+  whitelist: []
 
 filter:
   enabled: true
