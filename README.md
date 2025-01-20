@@ -2,7 +2,7 @@
 ![ChatGuard-Banner.png](assets/ChatGuard-Banner.png)
 
 ## What's ChatGuard?
-**ChatGuard** is a Minecraft plugin designed for servers running version b1.7.3. It cancels player messages containing blocked terms or matching RegEx patterns, logs actions (via Discord webhooks, console, or local files), prevents chat spam, prompts captcha verification on suspected bot-like behavior, issues temporary mutes (requires [Essentials v2.5.8](#requirements)), and enforces escalating penalties via a six strike tier system. The plugin is entirely configurable to the operator's liking.
+**ChatGuard** is a Minecraft plugin designed for servers running version b1.7.3. It cancels player messages containing blocked terms or matching RegEx patterns, logs actions (via Discord webhooks, console, or local files), prevents chat spam, prompts captcha verification on suspected bot-like behavior, issues temporary mutes (as of v3.0.0, it requires [Essentials v2.5.8](#requirements)), enforces escalating penalties via a six strike tier system, and plays sound cues local to the offending player upon a detection. The plugin is entirely configurable to the operator's liking.
 
 ---
 ### Contributing & Reporting Issues
@@ -60,6 +60,9 @@ Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
 #### Config
 This is the default `config.yml` configuration file:
 ```yaml
+miscellaneous:        # Configurations that are QoL.
+  sound-cues: true    # Plays a sound cue local to the offending player when ChatGuard detects something.
+
 spam-prevention:      # Configuration for chat spam prevention.
   enabled: true       # Toggles chat spam prevention feature.
   warn-player: true   # Sends a warning to the player when they trigger spam prevention.
@@ -78,11 +81,12 @@ captcha:              # Configuration for captcha verification.
     characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     length: 5
   log:
-    console: true     # Logs blocked messages to the server console.
-    local-file: true  # Logs blocked messages to a local file.
-    discord-webhook:  # Logs blocked messages through a Discord webhook by an embed.
+    console: true     # Logs captcha verification to the server console.
+    local-file: true  # Logs captcha verification to a local file.
+    discord-webhook:  # Logs captcha verification through a Discord webhook by an embed.
       enabled: false  # Toggles Discord webhook logging.
       url: ""         # The URL of the Discord webhook.
+  whitelist: []       # List of terms explicitly allowed to bypass captcha.
 
 filter:
   enabled: true       # Toggles the chat filtering feature.
