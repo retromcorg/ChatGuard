@@ -1,9 +1,9 @@
 main: io.github.aleksandarharalanov.chatguard.ChatGuard
-version: 2.3.0
+version: 3.0.0
 name: ChatGuard
 author: Beezle
 website: github.com/AleksandarHaralanov/ChatGuard
-description: Cancels messages containing blocked words, enforces Essentials temp. mutes, prevents chat spam, logs actions, implements escalating penalties.
+description: Cancels messages containing blocked words, enforces mutes, prevents chat spam, prompts captcha verification, logs offender actions, implements escalating penalties.
 softdepend: [Essentials]
 
 commands:
@@ -17,6 +17,7 @@ permissions:
     children:
       chatguard.bypass: true
       chatguard.config: true
+      chatguard.captcha: true
     description: All ChatGuard permissions.
     default: op
   chatguard.bypass:
@@ -24,4 +25,7 @@ permissions:
     default: op
   chatguard.config:
     description: Allows player to reload and modify the ChatGuard configuration.
+    default: op
+  chatguard.captcha:
+    description: Allows player to be notified when someone is prompted a captcha verification.
     default: op
