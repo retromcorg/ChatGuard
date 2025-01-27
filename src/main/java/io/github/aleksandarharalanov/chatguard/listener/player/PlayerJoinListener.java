@@ -1,4 +1,4 @@
-package io.github.aleksandarharalanov.chatguard.listener;
+package io.github.aleksandarharalanov.chatguard.listener.player;
 
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -9,9 +9,9 @@ public class PlayerJoinListener extends PlayerListener {
 
     @Override
     public void onPlayerJoin(PlayerJoinEvent event) {
-        String playerUsername = event.getPlayer().getName();
-        if (getStrikes().getInt(playerUsername, -1) == -1) {
-            getStrikes().setProperty(playerUsername, 0);
+        String playerName = event.getPlayer().getName();
+        if (getStrikes().getInt(playerName, -1) == -1) {
+            getStrikes().setProperty(playerName, 0);
             getStrikes().saveConfig();
         }
     }
