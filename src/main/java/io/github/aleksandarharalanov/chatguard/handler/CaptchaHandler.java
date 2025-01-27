@@ -1,7 +1,6 @@
 package io.github.aleksandarharalanov.chatguard.handler;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerChatEvent;
 
 import java.util.*;
 
@@ -17,11 +16,9 @@ public class CaptchaHandler {
     private static final HashMap<String, LinkedList<String>> playerMessages = new HashMap<>();
     private static final HashMap<String, String> playerCaptcha = new HashMap<>();
 
-    public static boolean isPlayerCaptchaActive(PlayerChatEvent event) {
-        Player player = event.getPlayer();
+    public static boolean isPlayerCaptchaActive(Player player) {
         String captchaCode = playerCaptcha.get(player.getName());
         if (captchaCode != null) {
-            event.setCancelled(true);
             player.sendMessage(translate(String.format("&c[ChatGuard] Bot-like behavior detected. Code &b%s&c.", captchaCode)));
             player.sendMessage(translate("&cUse &e/cg captcha <code> &cto verify. Case-sensitive!"));
             playSoundCue(player, false);
@@ -30,16 +27,14 @@ public class CaptchaHandler {
         return false;
     }
 
-    public static void checkPlayerCaptcha(PlayerChatEvent event) {
-        String message = event.getMessage();
+    public static boolean checkPlayerCaptcha(Player player, String message) {
         String sanitizedMessage = message.toLowerCase();
 
         Set<String> whitelistTerms = new HashSet<>(getConfig().getStringList("captcha.whitelist", new ArrayList<>()));
         for (String term : whitelistTerms) sanitizedMessage = sanitizedMessage.replaceAll(term, "");
 
-        if (sanitizedMessage.equalsIgnoreCase("")) return;
+        if (sanitizedMessage.equalsIgnoreCase("")) return false;
 
-        Player player = event.getPlayer();
         LinkedList<String> messages = playerMessages.computeIfAbsent(player.getName(), k -> new LinkedList<>());
         messages.add(sanitizedMessage);
 
@@ -47,7 +42,6 @@ public class CaptchaHandler {
         if (messages.size() > threshold) messages.removeFirst();
 
         if (messages.size() == threshold && messages.stream().allMatch(msg -> msg.equals(messages.getFirst()))) {
-            event.setCancelled(true);
             String captchaCode = generateCaptchaCode();
             playerCaptcha.put(player.getName(), captchaCode);
 
@@ -60,7 +54,11 @@ public class CaptchaHandler {
             for (Player pl : getServer().getOnlinePlayers())
                 if (hasPermission(pl, "chatguard.captcha"))
                     pl.sendMessage(translate(String.format("&c[ChatGuard] &e%s&c prompted captcha for bot-like behavior.", player.getName())));
+
+            return true;
         }
+
+        return false;
     }
 
     private static String generateCaptchaCode() {

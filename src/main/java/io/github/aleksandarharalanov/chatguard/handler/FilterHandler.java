@@ -4,7 +4,6 @@ import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.Util;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerChatEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,12 +23,15 @@ public class FilterHandler {
 
     private static String trigger;
 
-    public static void checkPlayerMessage(PlayerChatEvent event) throws Exception {
-        String originalMessage = event.getMessage();
-        String sanitizedMessage = originalMessage.toLowerCase();
+    public static boolean checkPlayerMessage(Player player, String message) throws Exception {
+        String sanitizedMessage = message.toLowerCase();
         Set<String> whitelistTerms = new HashSet<>(getConfig().getStringList("filter.rules.terms.whitelist", new ArrayList<>()));
         for (String term : whitelistTerms) sanitizedMessage = sanitizedMessage.replaceAll(term, "");
-        if (containsBlacklistedTerms(sanitizedMessage) || matchesRegExPatterns(sanitizedMessage)) cancelPlayerMessage(event, originalMessage);
+        if (containsBlacklistedTerms(sanitizedMessage) || matchesRegExPatterns(sanitizedMessage)) {
+            cancelPlayerMessage(player, message);
+            return true;
+        }
+        return false;
     }
 
     private static boolean containsBlacklistedTerms(String message) {
@@ -56,10 +58,7 @@ public class FilterHandler {
         return false;
     }
 
-    private static void cancelPlayerMessage(PlayerChatEvent event, String message) throws Exception {
-        event.setCancelled(true);
-
-        Player player = event.getPlayer();
+    private static void cancelPlayerMessage(Player player, String message) throws Exception {
         boolean isWarnEnabled = getConfig().getBoolean("filter.warn-player", true);
         if (isWarnEnabled) player.sendMessage(translate("&cMessage cancelled for containing blocked words."));
 
