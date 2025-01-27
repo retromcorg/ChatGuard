@@ -56,7 +56,7 @@ Use PermissionsEx or similar plugins to grant groups the permission, enabling th
 Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
 
 > [!CAUTION]
-> 🔖**v3.0.0**: If your server is not running **Essentials v2.5.8 or newer**, make sure to download and install it. Without it, the entire plugin will break, and in-game messages will fail to send properly.
+> 🔖**v4.0.0**: If your server is not running **Essentials v2.5.8 or newer**, make sure to download and install it. Without it, the entire plugin will break, and in-game messages will fail to send properly.
 >
 > You can find the download [here](#requirements) in the requirements heading.
 
@@ -64,24 +64,34 @@ Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
 This is the default `config.yml` configuration file:
 ```yaml
 miscellaneous:        # Configurations that are QoL.
-  sound-cues: true    # Plays a sound cue local to the offending player when ChatGuard detects something.
+  sound-cues: true    # Plays a sound cue local to the player when ChatGuard detects something.
 
 spam-prevention:      # Configuration for chat spam prevention.
-  enabled: true       # Toggles chat spam prevention feature.
+  enabled:            # Toggles spam prevention feature for chat messages and commands.
+    message: true
+    command: true
   warn-player: true   # Sends a warning to the player when they trigger spam prevention.
   cooldown-ms:        # Specifies cooldown durations in milliseconds for different strike tiers (s0-s5).
-    s0: 1000
-    s1: 2000
-    s2: 3000
-    s3: 4000
-    s4: 5000
-    s5: 6000
+    message:          # Player chat messages
+      s0: 1000
+      s1: 2000
+      s2: 3000
+      s3: 4000
+      s4: 5000
+      s5: 6000
+    command:          # Player commands
+      s0: 5000
+      s1: 7500
+      s2: 10000
+      s3: 12500
+      s4: 15000
+      s5: 17500
 
 captcha:              # Configuration for captcha verification.
   enabled: true       # Toggles the captcha verification feature.
-  threshold: 4        # Triggers captcha verification when the same message is sent X times, canceling it on the final attempt.
+  threshold: 5        # Triggers captcha verification when the same message is sent X times, canceling it on the final attempt.
   code:               # Characters to be used in the generated captcha and the length of the captcha.
-    characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    characters: "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789"
     length: 5
   log:
     console: true     # Logs captcha verification to the server console.
@@ -120,4 +130,4 @@ filter:
 The default `strikes.yml` configuration file is initially empty. When a player joins for the first time after ChatGuard is installed on the server, they are added to the configuration with 0 strikes. From there, the plugin manages their strikes, incrementing them up to a maximum of 5 as necessary. Read note below on how that works.
 
 > [!NOTE]
-> 🔖**v3.0.0**: Strike tiers will increment only when the filter is enabled, and a disallowed term or matching regex pattern is detected in a message. Otherwise, all strike tiers will default to 0 unless manually modified in the configuration file or through the included command.
+> 🔖**v4.0.0**: Strike tiers will increment only when the filter is enabled, and a disallowed term or matching regex pattern is detected in a message. Otherwise, all strike tiers will default to 0 unless manually modified in the configuration file or through the included command.
