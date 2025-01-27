@@ -2,21 +2,31 @@ miscellaneous:
   sound-cues: true
 
 spam-prevention:
-  enabled: true
+  enabled:
+    message: true
+    command: true
   warn-player: true
   cooldown-ms:
-    s0: 1000
-    s1: 2000
-    s2: 3000
-    s3: 4000
-    s4: 5000
-    s5: 6000
+    message:
+      s0: 1000
+      s1: 2000
+      s2: 3000
+      s3: 4000
+      s4: 5000
+      s5: 6000
+    command:
+      s0: 5000
+      s1: 7500
+      s2: 10000
+      s3: 12500
+      s4: 15000
+      s5: 17500
 
 captcha:
   enabled: true
-  threshold: 4
+  threshold: 5
   code:
-    characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    characters: "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789"
     length: 5
   log:
     console: true

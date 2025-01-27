@@ -1,8 +1,9 @@
 package io.github.aleksandarharalanov.chatguard;
 
 import io.github.aleksandarharalanov.chatguard.command.ChatGuardCommand;
-import io.github.aleksandarharalanov.chatguard.listener.PlayerChatListener;
-import io.github.aleksandarharalanov.chatguard.listener.PlayerJoinListener;
+import io.github.aleksandarharalanov.chatguard.listener.player.PlayerChatListener;
+import io.github.aleksandarharalanov.chatguard.listener.player.PlayerCommandPreprocessListener;
+import io.github.aleksandarharalanov.chatguard.listener.player.PlayerJoinListener;
 import io.github.aleksandarharalanov.chatguard.util.ConfigUtil;
 import io.github.aleksandarharalanov.chatguard.util.LoggerUtil;
 import org.bukkit.event.Event.Priority;
@@ -34,11 +35,13 @@ public class ChatGuard extends JavaPlugin {
         final LoggerUtil log = new LoggerUtil(this, "log.txt");
         log.initializeLog();
 
-        final PlayerChatListener playerChatListener = new PlayerChatListener();
-        final PlayerJoinListener playerJoinListener = new PlayerJoinListener();
-        PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvent(Type.PLAYER_CHAT, playerChatListener, Priority.Lowest, this);
-        pluginManager.registerEvent(Type.PLAYER_JOIN, playerJoinListener, Priority.Normal, this);
+        PluginManager pM = getServer().getPluginManager();
+        final PlayerCommandPreprocessListener pCPL = new PlayerCommandPreprocessListener();
+        final PlayerChatListener pCL = new PlayerChatListener();
+        final PlayerJoinListener pJL = new PlayerJoinListener();
+        pM.registerEvent(Type.PLAYER_COMMAND_PREPROCESS, pCPL, Priority.Lowest, this);
+        pM.registerEvent(Type.PLAYER_CHAT, pCL, Priority.Lowest, this);
+        pM.registerEvent(Type.PLAYER_JOIN, pJL, Priority.Normal, this);
 
         final ChatGuardCommand command = new ChatGuardCommand(this);
         getCommand("chatguard").setExecutor(command);
