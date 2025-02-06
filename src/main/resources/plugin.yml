@@ -1,9 +1,9 @@
 main: io.github.aleksandarharalanov.chatguard.ChatGuard
-version: 4.0.0
+version: 4.1.0
 name: ChatGuard
 author: Beezle
 website: github.com/AleksandarHaralanov/ChatGuard
-description: Prevents bad messages, enforces mutes, stops chat message and command spam, prompts captcha verification, logs actions, implements escalating penalties.
+description: Prevents messages and usernames containing blocked terms or matching RegEx patterns, enforces mutes, stops chat and command spam, prompts captcha verification, logs actions, and applies escalating penalties.
 softdepend: [Essentials]
 
 commands:
