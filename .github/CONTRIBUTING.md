@@ -1,6 +1,8 @@
 # Contributing
 ChatGuard has a devlog which you can visit [here](https://github.com/users/AleksandarHaralanov/projects/1).
 
+Optionally, you can add your name [here](https://github.com/AleksandarHaralanov/ChatGuard/blob/5daf57b1412584b5b450a59c4ddead1585bcae2b/src/main/java/io/github/aleksandarharalanov/chatguard/command/ChatGuardCommand.java#L46) when you contribute code.
+
 ## Coding Conventions
 This is an open-source project. Keep in mind the people who will read your code — make it clean and easy to understand.
 
