@@ -25,17 +25,17 @@ For any issues with the plugin, or suggestions, please report them [here](https:
 
 ---
 ## Download
-Latest releases of **ChatGuard** can be found here on [GitHub](https://github.com/AleksandarHaralanov/ChatGuard/releases).<br>
+Latest releases of **ChatGuard** can be found here on [GitHub](https://github.com/AleksandarHaralanov/ChatGuard/releases).<br/>
 Alternatively, you can also download through [Modrinth](https://modrinth.com/plugin/chatguard/versions).
 
-The plugin is fully open-source and transparent.<br>
+The plugin is fully open-source and transparent.<br/>
 If you'd like additional peace of mind, you're welcome to scan the `.jar` file using [VirusTotal](https://www.virustotal.com/gui/home/upload).
 
 ---
 ## Requirements
 Your b1.7.3 server must be running one of the following APIs: CB1060-CB1092, [Project Poseidon](https://github.com/retromcorg/Project-Poseidon) or [UberBukkit](https://github.com/Moresteck/Project-Poseidon-Uberbukkit).
 
-You also need to be running **Essentials v2.5.8 or newer** for the current newest version of ChatGuard to work.<br>You can download it from [here](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar).
+You also need to be running **Essentials v2.5.8 or newer** for the current newest version of ChatGuard to work.<br/>You can download it from [here](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar).
 
 ---
 ## Usage
