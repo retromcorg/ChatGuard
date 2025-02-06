@@ -22,7 +22,7 @@ public class LogHandler {
         boolean isConsoleLogEnabled = getConfig().getBoolean(String.format("%s.log.console", detection), true);
         if (isConsoleLogEnabled) {
             if (detection.equals("filter")) logWarning(String.format("[ChatGuard] <%s> %s", player.getName(), message));
-            else logWarning(String.format("[ChatGuard] Detected %s for bot-like behavior. Prompted captcha verification.", player.getName()));
+            else logWarning(String.format("[ChatGuard] Detected player '%s' for bot-like behavior. Prompted captcha verification.", player.getName()));
         }
 
         boolean isLocalFileLogEnabled = getConfig().getBoolean(String.format("%s.log.local-file", detection), true);
