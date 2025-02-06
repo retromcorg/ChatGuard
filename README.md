@@ -3,7 +3,15 @@
 
 **ChatGuard** is a Minecraft plugin designed for servers running version b1.7.3.
 
-It cancels player messages containing blocked terms or matching RegEx patterns, logs actions (via Discord webhooks, console, or local files), prevents chat message and command spam, prompts captcha verification on suspected bot-like behavior, issues temporary mutes (as of v4.0.0, it requires [Essentials v2.5.8](#requirements)), enforces escalating penalties via a six strike tier system, and plays sound cues local to the offending player upon a detection.
+## Features
+- Cancels messages containing blocked terms or matching RegEx patterns.
+- Prevents players from joining with usernames containing blocked terms or matching RegEx patterns.
+- Logs offenders (via Discord webhook, server console, or local file).
+- Prevents chat message and command spam.
+- Prompts captcha verification on suspected bot-like behavior.
+- Issues temporary mutes (requires [Essentials v2.5.8](#requirements) as of v4.1.0).
+- Enforces escalating penalties via a six-strike tier system.
+- Plays local sound cues for offending players upon detection.
 
 The plugin is entirely configurable.
 
@@ -56,30 +64,30 @@ Use PermissionsEx or similar plugins to grant groups the permission, enabling th
 Generates `config.yml` and `strikes.yml` located at `plugins/ChatGuard`.
 
 > [!CAUTION]
-> 🔖**v4.0.0**: If your server is not running **Essentials v2.5.8 or newer**, make sure to download and install it. Without it, the entire plugin will break, and in-game messages will fail to send properly.
+> 🔖**v4.1.0**: If your server is not running **Essentials v2.5.8 or newer**, make sure to download and install it. Without it, the entire plugin will break, and in-game messages will fail to send properly.
 >
 > You can find the download [here](#requirements) in the requirements heading.
 
 ### Config
 This is the default `config.yml` configuration file:
 ```yaml
-miscellaneous:        # Configurations that are QoL.
-  sound-cues: true    # Plays a sound cue local to the player when ChatGuard detects something.
+miscellaneous:        # QoL Configurations
+  sound-cues: true    # Offending player hears a local sound cue upon detection
 
-spam-prevention:      # Configuration for chat spam prevention.
-  enabled:            # Toggles spam prevention feature for chat messages and commands.
+spam-prevention:      # Spam Prevention Configuration
+  enabled:            # Toggles spam prevention for chat messages and commands
     message: true
     command: true
-  warn-player: true   # Sends a warning to the player when they trigger spam prevention.
-  cooldown-ms:        # Specifies cooldown durations in milliseconds for different strike tiers (s0-s5).
-    message:          # Player chat messages
+  warn-player: true   # Warns offending player upon detection
+  cooldown-ms:        # Cooldown durations in milliseconds for strike tiers
+    message:
       s0: 1000
       s1: 2000
       s2: 3000
       s3: 4000
       s4: 5000
       s5: 6000
-    command:          # Player commands
+    command:
       s0: 5000
       s1: 7500
       s2: 10000
@@ -87,47 +95,47 @@ spam-prevention:      # Configuration for chat spam prevention.
       s4: 15000
       s5: 17500
 
-captcha:              # Configuration for captcha verification.
-  enabled: true       # Toggles the captcha verification feature.
-  threshold: 5        # Triggers captcha verification when the same message is sent X times, canceling it on the final attempt.
-  code:               # Characters to be used in the generated captcha and the length of the captcha.
+captcha:              # Captcha Configuration
+  enabled: true       # Toggles captcha verification
+  threshold: 5        # Triggers captcha after X identical messages, canceling on the last attempt
+  code:               # Captcha characters and length
     characters: "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789"
     length: 5
-  log:
-    console: true     # Logs captcha verification to the server console.
-    local-file: true  # Logs captcha verification to a local file.
-    discord-webhook:  # Logs captcha verification through a Discord webhook by an embed.
-      enabled: false  # Toggles Discord webhook logging.
-      url: ""         # The URL of the Discord webhook.
-  whitelist: []       # List of terms explicitly allowed to bypass captcha.
+  log:                # Logs captcha triggers to:
+    console: true     # Server console
+    local-file: true  # Local file
+    discord-webhook:  # Discord webhook by an embed
+      enabled: false  # Toggles Discord webhook
+      url: ""         # Discord webhook URL
+  whitelist: []       # Allowed captcha bypass terms for sanitizing
 
-filter:
-  enabled: true       # Toggles the chat filtering feature.
-  warn-player: true   # Sends a warning to the player when their message is blocked.
-  log:                
-    console: true     # Logs blocked messages to the server console.
-    local-file: true  # Logs blocked messages to a local file.
-    discord-webhook:  # Logs blocked messages through a Discord webhook by an embed.
-      enabled: false  # Toggles Discord webhook logging.
-      url: ""         # The URL of the Discord webhook.
-  mute:               # Configuration for muting players who violate filter rules.
-    enabled: true     # Toggles the muting feature.
-    duration:         # Specifies mute durations for different strike tiers (s0-s5).
+filter:               # Filter Configuration
+  enabled: true       # Toggles filtering of chat messages and player usernames
+  warn-player: true   # Warns offending player upon detection
+  log:                # Logs captcha triggers to:
+    console: true     # Server console
+    local-file: true  # Local file
+    discord-webhook:  # Discord webhook by an embed
+      enabled: false  # Toggles Discord webhook
+      url: ""         # Discord webhook URL
+  mute:               # Mute Configuration
+    enabled: true     # Toggles automatic mutes upon filter detection
+    duration:         # Mute durations for strike tiers
       s0: "30m"
       s1: "1h"
       s2: "2h"
       s3: "4h"
       s4: "8h"
       s5: "24h"
-  rules:              # Configuration for blocking rules.
-    regex: []         # List of regular expressions used for blocking messages.
-    terms:            # Configuration for blocking specific terms.
-      whitelist: []   # List of terms explicitly allowed in messages.
-      blacklist: []   # List of terms that are not allowed in messages.
+  rules:              # Filter Rule Configurations
+    regex: []         # Regular expression patterns
+    terms:            # Term Configurations
+      whitelist: []   # Allowed chat message and player username bypass terms for sanitizing
+      blacklist: []   # Disallowed chat message and player username bypass terms
 ```
 
 ### Strikes
 The default `strikes.yml` configuration file is initially empty. When a player joins for the first time after ChatGuard is installed on the server, they are added to the configuration with 0 strikes. From there, the plugin manages their strikes, incrementing them up to a maximum of 5 as necessary. Read note below on how that works.
 
 > [!NOTE]
-> 🔖**v4.0.0**: Strike tiers will increment only when the filter is enabled, and a disallowed term or matching regex pattern is detected in a message. Otherwise, all strike tiers will default to 0 unless manually modified in the configuration file or through the included command.
+> 🔖**v4.1.0**: Strike tiers will increment only when the filter is enabled, and a disallowed term or matching regex pattern is detected in a message. Otherwise, all strike tiers will default to 0 unless manually modified in the configuration file or through the included command.
