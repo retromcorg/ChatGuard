@@ -6,6 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static io.github.aleksandarharalanov.chatguard.ChatGuard.*;
@@ -28,8 +30,7 @@ public class ChatGuardCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!command.getName().equalsIgnoreCase("chatguard") &&
-                !command.getName().equalsIgnoreCase("cg"))
+        if (!command.getName().equalsIgnoreCase("chatguard") && !command.getName().equalsIgnoreCase("cg"))
             return true;
 
         if (args.length == 0) {
@@ -40,7 +41,11 @@ public class ChatGuardCommand implements CommandExecutor {
         if (args.length == 1) {
             switch (args[0].toLowerCase()) {
                 case "about":
-                    about(sender, plugin);
+                    // Contributors: Add your name here, if you wish to be credited, when you contribute code
+                    List<String> contributorsList = new ArrayList<>(Arrays.asList(
+                            "moderator_man"
+                    ));
+                    about(sender, plugin, contributorsList);
                     break;
                 case "reload":
                     reloadCommand(sender);
@@ -86,6 +91,7 @@ public class ChatGuardCommand implements CommandExecutor {
                             getPlayerCaptcha().remove(player.getName());
                             player.sendMessage(translate("&a[ChatGuard] Captcha verification passed."));
                             playSoundCue(player,true);
+                            logInfo(String.format("[ChatGuard] Player '%s' passed captcha verification.", player.getName()));
                         } else {
                             player.sendMessage(translate("&c[ChatGuard] Please enter the correct captcha code."));
                             playSoundCue(player,false);
@@ -127,10 +133,10 @@ public class ChatGuardCommand implements CommandExecutor {
     private static void reloadCommand(CommandSender sender) {
         if (!hasPermission(sender, "chatguard.config", "[ChatGuard] You don't have permission to reload the config.")) return;
 
+        if (sender instanceof Player) sender.sendMessage(translate("&a[ChatGuard] Configurations reloaded."));
+        logInfo("[ChatGuard] Configurations reloaded.");
         getConfig().loadConfig();
         getStrikes().loadConfig();
-
-        if (sender instanceof Player) sender.sendMessage(translate("&a[ChatGuard] Configurations reloaded."));
     }
 
     private static void setPlayerStrikes(CommandSender sender, String playerName, int oldStrike, String setStrike) {
@@ -149,8 +155,11 @@ public class ChatGuardCommand implements CommandExecutor {
         }
 
         getStrikes().setProperty(playerName, newStrike);
-        getStrikes().saveConfig();
+        getStrikes().save();
 
-        sender.sendMessage(translate(String.format("&c[ChatGuard] &e%s &cset from strike &e%d &cto &e%d&c.", playerName, oldStrike, newStrike)));
+        if (sender instanceof Player)
+            sender.sendMessage(translate(String.format("&c[ChatGuard] &e%s &cset from strike &e%d &cto &e%d&c.", playerName, oldStrike, newStrike)));
+
+        logInfo(String.format("[ChatGuard] Player '%s' set from strike %d to %d.", playerName, oldStrike, newStrike));
     }
 }
