@@ -34,7 +34,7 @@ public class FilterHandler {
         return false;
     }
 
-    public static boolean shouldBlockName(String playerName) {
+    public static boolean shouldBlockUsername(String playerName) {
         String sanitizedMessage = playerName.toLowerCase();
         Set<String> whitelistTerms = new HashSet<>(getConfig().getStringList("filter.rules.terms.whitelist", new ArrayList<>()));
         for (String term : whitelistTerms) sanitizedMessage = sanitizedMessage.replaceAll(term, "");
@@ -86,7 +86,7 @@ public class FilterHandler {
 
         if (getStrike(player) <= 4) {
             getStrikes().setProperty(player.getName(), getStrike(player) + 1);
-            getStrikes().saveConfig();
+            getStrikes().save();
         }
     }
 
