@@ -1,9 +1,9 @@
 # ChatGuard
 ![ChatGuard-Banner.png](assets/ChatGuard-Banner.png)
 
+## Features
 **ChatGuard** is a Minecraft plugin designed for servers running version b1.7.3.
 
-## Features
 - Cancels messages containing blocked terms or matching RegEx patterns.
 - Prevents players from joining with usernames containing blocked terms or matching RegEx patterns.
 - Logs offenders (via Discord webhook, server console, or local file).
