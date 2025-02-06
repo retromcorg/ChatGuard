@@ -12,37 +12,40 @@ import static org.bukkit.Bukkit.getServer;
 import static io.github.aleksandarharalanov.chatguard.util.ColorUtil.translate;
 
 /**
- * Utility class for displaying plugin information to the command sender.
+ * Utility class for displaying plugin information to a command sender.
  * <p>
- * This class provides methods to display detailed information about a plugin, including its name, version,
- * description, website, and author(s). The information is formatted and sent to the command sender, which can be
- * either a player or the server console.
+ * Provides methods to display detailed information about a plugin—including its name, version,
+ * description, website, author(s), and contributor(s)—to a player or the server console.
  */
 public class AboutUtil {
 
     private static final Logger logger = getServer().getLogger();
 
     /**
-     * Displays detailed information about the specified plugin to the command sender.
+     * Displays detailed information about the specified plugin to the given command sender.
      * <p>
-     * This method formats and sends plugin details such as the name, version, description, website, and authors
-     * to the specified {@link CommandSender}. If the plugin version contains keywords like "snapshot", "alpha", "beta",
-     * or "rc", a warning is displayed indicating that the plugin is experimental.
+     * This method formats and sends plugin details such as the name, version, description, website,
+     * author(s), and contributor(s) to the specified {@link CommandSender}. If the plugin version contains
+     * keywords like "snapshot", "alpha", "beta", or "rc", a warning is displayed indicating that the plugin is experimental.
      *
-     * @param sender the command sender who will receive the plugin information; can be a player or console
-     * @param plugin the plugin for which information is displayed
+     * @param sender           the command sender who will receive the plugin information; can be a player or console
+     * @param plugin           the plugin whose information is to be displayed
+     * @param contributorsList the list of contributor names; may be {@code null} or empty
      */
-    public static void about(CommandSender sender, JavaPlugin plugin) {
+    public static void about(CommandSender sender, JavaPlugin plugin, List<String> contributorsList) {
         String name = plugin.getDescription().getName();
         String version = plugin.getDescription().getVersion();
         String website = plugin.getDescription().getWebsite();
         String description = plugin.getDescription().getDescription();
         String authors = formatAuthors(plugin.getDescription().getAuthors());
+        String contributors = formatContributors(contributorsList);
 
         boolean isExperimental = isExperimentalVersion(version);
 
-        if (sender instanceof Player) sendPlayerInfo((Player) sender, name, version, description, website, authors, isExperimental);
-        else sendConsoleInfo(name, version, description, website, authors, isExperimental);
+        if (sender instanceof Player)
+            sendPlayerInfo((Player) sender, name, version, description, website, authors, contributors, isExperimental);
+        else
+            sendConsoleInfo(name, version, description, website, authors, contributors, isExperimental);
     }
 
     /**
@@ -52,12 +55,28 @@ public class AboutUtil {
      * for coloring in the player chat.
      *
      * @param authorsList the list of authors to format
-     * @return a formatted string of authors, or {@code null} if the list is empty or {@code null}
+     * @return a formatted string of authors, or {@code null} if the list is {@code null} or empty
      */
     private static String formatAuthors(List<String> authorsList) {
         if (authorsList == null || authorsList.isEmpty()) return null;
         return authorsList.size() == 1 ? authorsList.get(0) : authorsList.stream()
                 .map(author -> "&e" + author)
+                .collect(Collectors.joining("&7, &e"));
+    }
+
+    /**
+     * Formats the list of contributors into a single string.
+     * <p>
+     * If the list contains multiple contributors, they are joined by commas. Each contributor's name is prefixed with {@code &e}
+     * for coloring in the player chat.
+     *
+     * @param contributorsList the list of contributors to format
+     * @return a formatted string of contributors, or {@code null} if the list is {@code null} or empty
+     */
+    private static String formatContributors(List<String> contributorsList) {
+        if (contributorsList == null || contributorsList.isEmpty()) return null;
+        return contributorsList.size() == 1 ? contributorsList.get(0) : contributorsList.stream()
+                .map(contributor -> "&e" + contributor)
                 .collect(Collectors.joining("&7, &e"));
     }
 
@@ -79,8 +98,8 @@ public class AboutUtil {
     /**
      * Sends the plugin information to a player.
      * <p>
-     * This method sends formatted information including the plugin's name, version, description, website, and authors
-     * to the specified player. If the plugin version is experimental, a warning message is also sent.
+     * This method sends formatted information including the plugin's name, version, description, website, author(s),
+     * and contributor(s) to the specified player. If the plugin version is experimental, warning messages are also sent.
      *
      * @param player       the player to receive the plugin information
      * @param name         the name of the plugin
@@ -88,41 +107,49 @@ public class AboutUtil {
      * @param description  the description of the plugin, or {@code null} if not available
      * @param website      the website of the plugin, or {@code null} if not available
      * @param authors      the formatted string of authors, or {@code null} if not available
+     * @param contributors the formatted string of contributors, or {@code null} if not available
      * @param experimental {@code true} if the plugin version is experimental, otherwise {@code false}
      */
-    private static void sendPlayerInfo(Player player, String name, String version, String description, String website, String authors, boolean experimental) {
+    private static void sendPlayerInfo(Player player, String name, String version, String description, String website, String authors, String contributors, boolean experimental) {
         if (experimental) {
             player.sendMessage(translate("&cRunning an experimental version."));
-            player.sendMessage(translate("&cMay contain bugs or other types of issues."));
+            player.sendMessage(translate("&cMay contain bugs or other issues."));
         }
-        player.sendMessage(translate(String.format("&e%s &7version &e%s", name, version)));
-        outputMessage(player, "&7", description);
-        outputMessage(player, "&7Website: &e", website);
-        outputMessage(player, "&7Author(s): &e", authors);
+        player.sendMessage(translate(String.format("&b%s &ev%s", name, version)));
+        outputMessage(player, "&bDescription: &7", description);
+        outputMessage(player, "&bWebsite: &e", website);
+        outputMessage(player, "&bAuthor(s): &e", authors);
+        if (contributors != null) {
+            outputMessage(player, "&bContributor(s): &e", contributors);
+        }
     }
 
     /**
      * Logs the plugin information to the server console.
      * <p>
-     * This method logs formatted information including the plugin's name, version, description, website, and authors
-     * to the server console. If the plugin version is experimental, a warning message is also logged.
+     * This method logs formatted information including the plugin's name, version, description, website, author(s),
+     * and contributor(s) to the server console. If the plugin version is experimental, warning messages are also logged.
      *
      * @param name         the name of the plugin
      * @param version      the version of the plugin
      * @param description  the description of the plugin, or {@code null} if not available
      * @param website      the website of the plugin, or {@code null} if not available
      * @param authors      the formatted string of authors, or {@code null} if not available
+     * @param contributors the formatted string of contributors, or {@code null} if not available
      * @param experimental {@code true} if the plugin version is experimental, otherwise {@code false}
      */
-    private static void sendConsoleInfo(String name, String version, String description, String website, String authors, boolean experimental) {
+    private static void sendConsoleInfo(String name, String version, String description, String website, String authors, String contributors, boolean experimental) {
         if (experimental) {
             logger.warning("Running an experimental version.");
-            logger.warning("May contain bugs or other types of issues.");
+            logger.warning("May contain bugs or other issues.");
         }
-        logger.info(String.format("%s version %s", name, version));
-        outputMessage(description);
+        logger.info(String.format("%s v%s", name, version));
+        outputMessage("Description: ", description);
         outputMessage("Website: ", website);
-        outputMessage("Author(s): ", authors != null ? authors.replace("&e", "").replace("&7", "") : null);
+        outputMessage("Author(s): ", authors != null ? authors.replace("&b", "").replace("&e", "") : null);
+        if (contributors != null) {
+            outputMessage("Contributor(s): ", contributors.replace("&b", "").replace("&e", ""));
+        }
     }
 
     /**
@@ -135,16 +162,9 @@ public class AboutUtil {
      * @param message the message to send, or {@code null} if no message should be sent
      */
     private static void outputMessage(Player player, String prefix, String message) {
-        if (message != null) player.sendMessage(translate(prefix + message));
-    }
-
-    /**
-     * Logs a message to the server console if the message is not {@code null}.
-     *
-     * @param message the message to log, or {@code null} if no message should be logged
-     */
-    private static void outputMessage(String message) {
-        if (message != null) logger.info(message);
+        if (message != null) {
+            player.sendMessage(translate(prefix + message));
+        }
     }
 
     /**
@@ -154,6 +174,8 @@ public class AboutUtil {
      * @param message the message to log, or {@code null} if no message should be logged
      */
     private static void outputMessage(String prefix, String message) {
-        if (message != null) logger.info(prefix + message);
+        if (message != null) {
+            logger.info(prefix + message);
+        }
     }
 }
