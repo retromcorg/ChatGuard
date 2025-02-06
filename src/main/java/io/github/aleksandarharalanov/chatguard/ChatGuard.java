@@ -27,10 +27,10 @@ public class ChatGuard extends JavaPlugin {
         plugin = this;
 
         config = new ConfigUtil(this, "config.yml");
-        config.loadConfig();
+        config.load();
 
         strikes = new ConfigUtil(this, "strikes.yml");
-        strikes.loadConfig();
+        strikes.load();
 
         final LoggerUtil log = new LoggerUtil(this, "log.txt");
         log.initializeLog();
