@@ -10,7 +10,7 @@
 - Logs offenders (via Discord webhook, server console, or local file).
 - Implements chat and command rate limiter to decrease spam.
 - Triggers captcha verification on repeated message spam.
-- Issues temporary mutes (requires [Essentials v2.5.8](#Requirements & Optional) as of ChatGuard `v5.0.0`).
+- Issues temporary mutes (requires [Essentials v2.5.8](#requirements--optional) as of ChatGuard `v5.0.0`).
 - Enforces escalating penalties via a six-strike tier system.
 - Plays local audio cues for offending players upon detection.
 
@@ -172,7 +172,7 @@ customize:               # Embed customization options
 > If your server is not running **Essentials v2.5.8**, you must do one of the following:
 > - **Disable Essentials mute support** by setting `filter.essentials-mute.enabled` to `false` in `config/config.yml`.
 > - **Install Essentials** to use the temporary mute feature.
->   - You can download **Essentials v2.5.8** from [here](#Requirements & Optional).
+>   - You can download **Essentials v2.5.8** from [here](#requirements--optional).
 > 
 > Without one of the two, ChatGuard could break, and in-game messages might fail to send.
 
