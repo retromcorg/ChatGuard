@@ -8,7 +8,7 @@ Both **external contributors** and **write-access users** should fork the reposi
 
 Once reviewed and approved, changes will be **squash merged** into `master` to maintain a clean history.
 
-> [!NOTE]
+> [!WARNING]
 > **Pull requests that do not follow these instructions will be rejected.**<br/>
 > You will receive a comment explaining what was incorrect, so you can make the necessary changes and resubmit.
 
