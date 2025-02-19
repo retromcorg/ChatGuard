@@ -2,8 +2,6 @@
 ChatGuard has a devlog which you can visit [here](https://github.com/users/AleksandarHaralanov/projects/1).
 
 ## Workflow Guidelines
-All contributions must be made to the `master` branch via pull requests (PRs).
-
 - **External contributors** should fork the repository and open pull requests to `master` with their changes.
 - **Write-access users** can commit directly to `master`, but they should follow the PR-based workflow if they are unsure about their changes.
 
