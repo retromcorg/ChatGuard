@@ -12,8 +12,8 @@ Once reviewed and approved, changes will be **squash merged** into `master` to m
 > **Pull requests that do not follow these instructions will be rejected.**<br/>
 > You will receive a comment explaining what was incorrect, so you can make the necessary changes and resubmit.
 
-### Optional Contributor Recognition
-You can add your name [here](https://github.com/AleksandarHaralanov/ChatGuard/blob/9a735f1fc0bdb94325f27b3798c31214bd7f77fc/src/main/java/io/github/aleksandarharalanov/chatguard/command/subcommand/AboutCommand.java#L22) to be credited in the plugin's about command for your contribution.
+> [!TIP]
+> You can add your name [here](https://github.com/AleksandarHaralanov/ChatGuard/blob/9a735f1fc0bdb94325f27b3798c31214bd7f77fc/src/main/java/io/github/aleksandarharalanov/chatguard/command/subcommand/AboutCommand.java#L22) to be credited in the plugin's about command for your contribution.
 
 ## Coding Conventions
 This is an open-source project. Keep in mind the people who will read and work with your code—make it clean and easy to understand.
