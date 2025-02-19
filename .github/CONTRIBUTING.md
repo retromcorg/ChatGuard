@@ -1,13 +1,12 @@
 # Contributing
 ChatGuard has a devlog which you can visit [here](https://github.com/users/AleksandarHaralanov/projects/1).
 
-## Contribution Workflow
-All contributions must be made to the `staging` branch via pull requests (PRs).
+## Workflow Guidelines
+All contributions must be made to the `master` branch via pull requests (PRs).
 
-- **Write-access users** must create a **feature branch** from `staging`, push changes to it, and open a pull request to `staging`.
-- **External contributors** must fork the repository, make changes in the `staging` branch of their fork, and open a pull request to `staging`.
+Both **external contributors** and **write-access users** should fork the repository and open a pull request to `master` with their changes.
 
-Once reviewed and approved, changes from `staging` will be **squash merged** into `master` to maintain a clean history.
+Once reviewed and approved, changes will be **squash merged** into `master` to maintain a clean history.
 
 > ![NOTE]
 > **Pull requests that do not follow these instructions will be rejected.**<br/>
