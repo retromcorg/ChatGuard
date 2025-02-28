@@ -166,12 +166,11 @@ customize:               # Embed customization options
         icon: "https://raw.githubusercontent.com/AleksandarHaralanov/ChatGuard/refs/heads/master/assets/ChatGuard-Logo-Dark-Purple.png"
 ```
 
-> [!WARNING]  
-> **Important for auto mute feature**<br/>
-> **Install compatible plugin** to use the auto mute feature.
+> [!WARNING]
+> Install a compatible plugin to use the auto mute feature.
 > - Compatible plugins are [Essentials v2.5.8](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar) and [ZCore](https://github.com/zavdav/ZCore) (as of ChatGuard `v6.0.0`, **not yet released**).
 >
-> If left `auto-mute.enabled` is left on `true`, it will act as disabled when no compatible plugin is detected.
+> If `auto-mute.enabled` in `config/config.yml` is left on `true`, it will act as disabled when no compatible plugins are detected.
 
 > [!NOTE]  
 > Strike tiers increment only when the filter is enabled and a disallowed term or matching regex pattern is detected.
