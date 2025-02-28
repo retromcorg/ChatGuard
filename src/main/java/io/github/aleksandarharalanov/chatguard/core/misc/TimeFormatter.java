@@ -18,7 +18,7 @@ public final class TimeFormatter {
     private TimeFormatter() {}
 
     public static void printFormattedMuteDuration(String username) {
-        long remainingMillis = MuteEnforcer.getMuteHandler().getUserMuteTimeout(username) - System.currentTimeMillis();
+        long remainingMillis = MuteEnforcer.muteHandler.getUserMuteTimeout(username) - System.currentTimeMillis();
 
         Map<String, Integer> timeUnits = new LinkedHashMap<>();
         timeUnits.put("d.", (int) (remainingMillis / (1000 * 60 * 60 * 24)));
