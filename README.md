@@ -168,12 +168,10 @@ customize:               # Embed customization options
 
 > [!WARNING]  
 > **Important for auto mute feature**<br/>
-> If your server is not running a compatible plugin, you must do one of the following:
-> - **Disable auto mute support** by setting `filter.auto-mute.enabled` to `false` in `config/config.yml`.
-> - **Install Compatible plugin** to use the auto mute feature.
->   - Compatible plugins are [Essentials v2.5.8](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar) and [ZCore](https://github.com/zavdav/ZCore) (as of ChatGuard `v6.0.0`, **not yet released**).
+> **Install compatible plugin** to use the auto mute feature.
+> - Compatible plugins are [Essentials v2.5.8](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar) and [ZCore](https://github.com/zavdav/ZCore) (as of ChatGuard `v6.0.0`, **not yet released**).
 >
-> Without one of the two, ChatGuard could break, and in-game messages might fail to send.
+> If left `auto-mute.enabled` is left on `true`, it will act as disabled when no compatible plugin is detected.
 
 > [!NOTE]  
 > Strike tiers increment only when the filter is enabled and a disallowed term or matching regex pattern is detected.
