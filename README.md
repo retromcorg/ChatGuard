@@ -10,7 +10,7 @@
 - Logs offenders (via Discord webhook, server console, or local file).
 - Implements chat and command rate limiter to decrease spam.
 - Triggers captcha verification on repeated message spam.
-- Issues temporary mutes (requires [Essentials v2.5.8](#requirements--optional) as of ChatGuard `v5.0.0`).
+- Issues temporary mutes.
 - Enforces escalating penalties via a six-strike tier system.
 - Plays local audio cues for offending players upon detection.
 
@@ -33,10 +33,8 @@ The plugin is fully open-source and transparent.<br/>
 If you'd like additional peace of mind, you're welcome to scan the `.jar` file using [VirusTotal](https://www.virustotal.com/gui/home/upload).
 
 ---
-## Requirements & Optional
+## Requirements
 Your server must be running one of the following APIs: CB1060-CB1092, [Project Poseidon](https://github.com/retromcorg/Project-Poseidon) or [UberBukkit](https://github.com/Moresteck/Project-Poseidon-Uberbukkit).
-
-You can download **Essentials v2.5.8** from [here](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar).
 
 ---
 ## Usage
@@ -110,8 +108,8 @@ filter:               # Filter Configuration
   log:                # Log filter trigger to:
     console: true     # Server console
     local-file: true  # Local file
-  essentials-mute:    # Essentials Mute Configuration
-    enabled: true     # Toggles automatic mutes upon filter detection
+  auto-mute:          # Auto Mute Configuration
+    enabled: true     # Toggles auto mute (Need to have a compatible plugin installed, such as Essentials or ZCore)
     duration:         # Mute durations for strike tiers
       s0: "30m"
       s1: "1h"
@@ -168,12 +166,13 @@ customize:               # Embed customization options
         icon: "https://raw.githubusercontent.com/AleksandarHaralanov/ChatGuard/refs/heads/master/assets/ChatGuard-Logo-Dark-Purple.png"
 ```
 
-> [!CAUTION]  
-> If your server is not running **Essentials v2.5.8**, you must do one of the following:
-> - **Disable Essentials mute support** by setting `filter.essentials-mute.enabled` to `false` in `config/config.yml`.
-> - **Install Essentials** to use the temporary mute feature.
->   - You can download **Essentials v2.5.8** from [here](#requirements--optional).
-> 
+> [!WARNING]  
+> **Important for auto mute feature**<br/>
+> If your server is not running a compatible plugin, you must do one of the following:
+> - **Disable auto mute support** by setting `filter.auto-mute.enabled` to `false` in `config/config.yml`.
+> - **Install Compatible plugin** to use the auto mute feature.
+>   - Compatible plugins are [Essentials v2.5.8](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar) and [ZCore](https://github.com/zavdav/ZCore) (as of ChatGuard `v6.0.0`, **not yet released**).
+>
 > Without one of the two, ChatGuard could break, and in-game messages might fail to send.
 
 > [!NOTE]  
