@@ -34,7 +34,7 @@ If you'd like additional peace of mind, you're welcome to scan the `.jar` file u
 
 ---
 ## Requirements
-Your server must be running one of the following software: CB1060, [Project Poseidon](https://github.com/retromcorg/Project-Poseidon) or [UberBukkit](https://github.com/Moresteck/Project-Poseidon-Uberbukkit).
+Your server must be running one of the following software: [CB1060](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/craftbukkit-1060.jar), [Project Poseidon](https://github.com/retromcorg/Project-Poseidon) or [UberBukkit](https://github.com/Moresteck/Project-Poseidon-Uberbukkit).
 
 ---
 ## Usage
