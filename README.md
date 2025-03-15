@@ -179,5 +179,5 @@ customize:               # Embed customization options
 
 ## Statistics
 <p align="center">
-  <img src="https://repobeats.axiom.co/api/embed/a96f228b8fa98c032070fa8dd831c967334ee553.svg" />
+  <img src="https://repobeats.axiom.co/api/embed/4726e8b7a0fb27e54816c2f0bb26bf89048cfbd4.svg" />
 </p>
