@@ -158,3 +158,8 @@ customize:               # Embed customization options
 > Strike tiers increment only when the filter is enabled and a disallowed term or matching regex pattern is detected.
 >
 > Otherwise, all strike tiers default to `0` unless manually modified in `data/strikes.yml` or via the staff command.
+
+## Statistics
+<p align="center">
+  <img src="https://repobeats.axiom.co/api/embed/4726e8b7a0fb27e54816c2f0bb26bf89048cfbd4.svg" />
+</p>
