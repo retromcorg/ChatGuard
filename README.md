@@ -1,7 +1,7 @@
-# ChatGuard
+# 🛡️ ChatGuard
 ![ChatGuard-Banner.png](assets/ChatGuard-Banner.png)
 
-## Features
+## ✨ Features
 **ChatGuard** is a Minecraft plugin designed for servers running version b1.7.3.
 
 - Cancels messages containing blocked terms or matching RegEx patterns.
@@ -17,7 +17,7 @@
 The plugin is entirely configurable.
 
 ---
-## Contributions, Suggestions, and Issues
+## 🤝 Contributions, Suggestions, and Issues
 Consider helping ChatGuard become even more versatile and robust.
 
 It is **highly recommended** to visit the [CONTRIBUTING](https://github.com/AleksandarHaralanov/ChatGuard/blob/master/.github/CONTRIBUTING.md) guide for details on how to get started and where to focus your efforts.
@@ -25,7 +25,7 @@ It is **highly recommended** to visit the [CONTRIBUTING](https://github.com/Alek
 For any issues with the plugin, or suggestions, please submit them [here](https://github.com/AleksandarHaralanov/ChatGuard/issues).
 
 ---
-## Download
+## ⬇️ Download
 Latest releases of **ChatGuard** can be found here on [GitHub](https://github.com/AleksandarHaralanov/ChatGuard/releases).<br/>
 Alternatively, you can also download through [Modrinth](https://modrinth.com/plugin/chatguard/versions).
 
@@ -33,11 +33,11 @@ The plugin is fully open-source and transparent.<br/>
 If you'd like additional peace of mind, you're welcome to scan the `.jar` file using [VirusTotal](https://www.virustotal.com/gui/home/upload).
 
 ---
-## Requirements
+## 📋 Requirements
 Your server must be running one of the following software: [CB1060](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/craftbukkit-1060.jar), [Project Poseidon](https://github.com/retromcorg/Project-Poseidon) or [UberBukkit](https://github.com/Moresteck/Project-Poseidon-Uberbukkit).
 
 ---
-## Usage
+## 🚀 Usage
 By default, only OPs have permission.
 
 Use PermissionsEx or similar plugins to grant groups the permission, enabling the commands.
@@ -59,7 +59,7 @@ Use PermissionsEx or similar plugins to grant groups the permission, enabling th
 - `chatguard.*` - Wildcard permission that grants all permissions.
 
 ---
-## Configurations
+## ⚙️ Configurations
 ChatGuard generates two configuration files using the default settings in the **config** directory.
 
 Additionally, it creates two data files, `captchas.yml` and `strikes.yml`, in the **data** directory.
@@ -159,7 +159,5 @@ customize:               # Embed customization options
 >
 > Otherwise, all strike tiers default to `0` unless manually modified in `data/strikes.yml` or via the staff command.
 
-## Statistics
-<p align="center">
-  <img src="https://repobeats.axiom.co/api/embed/4726e8b7a0fb27e54816c2f0bb26bf89048cfbd4.svg" />
-</p>
+## 📊 Project Statistics
+<img src="https://repobeats.axiom.co/api/embed/4726e8b7a0fb27e54816c2f0bb26bf89048cfbd4.svg" alt="Statistics" />
