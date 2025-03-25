@@ -1,35 +1,30 @@
 package io.github.aleksandarharalanov.chatguard.core.security.captcha;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
-import io.github.aleksandarharalanov.chatguard.core.data.CaptchaData;
+import io.github.aleksandarharalanov.chatguard.core.config.CaptchaConfig;
+import io.github.aleksandarharalanov.chatguard.core.data.MessageData;
+import io.github.aleksandarharalanov.chatguard.core.security.common.ContentHandler;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 public final class CaptchaDetector {
 
     private CaptchaDetector() {}
 
-    public static boolean doesPlayerTriggerCaptcha(String playerName, String message) {
-        String sanitizedMessage = message.toLowerCase();
-        Set<String> whitelistTerms = new HashSet<>(ChatGuard.getConfig().getStringList("captcha.whitelist", new ArrayList<>()));
+    public static boolean doesPlayerTriggerCaptcha(String playerName, String content) {
+        String sanitizedContent = ContentHandler.sanitizeContent(content, CaptchaConfig.getTermsWhitelist(), CaptchaConfig.getRegexWhitelist());
 
-        for (String term : whitelistTerms) {
-            sanitizedMessage = sanitizedMessage.replaceAll(term, "");
+        if (sanitizedContent.isEmpty()) {
+            return false;
         }
 
-        if (sanitizedMessage.isEmpty()) return false;
+        LinkedList<String> messages = MessageData.getMessageHistory(playerName);
+        messages.add(sanitizedContent);
 
-        LinkedList<String> messages = CaptchaData.getMessageHistory(playerName);
-        messages.add(sanitizedMessage);
-
-        if (messages.size() > CaptchaData.getThreshold()) {
+        if (messages.size() > CaptchaConfig.getThreshold()) {
             messages.removeFirst();
         }
 
-        return messages.size() == CaptchaData.getThreshold() &&
+        return messages.size() == CaptchaConfig.getThreshold() &&
                 messages.stream().allMatch(msg -> msg.equals(messages.getFirst()));
     }
 }

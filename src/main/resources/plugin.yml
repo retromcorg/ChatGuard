@@ -1,5 +1,5 @@
 main: io.github.aleksandarharalanov.chatguard.ChatGuard
-version: 5.0.0
+version: 6.0.0
 name: ChatGuard
 author: Beezle
 website: github.com/AleksandarHaralanov/ChatGuard
@@ -8,7 +8,7 @@ softdepend: [Essentials, ZCore]
 
 commands:
   chatguard:
-    description: ChatGuard main command.
+    description: Main ChatGuard command.
     usage: /<command>
     aliases: [cg]
 
@@ -18,14 +18,14 @@ permissions:
       chatguard.bypass: true
       chatguard.config: true
       chatguard.captcha: true
-    description: All ChatGuard permissions.
+    description: Grants the player all ChatGuard permissions.
     default: op
   chatguard.bypass:
-    description: Allows player to bypass the ChatGuard protection.
+    description: Allows the player to bypass the ChatGuard protection.
     default: op
   chatguard.config:
-    description: Allows player to reload and modify the ChatGuard configuration.
+    description: Allows the player to reload and modify the ChatGuard configuration.
     default: op
   chatguard.captcha:
-    description: Allows player to be notified when someone triggers a captcha verification.
+    description: Allows the player to be notified when someone triggers a captcha verification.
     default: op

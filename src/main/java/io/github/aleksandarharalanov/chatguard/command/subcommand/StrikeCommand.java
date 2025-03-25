@@ -1,7 +1,6 @@
 package io.github.aleksandarharalanov.chatguard.command.subcommand;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
-import io.github.aleksandarharalanov.chatguard.core.data.PenaltyData;
+import io.github.aleksandarharalanov.chatguard.core.config.PenaltyConfig;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
@@ -26,12 +25,12 @@ public final class StrikeCommand implements CommandExecutor {
         }
 
         String playerName = args[1];
-        List<String> keys = ChatGuard.getStrikes().getKeys();
+        List<String> keys = PenaltyConfig.getStrikesKeys();
         String foundKey = keys.stream()
                 .filter(key -> key.equalsIgnoreCase(playerName))
                 .findFirst()
                 .orElse(null);
-        int playerStrikeTier = foundKey != null ? PenaltyData.getStrike(foundKey) : -1;
+        int playerStrikeTier = foundKey != null ? PenaltyConfig.getPlayerStrike(foundKey) : -1;
 
         if (foundKey == null) {
             sender.sendMessage(ColorUtil.translateColorCodes(String.format(
@@ -56,8 +55,7 @@ public final class StrikeCommand implements CommandExecutor {
                 return true;
             }
 
-            ChatGuard.getStrikes().setProperty(playerName, newStrike);
-            ChatGuard.getStrikes().save();
+            PenaltyConfig.setPlayerStrike(playerName, newStrike);
 
             if (sender instanceof Player) {
                 sender.sendMessage(ColorUtil.translateColorCodes(String.format(

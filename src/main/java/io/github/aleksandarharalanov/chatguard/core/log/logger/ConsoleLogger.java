@@ -1,6 +1,7 @@
 package io.github.aleksandarharalanov.chatguard.core.log.logger;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
+import io.github.aleksandarharalanov.chatguard.core.config.CaptchaConfig;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
 import io.github.aleksandarharalanov.chatguard.core.log.LogAttribute;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
@@ -11,7 +12,7 @@ public final class ConsoleLogger {
     private ConsoleLogger() {}
 
     public static void log(LogType logType, Player player, String content) {
-        if (!isConsoleLogEnabled(logType)) return;
+        if (!shouldConsoleLogEnabled(logType)) return;
 
         String logMessage = String.format("[ChatGuard] [%s]", logType.name());
         switch (logType) {
@@ -34,10 +35,10 @@ public final class ConsoleLogger {
         LogUtil.logConsoleInfo(logMessage);
     }
 
-    private static boolean isConsoleLogEnabled(LogType logType) {
+    private static boolean shouldConsoleLogEnabled(LogType logType) {
         if (logType.hasAttribute(LogAttribute.FILTER)) {
-            return ChatGuard.getConfig().getBoolean("filter.log.console", true);
+            return FilterConfig.getLogConsoleEnabled();
         }
-        return ChatGuard.getConfig().getBoolean("captcha.log-console", true);
+        return CaptchaConfig.getLogConsoleEnabled();
     }
 }

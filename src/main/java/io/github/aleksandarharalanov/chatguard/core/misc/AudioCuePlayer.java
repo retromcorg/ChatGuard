@@ -1,6 +1,6 @@
 package io.github.aleksandarharalanov.chatguard.core.misc;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
+import io.github.aleksandarharalanov.chatguard.core.config.MiscConfig;
 import io.github.aleksandarharalanov.chatguard.core.log.LogAttribute;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import org.bukkit.Effect;
@@ -22,7 +22,6 @@ public final class AudioCuePlayer {
     }
 
     private static boolean shouldAudioCuePlay(LogType logType) {
-        boolean isAudioCuesEnabled = ChatGuard.getConfig().getBoolean("miscellaneous.audio-cues", true);
-        return isAudioCuesEnabled && logType.hasAttribute(LogAttribute.AUDIO) && logType != LogType.NAME;
+        return MiscConfig.getAudioCuesEnabled() && logType.hasAttribute(LogAttribute.AUDIO);
     }
 }

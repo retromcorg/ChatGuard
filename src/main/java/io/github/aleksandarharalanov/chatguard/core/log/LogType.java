@@ -4,8 +4,8 @@ import java.util.EnumSet;
 
 public enum LogType {
 
-    CHAT(EnumSet.of(LogAttribute.FILTER, LogAttribute.STRIKE, LogAttribute.MUTE, LogAttribute.AUDIO)),
-    SIGN(EnumSet.of(LogAttribute.FILTER, LogAttribute.STRIKE, LogAttribute.AUDIO)),
+    CHAT(EnumSet.of(LogAttribute.FILTER, LogAttribute.STRIKE, LogAttribute.MUTE, LogAttribute.WARN, LogAttribute.AUDIO)),
+    SIGN(EnumSet.of(LogAttribute.FILTER, LogAttribute.STRIKE, LogAttribute.WARN, LogAttribute.AUDIO)),
     NAME(EnumSet.of(LogAttribute.FILTER)),
     CAPTCHA(EnumSet.of(LogAttribute.AUDIO));
 
@@ -16,6 +16,10 @@ public enum LogType {
     }
 
     public boolean hasAttribute(LogAttribute attribute) {
-        return attributes.contains(attribute);
+        return this.attributes.contains(attribute);
+    }
+
+    public String getName() {
+        return this.name().toLowerCase();
     }
 }

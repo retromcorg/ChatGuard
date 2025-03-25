@@ -1,6 +1,6 @@
 package io.github.aleksandarharalanov.chatguard.core.log.logger;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
 import io.github.aleksandarharalanov.chatguard.core.log.LogAttribute;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
@@ -23,7 +23,6 @@ public final class FileLogger {
     }
 
     private static boolean shouldLocalFileLog(LogType logType) {
-        boolean isLocalFileLogEnabled = ChatGuard.getConfig().getBoolean("filter.log.console", true);
-        return isLocalFileLogEnabled && logType.hasAttribute(LogAttribute.FILTER) && logType != LogType.NAME;
+        return FilterConfig.getLogLocalFileEnabled() && logType.hasAttribute(LogAttribute.FILTER) && logType != LogType.NAME;
     }
 }

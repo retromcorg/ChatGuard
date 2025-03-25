@@ -28,12 +28,13 @@ public class ChatGuard extends JavaPlugin {
         // Configurations
         config = new ConfigUtil(this, "config/config.yml");
         config.load();
+
         discord = new ConfigUtil(this, "config/discord.yml");
         discord.load();
 
-        // Data
         strikes = new ConfigUtil(this, "data/strikes.yml");
         strikes.load();
+
         captchas = new ConfigUtil(this, "data/captchas.yml");
         captchas.load();
 
@@ -63,12 +64,14 @@ public class ChatGuard extends JavaPlugin {
         final ChatGuardCommand command = new ChatGuardCommand(this);
         getCommand("chatguard").setExecutor(command);
 
-        LogUtil.logConsoleInfo(String.format("[%s] v%s Enabled.", getDescription().getName(), getDescription().getVersion()));
+        LogUtil.logConsoleInfo(String.format("[%s] v%s Enabled.",
+                getDescription().getName(), getDescription().getVersion()));
     }
 
     @Override
     public void onDisable() {
-        LogUtil.logConsoleInfo(String.format("[%s] v%s Disabled.", getDescription().getName(), getDescription().getVersion()));
+        LogUtil.logConsoleInfo(String.format("[%s] v%s Disabled.",
+                getDescription().getName(), getDescription().getVersion()));
     }
 
     public static ChatGuard getInstance() {

@@ -1,6 +1,6 @@
-package io.github.aleksandarharalanov.chatguard.core.misc;
+package io.github.aleksandarharalanov.chatguard.core.security.common;
 
-import io.github.aleksandarharalanov.chatguard.core.security.penalty.MuteEnforcer;
+import io.github.aleksandarharalanov.chatguard.core.security.penalty.PenaltyEnforcer;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,8 +17,8 @@ public final class TimeFormatter {
 
     private TimeFormatter() {}
 
-    public static void printFormattedMuteDuration(String username) {
-        long remainingMillis = MuteEnforcer.muteHandler.getUserMuteTimeout(username) - System.currentTimeMillis();
+    public static void printFormattedMuteDuration(String playerName) {
+        long remainingMillis = PenaltyEnforcer.getMuteHandler().getPlayerMuteTimeout(playerName) - System.currentTimeMillis();
 
         Map<String, Integer> timeUnits = new LinkedHashMap<>();
         timeUnits.put("d.", (int) (remainingMillis / (1000 * 60 * 60 * 24)));
@@ -31,7 +31,7 @@ public final class TimeFormatter {
                 .map(entry -> entry.getValue() + entry.getKey())
                 .collect(Collectors.joining(" ", "", ""));
 
-        Player player = Bukkit.getServer().getPlayer(username);
+        Player player = Bukkit.getServer().getPlayer(playerName);
         player.sendMessage(ColorUtil.translateColorCodes(String.format(
                 "&7Expires in %s", formattedTime
         )));

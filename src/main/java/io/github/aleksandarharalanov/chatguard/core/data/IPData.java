@@ -3,11 +3,11 @@ package io.github.aleksandarharalanov.chatguard.core.data;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class LoginData {
+public final class IPData {
 
     private static final Map<String, String> playerPreLoginIPs = new HashMap<>();
 
-    private LoginData() {}
+    private IPData() {}
 
     public static void storePlayerIP(String playerName, String playerIp) {
         playerPreLoginIPs.put(playerName.toLowerCase(), playerIp);

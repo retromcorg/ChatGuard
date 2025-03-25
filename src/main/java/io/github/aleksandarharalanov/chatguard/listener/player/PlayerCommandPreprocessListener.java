@@ -1,6 +1,6 @@
 package io.github.aleksandarharalanov.chatguard.listener.player;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
+import io.github.aleksandarharalanov.chatguard.core.config.SpamPreventionConfig;
 import io.github.aleksandarharalanov.chatguard.core.security.spam.CommandRateLimiter;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
 import org.bukkit.entity.Player;
@@ -22,8 +22,7 @@ public class PlayerCommandPreprocessListener extends PlayerListener {
     }
 
     private static boolean handleSpamPrevention(Player player, PlayerCommandPreprocessEvent event) {
-        boolean isCommandSpamPreventionEnabled = ChatGuard.getConfig().getBoolean("spam-prevention.enabled.command", true);
-        if (isCommandSpamPreventionEnabled && CommandRateLimiter.isPlayerCommandSpamming(player)) {
+        if (SpamPreventionConfig.getCommandEnabled() && CommandRateLimiter.isPlayerCommandSpamming(player, event.getMessage())) {
             event.setCancelled(true);
             return true;
         }

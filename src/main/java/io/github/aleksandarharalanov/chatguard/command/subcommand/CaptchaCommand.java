@@ -1,7 +1,7 @@
 package io.github.aleksandarharalanov.chatguard.command.subcommand;
 
 import io.github.aleksandarharalanov.chatguard.ChatGuard;
-import io.github.aleksandarharalanov.chatguard.core.data.CaptchaData;
+import io.github.aleksandarharalanov.chatguard.core.config.CaptchaConfig;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
 import io.github.aleksandarharalanov.chatguard.core.misc.AudioCuePlayer;
@@ -22,7 +22,9 @@ public final class CaptchaCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (AccessUtil.denyIfNotPlayer(sender, plugin)) return true;
+        if (AccessUtil.denyIfNotPlayer(sender, plugin)) {
+            return true;
+        }
 
         if (args.length < 2) {
             sender.sendMessage(ColorUtil.translateColorCodes("&cUsage: /cg captcha <code>"));
@@ -30,7 +32,7 @@ public final class CaptchaCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        String captchaCode = CaptchaData.getPlayerCaptcha(player.getName());
+        String captchaCode = CaptchaConfig.getPlayerCaptcha(player.getName());
 
         if (captchaCode == null) {
             player.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] No active captcha verification."));
@@ -44,7 +46,7 @@ public final class CaptchaCommand implements CommandExecutor {
         }
 
         player.sendMessage(ColorUtil.translateColorCodes("&a[ChatGuard] Captcha verification passed."));
-        CaptchaData.removePlayerCaptcha(player.getName());
+        CaptchaConfig.removePlayerCaptcha(player.getName());
 
         AudioCuePlayer.play(LogType.CAPTCHA, player, true);
         LogUtil.logConsoleInfo(String.format("[ChatGuard] Player '%s' passed captcha verification.", player.getName()));

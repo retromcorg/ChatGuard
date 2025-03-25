@@ -1,8 +1,8 @@
 package io.github.aleksandarharalanov.chatguard.listener.player;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
-import io.github.aleksandarharalanov.chatguard.core.security.filter.ContentFilter;
-import io.github.aleksandarharalanov.chatguard.core.data.PenaltyData;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
+import io.github.aleksandarharalanov.chatguard.core.security.filter.FilterHandler;
+import io.github.aleksandarharalanov.chatguard.core.config.PenaltyConfig;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -15,12 +15,11 @@ public class PlayerJoinListener extends PlayerListener {
         Player player = event.getPlayer();
 
         // Fallback if PlayerLoginEvent fails
-        boolean isNameFilterEnabled = ChatGuard.getConfig().getBoolean("filter.enabled.name", true);
-        if (isNameFilterEnabled && ContentFilter.isPlayerNameBlocked(player)) {
+        if (FilterConfig.getNameEnabled() && FilterHandler.isPlayerNameBlocked(player)) {
             player.kickPlayer(ColorUtil.translateColorCodes("&cName contains bad words."));
             return;
         }
 
-        PenaltyData.setDefaultStrikeTier(player);
+        PenaltyConfig.setDefaultStrikeTier(player);
     }
 }

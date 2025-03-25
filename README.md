@@ -75,20 +75,8 @@ spam-prevention:      # Spam Prevention Configuration
     command: true
   warn-player: true   # Warns offending player upon detection
   cooldown-ms:        # Cooldown durations in milliseconds for strike tiers
-    chat:
-      s0: 1000
-      s1: 2000
-      s2: 3000
-      s3: 4000
-      s4: 5000
-      s5: 6000
-    command:
-      s0: 5000
-      s1: 7500
-      s2: 10000
-      s3: 12500
-      s4: 15000
-      s5: 17500
+    chat: [1000, 2000, 3000, 4000, 5000, 6000]
+    command: [1000, 2000, 3000, 4000, 5000, 6000]
 
 captcha:              # Captcha Configuration
   enabled: true       # Toggles captcha verification
@@ -110,13 +98,7 @@ filter:               # Filter Configuration
     local-file: true  # Local file
   auto-mute:          # Auto Mute Configuration
     enabled: true     # Toggles auto mute (Need to have a compatible plugin installed, such as Essentials or ZCore)
-    duration:         # Mute durations for strike tiers
-      s0: "30m"
-      s1: "1h"
-      s2: "2h"
-      s3: "4h"
-      s4: "8h"
-      s5: "24h"
+    duration: ["30m", "1h", "2h", "4h", "8h", "24h"]  # Mute durations for strike tiers
   rules:              # Filter Rule Configurations
     regex: []         # Regular expression patterns
     terms:            # Term Configurations
@@ -168,7 +150,7 @@ customize:               # Embed customization options
 
 > [!WARNING]
 > Install a compatible plugin to use the auto mute feature.
-> - Compatible plugins are [Essentials v2.5.8](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar) and [ZCore](https://github.com/zavdav/ZCore) (as of ChatGuard `v6.0.0`, **not yet released**).
+> - Compatible plugins are [Essentials v2.5.8](https://github.com/AleksandarHaralanov/ChatGuard/raw/refs/heads/master/libs/Essentials.jar) and [ZCore](https://github.com/zavdav/ZCore) (as of ChatGuard `v6.0.0`).
 >
 > If `auto-mute.enabled` in `config/config.yml` is left on `true`, it will act as disabled when no compatible plugins are detected.
 

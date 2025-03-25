@@ -1,7 +1,7 @@
 package io.github.aleksandarharalanov.chatguard.listener.block;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
-import io.github.aleksandarharalanov.chatguard.core.security.filter.ContentFilter;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
+import io.github.aleksandarharalanov.chatguard.core.security.filter.FilterHandler;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockListener;
@@ -14,7 +14,7 @@ public class SignChangeListener extends BlockListener {
         Player player = event.getPlayer();
 
         if (hasBypassPermission(player)) return;
-        if (handleSignFiltering(player, event)) return;
+        if (handleSignFiltering(player, event));
     }
 
     private static boolean hasBypassPermission(Player player) {
@@ -22,8 +22,7 @@ public class SignChangeListener extends BlockListener {
     }
 
     private static boolean handleSignFiltering(Player player, SignChangeEvent event) {
-        boolean isSignFilterEnabled = ChatGuard.getConfig().getBoolean("filter.enabled.sign", true);
-        if (isSignFilterEnabled && ContentFilter.isSignContentBlocked(player, event.getLines())) {
+        if (FilterConfig.getSignEnabled() && FilterHandler.isSignContentBlocked(player, event.getLines())) {
             event.setCancelled(true);
             return true;
         }

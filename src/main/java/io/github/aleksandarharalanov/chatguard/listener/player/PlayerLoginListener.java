@@ -1,7 +1,7 @@
 package io.github.aleksandarharalanov.chatguard.listener.player;
 
-import io.github.aleksandarharalanov.chatguard.core.security.filter.ContentFilter;
-import io.github.aleksandarharalanov.chatguard.core.data.LoginData;
+import io.github.aleksandarharalanov.chatguard.core.security.filter.FilterHandler;
+import io.github.aleksandarharalanov.chatguard.core.data.IPData;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
@@ -13,10 +13,10 @@ public class PlayerLoginListener extends PlayerListener {
     public void onPlayerLogin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
         if (event.getResult() == PlayerLoginEvent.Result.ALLOWED) {
-            LoginData.storePlayerIP(player.getName(), event.getKickMessage());
+            IPData.storePlayerIP(player.getName(), event.getKickMessage());
         }
 
-        if (ContentFilter.isPlayerNameBlocked(player)) {
+        if (FilterHandler.isPlayerNameBlocked(player)) {
             event.disallow(
                     PlayerLoginEvent.Result.KICK_OTHER,
                     ColorUtil.translateColorCodes("&cName contains bad words.")

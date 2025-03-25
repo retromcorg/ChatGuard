@@ -7,20 +7,10 @@ spam-prevention:
     command: true
   warn-player: true
   cooldown-ms:
-    chat:
-      s0: 1000
-      s1: 2000
-      s2: 3000
-      s3: 4000
-      s4: 5000
-      s5: 6000
-    command:
-      s0: 5000
-      s1: 7500
-      s2: 10000
-      s3: 12500
-      s4: 15000
-      s5: 17500
+    chat: [1000, 2000, 3000, 4000, 5000, 6000]
+    command: [1000, 2000, 3000, 4000, 5000, 6000]
+  rules-whitelist:
+    command: []
 
 captcha:
   enabled: true
@@ -29,7 +19,9 @@ captcha:
     characters: "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789"
     length: 5
   log-console: true
-  whitelist: []
+  rules-whitelist:
+    terms: []
+    regex: []
 
 filter:
   enabled:
@@ -42,15 +34,11 @@ filter:
     local-file: true
   auto-mute:
     enabled: true
-    duration:
-      s0: "30m"
-      s1: "1h"
-      s2: "2h"
-      s3: "4h"
-      s4: "8h"
-      s5: "24h"
+    duration: ["30m", "1h", "2h", "4h", "8h", "24h"]
   rules:
-    regex: []
-    terms:
-      whitelist: []
-      blacklist: []
+    whitelist:
+      terms: []
+      regex: []
+    blacklist:
+      terms: []
+      regex: []

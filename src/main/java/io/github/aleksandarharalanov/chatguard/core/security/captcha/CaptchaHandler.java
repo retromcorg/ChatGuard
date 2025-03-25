@@ -1,6 +1,6 @@
 package io.github.aleksandarharalanov.chatguard.core.security.captcha;
 
-import io.github.aleksandarharalanov.chatguard.core.data.CaptchaData;
+import io.github.aleksandarharalanov.chatguard.core.config.CaptchaConfig;
 import io.github.aleksandarharalanov.chatguard.core.log.logger.ConsoleLogger;
 import io.github.aleksandarharalanov.chatguard.core.log.logger.DiscordLogger;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
@@ -15,7 +15,7 @@ public final class CaptchaHandler {
     private CaptchaHandler() {}
 
     public static boolean doesPlayerHaveActiveCaptcha(Player player) {
-        String captchaCode = CaptchaData.getPlayerCaptcha(player.getName());
+        String captchaCode = CaptchaConfig.getPlayerCaptcha(player.getName());
         if (captchaCode != null) {
             player.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] You have an active captcha verification."));
             player.sendMessage(ColorUtil.translateColorCodes(String.format(
@@ -29,7 +29,7 @@ public final class CaptchaHandler {
 
     public static void processCaptchaTrigger(Player player, String content) {
         String captchaCode = CaptchaGenerator.generateCaptchaCode();
-        CaptchaData.setPlayerCaptcha(player.getName(), captchaCode);
+        CaptchaConfig.setPlayerCaptcha(player.getName(), captchaCode);
 
         player.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] Captcha verification triggered."));
         player.sendMessage(ColorUtil.translateColorCodes(String.format(

@@ -5,5 +5,6 @@ public enum LogAttribute {
     FILTER,
     STRIKE,
     MUTE,
+    WARN,
     AUDIO
 }

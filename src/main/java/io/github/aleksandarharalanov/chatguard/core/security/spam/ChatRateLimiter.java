@@ -1,7 +1,7 @@
 package io.github.aleksandarharalanov.chatguard.core.security.spam;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
-import io.github.aleksandarharalanov.chatguard.core.data.PenaltyData;
+import io.github.aleksandarharalanov.chatguard.core.config.PenaltyConfig;
+import io.github.aleksandarharalanov.chatguard.core.config.SpamPreventionConfig;
 import io.github.aleksandarharalanov.chatguard.core.data.TimestampData;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.entity.Player;
@@ -18,13 +18,10 @@ public final class ChatRateLimiter {
 
         if (lastTimestamp != 0) {
             long elapsed = timestamp - lastTimestamp;
-            int cooldown = ChatGuard.getConfig().getInt(String.format(
-                    "spam-prevention.cooldown-ms.chat.s%d", PenaltyData.getStrike(player)
-            ), 0);
+            int cooldown = SpamPreventionConfig.getCooldownMsChat().get(PenaltyConfig.getPlayerStrike(player));
 
             if (elapsed <= cooldown) {
-                boolean isWarnEnabled = ChatGuard.getConfig().getBoolean("spam-prevention.warn-player", true);
-                if (isWarnEnabled) {
+                if (SpamPreventionConfig.getWarnPlayerEnabled()) {
                     double remainingTime = (cooldown - elapsed) / 1000.0;
                     player.sendMessage(ColorUtil.translateColorCodes(String.format(
                             "&cPlease wait %.2f sec. before sending another message.", remainingTime

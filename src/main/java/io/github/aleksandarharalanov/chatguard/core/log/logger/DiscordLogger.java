@@ -1,9 +1,11 @@
 package io.github.aleksandarharalanov.chatguard.core.log.logger;
 
 import io.github.aleksandarharalanov.chatguard.ChatGuard;
+import io.github.aleksandarharalanov.chatguard.core.config.DiscordConfig;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.log.embed.*;
 import io.github.aleksandarharalanov.chatguard.util.log.DiscordUtil;
+import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -14,17 +16,13 @@ public final class DiscordLogger {
     private DiscordLogger() {}
 
     public static void log(LogType logType, Player player, String content, String trigger) {
-        if (!isDiscordLogTypeEnabled(logType)) return;
+        if (!DiscordConfig.getDiscordLogEnabled(logType)) {
+            return;
+        }
 
-        String webhookUrl = ChatGuard.getDiscord().getString("webhook-url");
-        String webhookName = ChatGuard.getDiscord().getString(String.format(
-                "customize.type.%s.webhook.name",
-                logType.name().toLowerCase()
-        ));
-        String webhookIcon = ChatGuard.getDiscord().getString(String.format(
-                "customize.type.%s.webhook.icon",
-                logType.name().toLowerCase()
-        ));
+        String webhookUrl = DiscordConfig.getWebhookUrl();
+        String webhookName = DiscordConfig.getWebhookName(logType);
+        String webhookIcon = DiscordConfig.getWebhookIcon(logType);
 
         DiscordUtil webhook = new DiscordUtil(webhookUrl);
         webhook.setUsername(webhookName);
@@ -45,32 +43,17 @@ public final class DiscordLogger {
                 embed = new CaptchaEmbed(ChatGuard.getInstance(), player, content);
                 break;
             default:
+                LogUtil.logConsoleWarning("[ChatGuard] Something went wrong when constructing webhook embed to log.");
                 return;
         }
-
         webhook.addEmbed(embed.getEmbed());
 
         Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(ChatGuard.getInstance(), () -> {
             try {
                 webhook.execute();
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtil.logConsoleWarning(e.getMessage());
             }
-        }, 0L);
-    }
-
-    private static boolean isDiscordLogTypeEnabled(LogType logType) {
-        switch (logType) {
-            case CHAT:
-                return ChatGuard.getDiscord().getBoolean("embed-log.type.chat", true);
-            case SIGN:
-                return ChatGuard.getDiscord().getBoolean("embed-log.type.sign", true);
-            case NAME:
-                return ChatGuard.getDiscord().getBoolean("embed-log.type.name", true);
-            case CAPTCHA:
-                return ChatGuard.getDiscord().getBoolean("embed-log.type.captcha", true);
-            default:
-                return false;
-        }
+        }, 1L);
     }
 }

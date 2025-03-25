@@ -1,11 +1,12 @@
 package io.github.aleksandarharalanov.chatguard.core.log.embed;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
-import io.github.aleksandarharalanov.chatguard.core.data.LoginData;
+import io.github.aleksandarharalanov.chatguard.core.config.DiscordConfig;
+import io.github.aleksandarharalanov.chatguard.core.data.IPData;
+import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.awt.*;
+import java.awt.Color;
 
 public final class NameEmbed extends DiscordEmbed {
 
@@ -19,16 +20,13 @@ public final class NameEmbed extends DiscordEmbed {
 
     @Override
     protected void setupEmbedDetails() {
-        String hex = ChatGuard.getDiscord().getString("customize.type.name.color");
-        boolean censorData = ChatGuard.getDiscord().getBoolean("embed-log.optional.censor", true);
-
         embed.setTitle("Name Filter")
-                .addField("Trigger:", String.format(censorData ? "||`%s`||" : "`%s`", trigger), true)
-                .setColor(Color.decode(hex));
+                .addField("Trigger:", String.format(DiscordConfig.getLogCensorEnabled() ? "||`%s`||" : "`%s`", trigger), true)
+                .setColor(Color.decode(DiscordConfig.getEmbedColor(LogType.NAME)));
     }
 
     @Override
     protected String getPlayerIP() {
-        return LoginData.popPlayerIP(player.getName());
+        return IPData.popPlayerIP(player.getName());
     }
 }

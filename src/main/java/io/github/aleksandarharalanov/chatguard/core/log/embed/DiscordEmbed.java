@@ -1,6 +1,6 @@
 package io.github.aleksandarharalanov.chatguard.core.log.embed;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
+import io.github.aleksandarharalanov.chatguard.core.config.DiscordConfig;
 import io.github.aleksandarharalanov.chatguard.util.log.DiscordUtil;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -23,22 +23,15 @@ public abstract class DiscordEmbed {
     }
 
     protected void setupBaseEmbed() {
-        String avatar = ChatGuard.getDiscord()
-                .getString("customize.player-avatar")
-                .replace("%player%", player.getName());
-        boolean censorData = ChatGuard.getDiscord().getBoolean("embed-log.optional.censor", true);
-        boolean logIPAddress = ChatGuard.getDiscord().getBoolean("embed-log.optional.data.ip-address", true);
-        boolean logTimestamp = ChatGuard.getDiscord().getBoolean("embed-log.optional.data.timestamp", true);
-
-        embed.setAuthor(player.getName(), null, avatar);
+        embed.setAuthor(player.getName(), null, DiscordConfig.getPlayerAvatar().replace("%player%", player.getName()));
 
         setupEmbedDetails();
 
-        if (logIPAddress) {
-            embed.addField("IP:", String.format(censorData ? "||%s||" : "%s", getPlayerIP()), true);
+        if (DiscordConfig.getLogIpEnabled()) {
+            embed.addField("IP:", String.format(DiscordConfig.getLogCensorEnabled() ? "||%s||" : "%s", getPlayerIP()), true);
         }
 
-        if (logTimestamp) {
+        if (DiscordConfig.getLogTimestampEnabled()) {
             embed.addField("Timestamp:", String.format("<t:%d:f>", timestamp), true);
         }
 
