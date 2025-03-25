@@ -2,19 +2,30 @@
 ![ChatGuard-Banner.png](assets/ChatGuard-Banner.png)
 
 ## ✨ Features
-**ChatGuard** is a Minecraft plugin designed for servers running version b1.7.3.
+### Content Filtering
+Configurable terms and regex patterns
+- 🛑 Blocks chat messages containing inappropriate content
+- 🪧 Censors signs containing inappropriate content
+- 👤 Prevents players from joining with inappropriate usernames
 
-- Cancels messages containing blocked terms or matching RegEx patterns.
-- Censors signs containing blocked terms or matching RegEx patterns.
-- Prevents players from joining with usernames containing blocked terms or matching RegEx patterns.
-- Logs offenders (via Discord webhook, server console, or local file).
-- Implements chat and command rate limiter to decrease spam.
-- Triggers captcha verification on repeated message spam.
-- Issues temporary mutes.
-- Enforces escalating penalties via a six-strike tier system.
-- Plays local audio cues for offending players upon detection.
+### Anti-Spam Protection
+- ⏱️ Configurable rate-limits for chat messages and commands for each strike tier
+- 🤖 Triggers CAPTCHA verification for repeated message spam
 
-The plugin is entirely configurable.
+### Player Feedback & Notifications
+- 🔊 Plays audio cues to notify offending players when violations occur
+- ⚠️ Sends warning messages to players explaining why content was blocked
+
+### Moderation System
+- ⚠️ Six-tier strike system for tracking repeat offenders
+- 🔇 Issues temporary mutes with escalating durations based on current strike tier
+- ⏱️ Configurable mute durations for each strike tier
+- 🛠️ Staff commands to view and set player strikes manually
+
+### Logging & Monitoring
+- 📱 Discord webhook integration with customizable embeds
+- 💻 Console logging with detailed information
+- 📄 Local file logging for record-keeping
 
 ---
 ## 🤝 Contributions, Suggestions, and Issues
