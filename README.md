@@ -14,7 +14,7 @@ Configurable terms and regex patterns
 
 ### Player Feedback & Notifications
 - 🔊 Plays audio cues to notify offending players when violations occur
-- ⚠️ Sends warning messages to players explaining why content was blocked
+- 💬️ Sends warning messages to players explaining why content was blocked
 
 ### Moderation System
 - ⚠️ Six-tier strike system for tracking repeat offenders
