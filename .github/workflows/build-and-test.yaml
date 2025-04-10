@@ -1,11 +1,17 @@
 name: build-and-test
 on:
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  push:
     branches:
       - master
+      - main
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,14 +21,22 @@ jobs:
       - name: Set up JDK 1.8
         uses: actions/setup-java@v2
         with:
-          java-version: 8
           distribution: 'temurin'
+          java-version: 8
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.1
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build application
+        shell: bash
+        run: |
+          mvn clean install
 
-      - name: Test with Gradle
-        run: ./gradlew test
+      - name: Upload JAR files from all modules
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-${{ github.sha }}
+          path: |
+            ChatGuard/target/*.jar
