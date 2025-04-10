@@ -36,20 +36,18 @@ public final class PenaltyConfig {
     }
 
     public static void incrementPlayerStrike(Player player) {
-        if (ChatGuard.getStrikes().getInt(player.getName(), 0) <= 4) {
-            ChatGuard.getStrikes().setProperty(player.getName(), ChatGuard.getStrikes().getInt(player.getName(), 0) + 1);
-            ChatGuard.getStrikes().save();
-        }
-    }
-
-    public static void setDefaultStrikeTier(Player player) {
-        if (ChatGuard.getStrikes().getInt(player.getName(), -1) == -1) {
-            ChatGuard.getStrikes().setProperty(player.getName(), 0);
-            ChatGuard.getStrikes().save();
-        }
+        ChatGuard.getStrikes().setProperty(player.getName(), ChatGuard.getStrikes().getInt(player.getName(), 0) + 1);
+        ChatGuard.getStrikes().save();
     }
 
     public static String getAutoMuteDuration(Player player) {
-        return FilterConfig.getAutoMuteDurations().get(ChatGuard.getStrikes().getInt(player.getName(), 0));
+        final List<String> penalties = FilterConfig.getAutoMuteDurations();
+        final int maxPenalty = penalties.size() - 1;
+
+        final int playerPenalty = ChatGuard.getStrikes().getInt(player.getName(), 0);
+        if (playerPenalty > maxPenalty)
+            return penalties.get(maxPenalty);
+
+        return penalties.get(playerPenalty);
     }
 }
