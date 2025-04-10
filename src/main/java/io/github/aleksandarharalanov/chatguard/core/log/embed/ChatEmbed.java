@@ -20,20 +20,11 @@ public final class ChatEmbed extends DiscordEmbed {
 
     @Override
     protected void setupEmbedDetails() {
-        if (PenaltyConfig.isPlayerOnFinalStrike(player)) {
-            embed.setDescription(String.format(
-                    "S%d (Max) ・ Mute Duration: %s",
-                    PenaltyConfig.getPlayerStrike(player),
-                    PenaltyConfig.getAutoMuteDuration(player)
-            ));
-        } else {
-            embed.setDescription(String.format(
-                    "S%d ► S%d ・ Mute Duration: %s",
-                    PenaltyConfig.getPlayerStrike(player),
-                    PenaltyConfig.getPlayerStrike(player) + 1,
-                    PenaltyConfig.getAutoMuteDuration(player)
-            ));
-        }
+        embed.setDescription(String.format(
+                "Strike: %d - Mute Duration: %s",
+                PenaltyConfig.getPlayerStrike(player) + 1,
+                PenaltyConfig.getAutoMuteDuration(player)
+        ));
 
         embed.setTitle("Chat Filter")
                 .addField("Content:", content, false)

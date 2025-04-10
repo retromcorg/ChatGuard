@@ -36,7 +36,7 @@ public abstract class DiscordEmbed {
         }
 
         embed.setFooter(
-                String.format("ChatGuard v%s ・ Logger", pluginVersion),
+                String.format("ChatGuard v%s - Logger", pluginVersion),
                 "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
         );
     }

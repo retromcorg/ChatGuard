@@ -21,10 +21,6 @@ public final class PenaltyConfig {
         return ChatGuard.getStrikes().getInt(player.getName(), 0);
     }
 
-    public static boolean isPlayerOnFinalStrike(Player player) {
-        return ChatGuard.getStrikes().getInt(player.getName(), 0) == 5;
-    }
-
     public static void setPlayerStrike(String playerName, int newStrike) {
         ChatGuard.getStrikes().setProperty(playerName, newStrike);
         ChatGuard.getStrikes().save();

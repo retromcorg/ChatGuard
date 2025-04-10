@@ -20,18 +20,10 @@ public final class SignEmbed extends DiscordEmbed {
 
     @Override
     protected void setupEmbedDetails() {
-        if (PenaltyConfig.isPlayerOnFinalStrike(player)) {
-            embed.setDescription(String.format(
-                    "S%d (Max)",
-                    PenaltyConfig.getPlayerStrike(player)
-            ));
-        } else {
-            embed.setDescription(String.format(
-                    "S%d ► S%d",
-                    PenaltyConfig.getPlayerStrike(player),
-                    PenaltyConfig.getPlayerStrike(player) + 1
-            ));
-        }
+        embed.setDescription(String.format(
+            "Strike: %d",
+            PenaltyConfig.getPlayerStrike(player) + 1
+        ));
 
         embed.setTitle("Sign Filter")
                 .addField("Content:", content, false)
