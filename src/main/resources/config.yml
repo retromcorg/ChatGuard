@@ -34,7 +34,20 @@ filter:
     local-file: true
   auto-mute:
     enabled: true
-    duration: ["30m", "1h", "2h", "4h", "8h", "24h"]
+    duration:
+      - 10s
+      - 2m
+      - 10m
+      - 30m
+      - 30m
+      - 30m
+      - 1h
+      - 1h
+      - 1h
+      - 2h
+      - 4h
+      - 8h
+      - 24h
   rules:
     whitelist:
       terms: []
