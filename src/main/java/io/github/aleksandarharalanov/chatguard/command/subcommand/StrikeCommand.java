@@ -50,8 +50,8 @@ public final class StrikeCommand implements CommandExecutor {
 
         try {
             int newStrike = Integer.parseInt(args[2]);
-            if (newStrike < 0 || newStrike > 5) {
-                sender.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] Invalid range. Choose from &e0 &cto &e5&c."));
+            if (newStrike < 0) {
+                sender.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] Must be greater than &e0."));
                 return true;
             }
 
@@ -69,7 +69,7 @@ public final class StrikeCommand implements CommandExecutor {
                     foundKey, playerStrikeTier, newStrike
             ));
         } catch (NumberFormatException e) {
-            sender.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] Invalid input. Enter a number from &e0 &cto &e5&c."));
+            sender.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] Invalid input. Enter a number."));
         }
 
         return true;
