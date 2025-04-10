@@ -46,11 +46,13 @@ public final class PenaltyEnforcer {
         }
 
         try {
-            muteHandler.setPlayerMuteTimeout(
-                    player.getName(),
-                    TimeFormatter.parseDateDiff(PenaltyConfig.getAutoMuteDuration(player), true));
+            String duration = PenaltyConfig.getAutoMuteDuration(player);
+
+            long timeStamp = TimeFormatter.parseDateDiff(duration, true);
+
+            muteHandler.setPlayerMuteTimeout(player.getName(), timeStamp);
         } catch (Exception e) {
-            LogUtil.logConsoleSevere(e.getMessage());
+            e.printStackTrace();
             return;
         }
 
