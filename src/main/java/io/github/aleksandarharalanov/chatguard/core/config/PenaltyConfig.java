@@ -13,26 +13,24 @@ public final class PenaltyConfig {
         return ChatGuard.getStrikes().getKeys();
     }
 
-    public static int getPlayerStrike(String playerName) {
-        return ChatGuard.getStrikes().getInt(playerName, 0);
-    }
-
     public static int getPlayerStrike(Player player) {
-        return ChatGuard.getStrikes().getInt(player.getName(), 0);
+        return getPlayerStrike(player.getName());
     }
 
-    public static void setPlayerStrike(String playerName, int newStrike) {
-        ChatGuard.getStrikes().setProperty(playerName, newStrike);
-        ChatGuard.getStrikes().save();
+    public static int getPlayerStrike(String playerName) {
+        return ChatGuard.getStrikes().getInt(playerName + ".strikes", 0);
     }
 
     public static void setPlayerStrike(Player player, int newStrike) {
-        ChatGuard.getStrikes().setProperty(player.getName(), newStrike);
-        ChatGuard.getStrikes().save();
+        setPlayerStrike(player.getName(), newStrike);
     }
 
     public static void incrementPlayerStrike(Player player) {
-        ChatGuard.getStrikes().setProperty(player.getName(), ChatGuard.getStrikes().getInt(player.getName(), 0) + 1);
+        setPlayerStrike(player, getPlayerStrike(player) + 1);
+    }
+
+    public static void setPlayerStrike(String playerName, int newStrike) {
+        ChatGuard.getStrikes().setProperty(playerName + ".strikes", newStrike);
         ChatGuard.getStrikes().save();
     }
 
@@ -40,7 +38,8 @@ public final class PenaltyConfig {
         final List<String> penalties = FilterConfig.getAutoMuteDurations();
         final int maxPenalty = penalties.size() - 1;
 
-        final int playerPenalty = ChatGuard.getStrikes().getInt(player.getName(), 0);
+        int playerPenalty = getPlayerStrike(player);
+
         if (playerPenalty > maxPenalty)
             return penalties.get(maxPenalty);
 
