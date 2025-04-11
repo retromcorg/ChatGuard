@@ -12,21 +12,31 @@ public final class ChatEmbed extends DiscordEmbed {
 
     private final String trigger;
     private final int severity;
+    private final boolean warned;
 
-    public ChatEmbed(JavaPlugin plugin, Player player, String content, String trigger, int severity) {
+    public ChatEmbed(JavaPlugin plugin, Player player, String content, String trigger, int severity, boolean warned) {
         super(plugin, player, content);
         this.trigger = trigger;
         this.severity = severity;
+        this.warned = warned;
         setupBaseEmbed();
     }
 
     @Override
     protected void setupEmbedDetails() {
-        embed.setDescription(String.format(
+        if(warned) {
+            embed.setDescription(String.format(
+                "Warning: %d",
+                PenaltyConfig.getPlayerWarnings(player) + 1
+            ));
+        }
+        else {
+            embed.setDescription(String.format(
                 "Strike: %d - Mute Duration: %s",
                 PenaltyConfig.getPlayerStrike(player) + severity,
                 PenaltyConfig.getAutoMuteDuration(player)
-        ));
+            ));
+        }
 
         embed.setTitle("Chat Filter")
                 .addField("Content:", content, false)

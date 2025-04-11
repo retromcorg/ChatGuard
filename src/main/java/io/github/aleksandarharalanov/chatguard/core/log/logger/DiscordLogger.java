@@ -15,7 +15,7 @@ public final class DiscordLogger {
 
     private DiscordLogger() {}
 
-    public static void log(LogType logType, Player player, String content, FilterTerm triggerFilter) 
+    public static void log(LogType logType, Player player, String content, FilterTerm triggerFilter, boolean warned) 
     {
         final String trigger = triggerFilter.getFilter();
         final int severity = triggerFilter.getSeverity();
@@ -35,7 +35,7 @@ public final class DiscordLogger {
         DiscordEmbed embed;
         switch (logType) {
             case CHAT:
-                embed = new ChatEmbed(ChatGuard.getInstance(), player, content, trigger, severity);
+                embed = new ChatEmbed(ChatGuard.getInstance(), player, content, trigger, severity, warned);
                 break;
             case SIGN:
                 embed = new SignEmbed(ChatGuard.getInstance(), player, content, trigger, severity);

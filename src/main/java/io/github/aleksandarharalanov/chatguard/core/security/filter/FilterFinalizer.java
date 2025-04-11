@@ -18,12 +18,14 @@ public final class FilterFinalizer {
     private FilterFinalizer() {}
 
     public static void finalizeActions(LogType logType, Player player, String content, FilterTerm trigger) {
+        final boolean shouldWarn = shouldWarn(logType, player, trigger.getSeverity());
+
         AudioCuePlayer.play(logType, player, false);
         ConsoleLogger.log(logType, player, content);
         FileLogger.log(logType, player, content);
-        DiscordLogger.log(logType, player, content, trigger);
-        
-        if (shouldWarn(logType, player, trigger.getSeverity())) {
+        DiscordLogger.log(logType, player, content, trigger, shouldWarn);
+
+        if (shouldWarn) {
             PenaltyEnforcer.handleWarning(player);
             return;
         }
