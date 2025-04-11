@@ -38,7 +38,7 @@ public final class DiscordLogger {
         int severity = 0;
         
         if(triggerFilter != null) {
-            trigger = triggerFilter.getFilter();
+            trigger = triggerFilter.getName();
             severity = triggerFilter.getSeverity();
         }
 

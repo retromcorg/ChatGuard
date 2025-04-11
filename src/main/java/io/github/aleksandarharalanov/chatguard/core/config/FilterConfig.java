@@ -84,25 +84,36 @@ public final class FilterConfig {
     public static void generateBlackListCache() {
         List<Object> entries = ChatGuard.getConfig().getList("filter.rules.blacklist");
 
-        blacklist = new ArrayList<>();
-        for (Object entry : entries) {
-            final FilterTerm filterTerm;
+        List<FilterTerm> newBlackList = new ArrayList<>();
 
-            if (entry instanceof List<?>) {
+        try {
+            for (Object entry : entries) {
+                final FilterTerm filterTerm;
+
                 List<?> pair = (List<?>) entry;
+                if (pair.size() == 2) {
+                    final String name = (String) pair.get(0);
+                    final String filter = (String) pair.get(1);
 
-                final String filter = (String) pair.get(0);
-                final int severity = (int) pair.get(1);
+                    filterTerm = new FilterTerm(name, filter);
+                } else {
+                    final String name = (String) pair.get(0);
+                    final String filter = (String) pair.get(1);
 
-                filterTerm = new FilterTerm(filter, severity);
+                    final int severity = (int) pair.get(2);
+
+                    filterTerm = new FilterTerm(name, filter, severity);
+                }
+
+                newBlackList.add(filterTerm);
             }
-            else if (entry instanceof String) {
-                filterTerm = new FilterTerm((String) entry);
-            }
-            else
-                throw new RuntimeException("unknown type in config for blacklist. use either (String, Int) or String.\nif confused, ask RitzKid76");
 
-            blacklist.add(filterTerm);
+            blacklist = newBlackList;
+        }
+        catch(
+            ClassCastException e
+        ) {
+            throw new RuntimeException("unknown type in config for blacklist. use either (String, String, Int) or (String, String).\nif confused, ask RitzKid76");
         }
     }
 }

@@ -19,7 +19,7 @@ public final class FilterDetector {
                 Matcher matcher = pattern.matcher(sanitizedContent);
                 if (matcher.find()) {
                     final String cleanedFilter = regex.replace("\\", "\\\\").replace("\"", "\\\"");
-                    return new FilterTerm(cleanedFilter, filter.getSeverity());
+                    return new FilterTerm(filter.getName(), cleanedFilter, filter.getSeverity());
                 }
             } catch (RuntimeException e) {
                 System.out.println(String.format("[ChatGuard] Invalid regex pattern '%s' in config: %s", regex, e.getMessage()));

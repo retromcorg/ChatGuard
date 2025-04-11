@@ -1,28 +1,28 @@
 package io.github.aleksandarharalanov.chatguard.core.config;
 
 public class FilterTerm {
-    private String filter = "";
+    private String name;
+    private String filter;
+
     private int severity = 1;
 
-    public FilterTerm(String filter) {
+    public FilterTerm(String name, String filter) {
+        this.name = name;
         this.filter = filter;
     }
+    
+    public FilterTerm(String name, String filter, int severity) {
+        this(name, filter);
 
-    public FilterTerm(String filter, int severity) {
-        this.filter = filter;
         this.severity = severity;
     }
 
-    public void setFilter(String filter) {
-        this.filter = filter;
+    public String getName() {
+        return name;
     }
 
     public String getFilter() {
         return filter;
-    }
-
-    public void setSeverity(int severity) {
-        this.severity = severity;
     }
 
     public int getSeverity() {
@@ -46,7 +46,7 @@ public class FilterTerm {
     }
 
     private boolean equalsString(String s) {
-        final FilterTerm that = new FilterTerm(s, 1);
+        final FilterTerm that = new FilterTerm("", s);
         return equalsFilterTerm(that);
     }
 

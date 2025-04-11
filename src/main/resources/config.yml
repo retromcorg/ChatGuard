@@ -57,5 +57,5 @@ filter:
   rules:
     whitelist: []
     blacklist:
-      - [\bexample filter\b, 1]
-      - \banother example\b
+      - [name, \bexample filter\b, 2]
+      - [anothername, \banother example\b]
