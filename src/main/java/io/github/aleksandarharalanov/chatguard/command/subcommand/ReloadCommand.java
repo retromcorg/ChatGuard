@@ -20,7 +20,7 @@ public final class ReloadCommand implements CommandExecutor {
         if (sender instanceof Player) {
             sender.sendMessage(ColorUtil.translateColorCodes("&a[ChatGuard] Configurations reloaded."));
         }
-        LogUtil.logConsoleInfo("[ChatGuard] Configurations reloaded.");
+        System.out.println("[ChatGuard] Configurations reloaded.");
 
         ChatGuard.getConfig().loadAndLog();
         ChatGuard.getDiscord().loadAndLog();

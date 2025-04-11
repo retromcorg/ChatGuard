@@ -64,7 +64,7 @@ public final class StrikeCommand implements CommandExecutor {
                 )));
             }
 
-            LogUtil.logConsoleInfo(String.format(
+            System.out.println(String.format(
                     "[ChatGuard] Player '%s' set from strike %d to %d.",
                     foundKey, playerStrikeTier, newStrike
             ));

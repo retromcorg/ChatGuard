@@ -23,7 +23,7 @@ public final class HelpCommand {
             if (sender instanceof Player) {
                 sender.sendMessage(ColorUtil.translateColorCodes(message));
             } else {
-                LogUtil.logConsoleInfo(message.replaceAll("&.", ""));
+                System.out.println(message.replaceAll("&.", ""));
             }
         }
     }

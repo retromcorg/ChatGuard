@@ -34,7 +34,7 @@ public final class FilterDetector {
                     return regex.replace("\\", "\\\\").replace("\"", "\\\"");
                 }
             } catch (RuntimeException e) {
-                LogUtil.logConsoleWarning(String.format("[ChatGuard] Invalid regex pattern '%s' in config: %s", regex, e.getMessage()));
+                System.out.println(String.format("[ChatGuard] Invalid regex pattern '%s' in config: %s", regex, e.getMessage()));
             }
         }
         return null;

@@ -32,7 +32,7 @@ public final class ConsoleLogger {
                 return;
         }
 
-        LogUtil.logConsoleInfo(logMessage);
+        System.out.println(logMessage);
     }
 
     private static boolean shouldConsoleLogEnabled(LogType logType) {

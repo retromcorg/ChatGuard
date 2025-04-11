@@ -43,7 +43,7 @@ public final class DiscordLogger {
                 embed = new CaptchaEmbed(ChatGuard.getInstance(), player, content);
                 break;
             default:
-                LogUtil.logConsoleWarning("[ChatGuard] Something went wrong when constructing webhook embed to log.");
+                System.out.println("[ChatGuard] Something went wrong when constructing webhook embed to log.");
                 return;
         }
         webhook.addEmbed(embed.getEmbed());
@@ -52,7 +52,7 @@ public final class DiscordLogger {
             try {
                 webhook.execute();
             } catch (IOException e) {
-                LogUtil.logConsoleWarning(e.getMessage());
+                System.out.println(e.getMessage());
             }
         }, 1L);
     }

@@ -64,13 +64,13 @@ public class ChatGuard extends JavaPlugin {
         final ChatGuardCommand command = new ChatGuardCommand(this);
         getCommand("chatguard").setExecutor(command);
 
-        LogUtil.logConsoleInfo(String.format("[%s] v%s Enabled.",
+        System.out.println(String.format("[%s] v%s Enabled.",
                 getDescription().getName(), getDescription().getVersion()));
     }
 
     @Override
     public void onDisable() {
-        LogUtil.logConsoleInfo(String.format("[%s] v%s Disabled.",
+        System.out.println(String.format("[%s] v%s Disabled.",
                 getDescription().getName(), getDescription().getVersion()));
     }
 

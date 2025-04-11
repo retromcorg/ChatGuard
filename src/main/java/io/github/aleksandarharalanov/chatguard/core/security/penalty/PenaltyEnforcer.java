@@ -33,7 +33,7 @@ public final class PenaltyEnforcer {
 
     public static void processMute(LogType logType, Player player) {
         if (muteHandler == null) {
-            LogUtil.logConsoleWarning("[ChatGuard] No compatible plugin found for auto mute feature. Please disable in config.");
+            System.out.println("[ChatGuard] No compatible plugin found for auto mute feature. Please disable in config.");
             return;
         }
 
