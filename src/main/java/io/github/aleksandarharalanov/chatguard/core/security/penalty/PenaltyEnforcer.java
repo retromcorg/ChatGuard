@@ -92,4 +92,11 @@ public final class PenaltyEnforcer {
 
         PenaltyConfig.decrementPlayerStrike(player, strikesToRevoke, newPlayerUpdatedTime);
     }
+
+    public static void handleWarning(Player player) {
+        PenaltyConfig.incrementPlayerWarnings(player);
+
+        final String coloredMessage = ColorUtil.translateColorCodes("&cYou have been warned for bad words. Warning number: " + PenaltyConfig.getPlayerWarnings(player));
+        player.sendMessage(coloredMessage);
+    }
 }

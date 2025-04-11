@@ -2,6 +2,7 @@ package io.github.aleksandarharalanov.chatguard.core.security.filter;
 
 import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
 import io.github.aleksandarharalanov.chatguard.core.config.FilterTerm;
+import io.github.aleksandarharalanov.chatguard.core.config.PenaltyConfig;
 import io.github.aleksandarharalanov.chatguard.core.log.LogAttribute;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.log.logger.ConsoleLogger;
@@ -17,29 +18,44 @@ public final class FilterFinalizer {
     private FilterFinalizer() {}
 
     public static void finalizeActions(LogType logType, Player player, String content, FilterTerm trigger) {
-        if (shouldWarnPlayer(logType)) {
-            player.sendMessage(ColorUtil.translateColorCodes(getWarningMessage(logType)));
-        }
-
         final String triggerFilter = trigger.getFilter();
-
+        
         AudioCuePlayer.play(logType, player, false);
         ConsoleLogger.log(logType, player, content);
         FileLogger.log(logType, player, content);
         DiscordLogger.log(logType, player, content, triggerFilter);
+        
+        if (shouldWarn(logType, player, trigger.getSeverity())) {
+            PenaltyEnforcer.handleWarning(player);
+            return;
+        }
+
+        if (shouldSendFeedback(logType)) {
+            final String feedbackMessage = ColorUtil.translateColorCodes("&cBad words censored. Please follow the server rules");
+            player.sendMessage(feedbackMessage);
+        }
+
         PenaltyEnforcer.processMute(logType, player);
         PenaltyEnforcer.incrementStrikeTier(logType, player, trigger.getSeverity());
     }
 
-    private static boolean shouldWarnPlayer(LogType logType) {
-        return logType.hasAttribute(LogAttribute.WARN) && FilterConfig.getWarnPlayerEnabled();
+    private static boolean shouldWarn(LogType logType, Player player, int severity) {
+        if (!logType.hasAttribute(LogAttribute.MUTE))
+            return false;
+
+        final int warningBypassThreashold = FilterConfig.getWarningBypassThreashold();
+        if(severity >= warningBypassThreashold)
+            return false;
+            
+        final int playerWarnings = PenaltyConfig.getPlayerWarnings(player);
+        final int maxWarnings = FilterConfig.getWarningcount();
+        if(playerWarnings >= maxWarnings)
+            return false;
+
+        return true;
     }
 
-    private static String getWarningMessage(LogType logType) {
-        if (logType == LogType.SIGN) {
-            return "&cSign censored due to bad words.";
-        } else {
-            return "&cMessage cancelled due to bad words.";
-        }
+    private static boolean shouldSendFeedback(LogType logType) {
+        return logType.hasAttribute(LogAttribute.WARN) && FilterConfig.getWarnPlayerEnabled();
     }
 }

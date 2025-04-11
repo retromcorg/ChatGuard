@@ -23,6 +23,14 @@ public final class PenaltyConfig {
         return ChatGuard.getStrikes().getInt(playerName + ".strikes", 0);
     }
 
+    public static int getPlayerWarnings(Player player) {
+        return getPlayerWarnings(player.getName());
+    }
+
+    public static int getPlayerWarnings(String playerName) {
+        return ChatGuard.getStrikes().getInt(playerName + ".warnings", 0);
+    }
+
     public static void setPlayerStrike(Player player, int newStrike) {
         setPlayerStrike(player.getName(), newStrike);
     }
@@ -42,7 +50,9 @@ public final class PenaltyConfig {
     public static void setPlayerStrike(String playerName, int newStrike, long updateTime) {
         ConfigUtil strikes = ChatGuard.getStrikes();
 
-        if(newStrike <= 0)
+        newStrike = Math.max(newStrike, 0);
+
+        if(newStrike == 0 && getPlayerWarnings(playerName) <= 0)
             strikes.removeProperty(playerName);
         else {
             strikes.setProperty(playerName + ".strikes", newStrike);
@@ -50,6 +60,18 @@ public final class PenaltyConfig {
         }
 
         ChatGuard.getStrikes().save();
+    }
+
+    public static void incrementPlayerWarnings(Player player) {
+        setPlayerWarnings(player, getPlayerWarnings(player) + 1);
+    }
+
+    public static void setPlayerWarnings(Player player, int warnings) {
+        setPlayerWarnings(player.getName(), warnings);
+    }
+
+    public static void setPlayerWarnings(String playerName, int warnings) {
+        ChatGuard.getStrikes().setProperty(playerName + ".warnings", warnings);
     }
 
     public static String getAutoMuteDuration(Player player) {

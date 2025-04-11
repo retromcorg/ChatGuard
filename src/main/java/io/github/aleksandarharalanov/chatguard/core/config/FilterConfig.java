@@ -55,6 +55,14 @@ public final class FilterConfig {
         }
     }
 
+    public static int getWarningcount() {
+        return ChatGuard.getConfig().getInt("filter.auto-mute.warnings.warning-count", 0);
+    }
+
+    public static int getWarningBypassThreashold() {
+        return ChatGuard.getConfig().getInt("filter.auto-mute.warnings.severity-bypass-threashold", 3);
+    }
+
     public static List<String> getAutoMuteDurations() {
         List<String> def = Arrays.asList("30m", "1h", "2h", "4h", "8h", "24h");
         return ChatGuard.getConfig().getStringList("filter.auto-mute.duration", def);

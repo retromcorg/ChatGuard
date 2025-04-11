@@ -51,6 +51,9 @@ filter:
     strike-decay:
       enabled: true
       period: 1w
+    warnings:
+      warning-count: 3
+      severity-bypass-threshold: 3
   rules:
     whitelist: []
     blacklist:
