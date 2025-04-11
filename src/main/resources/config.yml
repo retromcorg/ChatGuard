@@ -48,6 +48,9 @@ filter:
       - 4h
       - 8h
       - 24h
+    strike-decay:
+      enabled: true
+      period: 1w
   rules:
     whitelist: []
     blacklist:

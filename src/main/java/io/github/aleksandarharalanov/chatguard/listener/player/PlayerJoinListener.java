@@ -2,6 +2,7 @@ package io.github.aleksandarharalanov.chatguard.listener.player;
 
 import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
 import io.github.aleksandarharalanov.chatguard.core.security.filter.FilterHandler;
+import io.github.aleksandarharalanov.chatguard.core.security.penalty.PenaltyEnforcer;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -18,5 +19,7 @@ public class PlayerJoinListener extends PlayerListener {
             player.kickPlayer(ColorUtil.translateColorCodes("&cName contains bad words."));
             return;
         }
+
+        PenaltyEnforcer.updatePlayerStrikes(player);
     }
 }

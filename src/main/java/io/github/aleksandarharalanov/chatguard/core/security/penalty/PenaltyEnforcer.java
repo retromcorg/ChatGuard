@@ -73,4 +73,24 @@ public final class PenaltyEnforcer {
     public static IMuteHandler getMuteHandler() {
         return muteHandler;
     }
+
+    public static void updatePlayerStrikes(Player player) {
+        if(!FilterConfig.getStrikeDecayEnabled())
+            return;
+
+        final long lastMuteTime = PenaltyConfig.getLastMuteTime(player);
+        if(lastMuteTime == -1) // player has no strikes
+            return;
+
+        final long timePassed = System.currentTimeMillis() - lastMuteTime;
+        final long decayPeriod = FilterConfig.getStrikeDecayPeriod();
+
+        final int strikesToRevoke = (int) (timePassed / decayPeriod);
+
+        // this is only really done to prevent longer decay times than would normally happen under the config
+        final long totalRevokePeriod = strikesToRevoke * decayPeriod;
+        final long newPlayerUpdatedTime = lastMuteTime + totalRevokePeriod;
+
+        PenaltyConfig.decrementPlayerStrike(player, strikesToRevoke, newPlayerUpdatedTime);
+    }
 }

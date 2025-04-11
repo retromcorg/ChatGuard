@@ -1,6 +1,8 @@
 package io.github.aleksandarharalanov.chatguard.core.config;
 
 import io.github.aleksandarharalanov.chatguard.ChatGuard;
+import io.github.aleksandarharalanov.chatguard.util.config.ConfigUtil;
+
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -25,12 +27,28 @@ public final class PenaltyConfig {
         setPlayerStrike(player.getName(), newStrike);
     }
 
+    public static void decrementPlayerStrike(Player player, int amount, long updateTime) {
+        setPlayerStrike(player.getName(), getPlayerStrike(player) - amount, updateTime);
+    }
+
     public static void incrementPlayerStrike(Player player, int amount) {
         setPlayerStrike(player, getPlayerStrike(player) + amount);
     }
 
     public static void setPlayerStrike(String playerName, int newStrike) {
-        ChatGuard.getStrikes().setProperty(playerName + ".strikes", newStrike);
+        setPlayerStrike(playerName, newStrike, System.currentTimeMillis());
+    }
+
+    public static void setPlayerStrike(String playerName, int newStrike, long updateTime) {
+        ConfigUtil strikes = ChatGuard.getStrikes();
+
+        if(newStrike <= 0)
+            strikes.removeProperty(playerName);
+        else {
+            strikes.setProperty(playerName + ".strikes", newStrike);
+            strikes.setProperty(playerName + ".updated", updateTime);
+        }
+
         ChatGuard.getStrikes().save();
     }
 
@@ -44,5 +62,21 @@ public final class PenaltyConfig {
             return penalties.get(maxPenalty);
 
         return penalties.get(playerPenalty);
+    }
+
+    public static long getLastMuteTime(Player player) {
+        return getLastMuteTime(player.getName());
+    }
+    
+    public static long getLastMuteTime(String playerName) {
+        final String lastUpdatedString = ChatGuard.getStrikes().getString(playerName + ".updated");
+        if(lastUpdatedString == null)
+            return -1;
+
+        try {
+            return Long.parseLong(lastUpdatedString);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package io.github.aleksandarharalanov.chatguard.core.config;
 
 import io.github.aleksandarharalanov.chatguard.ChatGuard;
+import io.github.aleksandarharalanov.chatguard.core.security.common.TimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +37,22 @@ public final class FilterConfig {
 
     public static boolean getAutoMuteEnabled() {
         return ChatGuard.getConfig().getBoolean("filter.auto-mute.enabled", true);
+    }
+
+    public static boolean getStrikeDecayEnabled() {
+        return ChatGuard.getConfig().getBoolean("filter.auto-mute.strike-decay.enabled", true);
+    }
+
+    public static long getStrikeDecayPeriod() {
+        final String configString = ChatGuard.getConfig().getString("filter.auto-mute.strike-decay.period");
+
+        try {
+            final long futureTime = TimeFormatter.parseDateDiff(configString, true);
+
+            return futureTime - System.currentTimeMillis();
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static List<String> getAutoMuteDurations() {
