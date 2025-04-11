@@ -19,7 +19,7 @@ public final class StrikeCommand implements CommandExecutor {
         }
 
         if (args.length < 2) {
-            sender.sendMessage(ColorUtil.translateColorCodes("&cUsage: /cg strike <username> [0-5]"));
+            sender.sendMessage(ColorUtil.translateColorCodes("&cUsage: /cg strike <username> [strikes]"));
             return true;
         }
 
