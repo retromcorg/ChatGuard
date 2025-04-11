@@ -43,19 +43,34 @@ public final class FilterConfig {
         return ChatGuard.getConfig().getStringList("filter.auto-mute.duration", def);
     }
 
-    public static List<String> getTermsWhitelist() {
-        return ChatGuard.getConfig().getStringList("filter.rules.whitelist.terms", new ArrayList<>());
+    public static List<String> getWhitelist() {
+        return ChatGuard.getConfig().getStringList("filter.rules.whitelist", new ArrayList<>());
     }
 
-    public static List<String> getRegexWhitelist() {
-        return ChatGuard.getConfig().getStringList("filter.rules.whitelist.regex", new ArrayList<>());
-    }
+    public static List<FilterTerm> getBlacklist() {
+        List<Object> entries = ChatGuard.getConfig().getList("filter.rules.blacklist");
 
-    public static List<String> getTermsBlacklist() {
-        return ChatGuard.getConfig().getStringList("filter.rules.blacklist.terms", new ArrayList<>());
-    }
+        List<FilterTerm> output = new ArrayList<>();
+        for (Object entry : entries) {
+            final FilterTerm filterTerm;
 
-    public static List<String> getRegexBlacklist() {
-        return ChatGuard.getConfig().getStringList("filter.rules.blacklist.regex", new ArrayList<>());
+            if (entry instanceof List<?>) {
+                List<?> pair = (List<?>) entry;
+
+                final String filter = (String) pair.get(0);
+                final int severity = (int) pair.get(1);
+
+                filterTerm = new FilterTerm(filter, severity);
+            }
+            else if (entry instanceof String) {
+                filterTerm = new FilterTerm((String) entry);
+            }
+            else
+                throw new RuntimeException("unknown type in config for blacklist. use either (String, Int) or String.\nif confused, ask RitzKid76");
+
+            output.add(filterTerm);
+        }
+
+        return output;
     }
 }

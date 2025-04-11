@@ -62,12 +62,12 @@ public final class PenaltyEnforcer {
         )));
     }
 
-    public static void incrementStrikeTier(LogType logType, Player player) {
+    public static void incrementStrikeTier(LogType logType, Player player, int severity) {
         if (!logType.hasAttribute(LogAttribute.STRIKE)) {
             return;
         }
 
-        PenaltyConfig.incrementPlayerStrike(player);
+        PenaltyConfig.incrementPlayerStrike(player, severity);
     }
 
     public static IMuteHandler getMuteHandler() {

@@ -1,6 +1,7 @@
 package io.github.aleksandarharalanov.chatguard.core.security.filter;
 
 import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterTerm;
 import io.github.aleksandarharalanov.chatguard.core.log.LogAttribute;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.log.logger.ConsoleLogger;
@@ -15,17 +16,19 @@ public final class FilterFinalizer {
 
     private FilterFinalizer() {}
 
-    public static void finalizeActions(LogType logType, Player player, String content, String trigger) {
+    public static void finalizeActions(LogType logType, Player player, String content, FilterTerm trigger) {
         if (shouldWarnPlayer(logType)) {
             player.sendMessage(ColorUtil.translateColorCodes(getWarningMessage(logType)));
         }
 
+        final String triggerFilter = trigger.getFilter();
+
         AudioCuePlayer.play(logType, player, false);
         ConsoleLogger.log(logType, player, content);
         FileLogger.log(logType, player, content);
-        DiscordLogger.log(logType, player, content, trigger);
+        DiscordLogger.log(logType, player, content, triggerFilter);
         PenaltyEnforcer.processMute(logType, player);
-        PenaltyEnforcer.incrementStrikeTier(logType, player);
+        PenaltyEnforcer.incrementStrikeTier(logType, player, trigger.getSeverity());
     }
 
     private static boolean shouldWarnPlayer(LogType logType) {

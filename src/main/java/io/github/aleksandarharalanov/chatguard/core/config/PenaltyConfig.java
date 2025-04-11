@@ -25,8 +25,8 @@ public final class PenaltyConfig {
         setPlayerStrike(player.getName(), newStrike);
     }
 
-    public static void incrementPlayerStrike(Player player) {
-        setPlayerStrike(player, getPlayerStrike(player) + 1);
+    public static void incrementPlayerStrike(Player player, int amount) {
+        setPlayerStrike(player, getPlayerStrike(player) + amount);
     }
 
     public static void setPlayerStrike(String playerName, int newStrike) {

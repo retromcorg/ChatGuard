@@ -1,6 +1,7 @@
 package io.github.aleksandarharalanov.chatguard.core.security.filter;
 
 import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterTerm;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.security.common.ContentHandler;
 import org.bukkit.entity.Player;
@@ -22,8 +23,8 @@ public final class FilterHandler {
     }
 
     private static boolean isBlocked(LogType logType, Player player, String content) {
-        String sanitizedContent = ContentHandler.sanitizeContent(content, FilterConfig.getTermsWhitelist(), FilterConfig.getRegexWhitelist());
-        String trigger = FilterDetector.getTrigger(sanitizedContent);
+        String sanitizedContent = ContentHandler.sanitizeContent(content, FilterConfig.getWhitelist());
+        FilterTerm trigger = FilterDetector.checkFilters(sanitizedContent);
 
         if (trigger == null) {
             return false;

@@ -49,9 +49,7 @@ filter:
       - 8h
       - 24h
   rules:
-    whitelist:
-      terms: []
-      regex: []
+    whitelist: []
     blacklist:
-      terms: []
-      regex: []
+      - [\bexample filter\b, 1]
+      - \banother example\b

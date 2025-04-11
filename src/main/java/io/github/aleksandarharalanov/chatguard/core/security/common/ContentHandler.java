@@ -25,7 +25,23 @@ public final class ContentHandler {
                 Matcher matcher = pattern.matcher(sanitizedContent);
                 sanitizedContent = matcher.replaceAll("");
             } catch (RuntimeException e) {
-                LogUtil.logConsoleWarning(String.format("[ChatGuard] Invalid regex pattern '%s' in config: %s", regex, e.getMessage()));
+                System.out.println(String.format("[ChatGuard] Invalid regex pattern '%s' in config: %s", regex, e.getMessage()));
+            }
+        }
+
+        return sanitizedContent.trim();
+    }
+
+    public static String sanitizeContent(String content, List<String> whiteList) {
+        String sanitizedContent = content.toLowerCase();
+
+        for (String regex : whiteList) {
+            try {
+                Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(sanitizedContent);
+                sanitizedContent = matcher.replaceAll("");
+            } catch (RuntimeException e) {
+                System.out.println(String.format("[ChatGuard] Invalid regex pattern '%s' in config: %s", regex, e.getMessage()));
             }
         }
 
