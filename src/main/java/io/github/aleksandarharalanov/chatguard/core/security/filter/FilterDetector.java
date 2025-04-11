@@ -11,7 +11,7 @@ public final class FilterDetector {
     private FilterDetector() {}
 
     public static FilterTerm checkFilters(String sanitizedContent) {
-        for (FilterTerm filter : FilterConfig.getBlacklist()) { //TODO get blacklist should be cached so its not running each time someone sends a message in chat. this is not something that should run every time
+        for (FilterTerm filter : FilterConfig.getBlacklist()) {
             String regex = filter.getFilter();
 
             try {

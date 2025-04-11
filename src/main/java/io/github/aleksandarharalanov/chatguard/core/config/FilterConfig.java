@@ -81,10 +81,10 @@ public final class FilterConfig {
         return blacklist;
     }
 
-    public static List<FilterTerm> generateBlackListCache() {
+    public static void generateBlackListCache() {
         List<Object> entries = ChatGuard.getConfig().getList("filter.rules.blacklist");
 
-        List<FilterTerm> output = new ArrayList<>();
+        blacklist = new ArrayList<>();
         for (Object entry : entries) {
             final FilterTerm filterTerm;
 
@@ -102,9 +102,7 @@ public final class FilterConfig {
             else
                 throw new RuntimeException("unknown type in config for blacklist. use either (String, Int) or String.\nif confused, ask RitzKid76");
 
-            output.add(filterTerm);
+            blacklist.add(filterTerm);
         }
-
-        return output;
     }
 }
