@@ -15,11 +15,12 @@ public final class DiscordLogger {
 
     private DiscordLogger() {}
 
+    public static void log(LogType logType, Player player, String content) {
+        log(logType, player, content, null, false);
+    }
+
     public static void log(LogType logType, Player player, String content, FilterTerm triggerFilter, boolean warned) 
     {
-        final String trigger = triggerFilter.getFilter();
-        final int severity = triggerFilter.getSeverity();
-
         if (!DiscordConfig.getDiscordLogEnabled(logType)) {
             return;
         }
@@ -31,6 +32,15 @@ public final class DiscordLogger {
         DiscordUtil webhook = new DiscordUtil(webhookUrl);
         webhook.setUsername(webhookName);
         webhook.setAvatarUrl(webhookIcon);
+
+        
+        String trigger = "";
+        int severity = 0;
+        
+        if(triggerFilter != null) {
+            trigger = triggerFilter.getFilter();
+            severity = triggerFilter.getSeverity();
+        }
 
         DiscordEmbed embed;
         switch (logType) {
