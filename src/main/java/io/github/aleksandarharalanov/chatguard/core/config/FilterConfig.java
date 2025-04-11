@@ -9,6 +9,8 @@ import java.util.List;
 
 public final class FilterConfig {
 
+    private static List<FilterTerm> blacklist;
+
     private FilterConfig() {}
 
     public static boolean getChatEnabled() {
@@ -73,6 +75,13 @@ public final class FilterConfig {
     }
 
     public static List<FilterTerm> getBlacklist() {
+        if (blacklist == null)
+            generateBlackListCache();
+
+        return blacklist;
+    }
+
+    public static List<FilterTerm> generateBlackListCache() {
         List<Object> entries = ChatGuard.getConfig().getList("filter.rules.blacklist");
 
         List<FilterTerm> output = new ArrayList<>();

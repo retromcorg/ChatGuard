@@ -1,6 +1,7 @@
 package io.github.aleksandarharalanov.chatguard;
 
 import io.github.aleksandarharalanov.chatguard.command.ChatGuardCommand;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
 import io.github.aleksandarharalanov.chatguard.listener.block.SignChangeListener;
 import io.github.aleksandarharalanov.chatguard.listener.player.*;
 import io.github.aleksandarharalanov.chatguard.util.config.ConfigUtil;
@@ -92,5 +93,11 @@ public class ChatGuard extends JavaPlugin {
 
     public static ConfigUtil getCaptchas() {
         return captchas;
+    }
+
+    public static void reloadConfig() {
+        getConfig().loadAndLog();
+
+        FilterConfig.generateBlackListCache();
     }
 }

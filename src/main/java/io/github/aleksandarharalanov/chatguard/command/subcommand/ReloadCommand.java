@@ -21,7 +21,7 @@ public final class ReloadCommand implements CommandExecutor {
         }
         System.out.println("[ChatGuard] Configurations reloaded.");
 
-        ChatGuard.getConfig().loadAndLog();
+        ChatGuard.reloadConfig();
         ChatGuard.getDiscord().loadAndLog();
         ChatGuard.getStrikes().loadAndLog();
         ChatGuard.getCaptchas().loadAndLog();
