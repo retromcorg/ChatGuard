@@ -2,6 +2,7 @@ package io.github.aleksandarharalanov.chatguard.core.log.logger;
 
 import io.github.aleksandarharalanov.chatguard.ChatGuard;
 import io.github.aleksandarharalanov.chatguard.core.config.DiscordConfig;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterTerm;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.log.embed.*;
 import io.github.aleksandarharalanov.chatguard.util.log.DiscordUtil;
@@ -14,7 +15,11 @@ public final class DiscordLogger {
 
     private DiscordLogger() {}
 
-    public static void log(LogType logType, Player player, String content, String trigger) {
+    public static void log(LogType logType, Player player, String content, FilterTerm triggerFilter) 
+    {
+        final String trigger = triggerFilter.getFilter();
+        final int severity = triggerFilter.getSeverity();
+
         if (!DiscordConfig.getDiscordLogEnabled(logType)) {
             return;
         }
@@ -30,13 +35,13 @@ public final class DiscordLogger {
         DiscordEmbed embed;
         switch (logType) {
             case CHAT:
-                embed = new ChatEmbed(ChatGuard.getInstance(), player, content, trigger);
+                embed = new ChatEmbed(ChatGuard.getInstance(), player, content, trigger, severity);
                 break;
             case SIGN:
-                embed = new SignEmbed(ChatGuard.getInstance(), player, content, trigger);
+                embed = new SignEmbed(ChatGuard.getInstance(), player, content, trigger, severity);
                 break;
             case NAME:
-                embed = new NameEmbed(ChatGuard.getInstance(), player, content, trigger);
+                embed = new NameEmbed(ChatGuard.getInstance(), player, content, trigger, severity);
                 break;
             case CAPTCHA:
                 embed = new CaptchaEmbed(ChatGuard.getInstance(), player, content);

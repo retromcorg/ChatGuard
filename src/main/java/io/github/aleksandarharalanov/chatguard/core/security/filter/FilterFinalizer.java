@@ -18,12 +18,10 @@ public final class FilterFinalizer {
     private FilterFinalizer() {}
 
     public static void finalizeActions(LogType logType, Player player, String content, FilterTerm trigger) {
-        final String triggerFilter = trigger.getFilter();
-        
         AudioCuePlayer.play(logType, player, false);
         ConsoleLogger.log(logType, player, content);
         FileLogger.log(logType, player, content);
-        DiscordLogger.log(logType, player, content, triggerFilter);
+        DiscordLogger.log(logType, player, content, trigger);
         
         if (shouldWarn(logType, player, trigger.getSeverity())) {
             PenaltyEnforcer.handleWarning(player);
@@ -35,8 +33,8 @@ public final class FilterFinalizer {
             player.sendMessage(feedbackMessage);
         }
 
-        PenaltyEnforcer.processMute(logType, player);
         PenaltyEnforcer.incrementStrikeTier(logType, player, trigger.getSeverity());
+        PenaltyEnforcer.processMute(logType, player);
     }
 
     private static boolean shouldWarn(LogType logType, Player player, int severity) {
