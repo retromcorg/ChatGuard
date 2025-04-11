@@ -8,7 +8,6 @@ import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.security.common.TimeFormatter;
 import io.github.aleksandarharalanov.chatguard.core.security.penalty.plugin.EssentialsMuteHandler;
 import io.github.aleksandarharalanov.chatguard.core.security.penalty.plugin.ZCoreMuteHandler;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

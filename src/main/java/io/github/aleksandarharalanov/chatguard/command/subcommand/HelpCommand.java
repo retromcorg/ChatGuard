@@ -1,6 +1,5 @@
 package io.github.aleksandarharalanov.chatguard.command.subcommand;
 
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -2,7 +2,6 @@ package io.github.aleksandarharalanov.chatguard.command.subcommand;
 
 import io.github.aleksandarharalanov.chatguard.ChatGuard;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

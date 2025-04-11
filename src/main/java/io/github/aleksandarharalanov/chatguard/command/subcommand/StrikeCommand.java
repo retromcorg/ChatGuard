@@ -3,7 +3,6 @@ package io.github.aleksandarharalanov.chatguard.command.subcommand;
 import io.github.aleksandarharalanov.chatguard.core.config.PenaltyConfig;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

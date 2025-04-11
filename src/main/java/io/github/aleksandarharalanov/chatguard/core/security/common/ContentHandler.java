@@ -1,7 +1,5 @@
 package io.github.aleksandarharalanov.chatguard.core.security.common;
 
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

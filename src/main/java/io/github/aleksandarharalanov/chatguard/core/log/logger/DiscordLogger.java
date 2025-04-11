@@ -5,7 +5,6 @@ import io.github.aleksandarharalanov.chatguard.core.config.DiscordConfig;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.log.embed.*;
 import io.github.aleksandarharalanov.chatguard.util.log.DiscordUtil;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

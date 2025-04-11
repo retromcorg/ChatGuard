@@ -4,7 +4,6 @@ import io.github.aleksandarharalanov.chatguard.core.config.CaptchaConfig;
 import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
 import io.github.aleksandarharalanov.chatguard.core.log.LogAttribute;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import org.bukkit.entity.Player;
 
 public final class ConsoleLogger {
