@@ -11,27 +11,30 @@ import java.awt.Color;
 public final class ChatEmbed extends DiscordEmbed {
 
     private final String trigger;
+    private final int severity;
+    private final boolean warned;
 
-    public ChatEmbed(JavaPlugin plugin, Player player, String content, String trigger) {
+    public ChatEmbed(JavaPlugin plugin, Player player, String content, String trigger, int severity, boolean warned) {
         super(plugin, player, content);
         this.trigger = trigger;
+        this.severity = severity;
+        this.warned = warned;
         setupBaseEmbed();
     }
 
     @Override
     protected void setupEmbedDetails() {
-        if (PenaltyConfig.isPlayerOnFinalStrike(player)) {
+        if(warned) {
             embed.setDescription(String.format(
-                    "S%d (Max) ・ Mute Duration: %s",
-                    PenaltyConfig.getPlayerStrike(player),
-                    PenaltyConfig.getAutoMuteDuration(player)
+                "Warning: %d",
+                PenaltyConfig.getPlayerWarnings(player) + 1
             ));
-        } else {
+        }
+        else {
             embed.setDescription(String.format(
-                    "S%d ► S%d ・ Mute Duration: %s",
-                    PenaltyConfig.getPlayerStrike(player),
-                    PenaltyConfig.getPlayerStrike(player) + 1,
-                    PenaltyConfig.getAutoMuteDuration(player)
+                "Strike: %d - Mute Duration: %s",
+                PenaltyConfig.getPlayerStrike(player) + severity,
+                PenaltyConfig.getAutoMuteDuration(player)
             ));
         }
 

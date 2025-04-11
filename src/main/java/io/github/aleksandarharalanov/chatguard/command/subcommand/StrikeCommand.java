@@ -3,7 +3,6 @@ package io.github.aleksandarharalanov.chatguard.command.subcommand;
 import io.github.aleksandarharalanov.chatguard.core.config.PenaltyConfig;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,7 +19,7 @@ public final class StrikeCommand implements CommandExecutor {
         }
 
         if (args.length < 2) {
-            sender.sendMessage(ColorUtil.translateColorCodes("&cUsage: /cg strike <username> [0-5]"));
+            sender.sendMessage(ColorUtil.translateColorCodes("&cUsage: /cg strike <username> [strikes]"));
             return true;
         }
 
@@ -50,8 +49,8 @@ public final class StrikeCommand implements CommandExecutor {
 
         try {
             int newStrike = Integer.parseInt(args[2]);
-            if (newStrike < 0 || newStrike > 5) {
-                sender.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] Invalid range. Choose from &e0 &cto &e5&c."));
+            if (newStrike < 0) {
+                sender.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] Must be greater than &e0."));
                 return true;
             }
 
@@ -64,12 +63,12 @@ public final class StrikeCommand implements CommandExecutor {
                 )));
             }
 
-            LogUtil.logConsoleInfo(String.format(
+            System.out.println(String.format(
                     "[ChatGuard] Player '%s' set from strike %d to %d.",
                     foundKey, playerStrikeTier, newStrike
             ));
         } catch (NumberFormatException e) {
-            sender.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] Invalid input. Enter a number from &e0 &cto &e5&c."));
+            sender.sendMessage(ColorUtil.translateColorCodes("&c[ChatGuard] Invalid input. Enter a number."));
         }
 
         return true;

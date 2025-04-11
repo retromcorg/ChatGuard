@@ -1,7 +1,5 @@
 package io.github.aleksandarharalanov.chatguard.core.security.common;
 
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,11 +23,37 @@ public final class ContentHandler {
                 Matcher matcher = pattern.matcher(sanitizedContent);
                 sanitizedContent = matcher.replaceAll("");
             } catch (RuntimeException e) {
-                LogUtil.logConsoleWarning(String.format("[ChatGuard] Invalid regex pattern '%s' in config: %s", regex, e.getMessage()));
+                System.out.println(String.format("[ChatGuard] Invalid regex pattern '%s' in config: %s", regex, e.getMessage()));
             }
         }
 
         return sanitizedContent.trim();
+    }
+
+    public static String sanitizeContent(String content, List<String> whiteList) {
+        String sanitizedContent = content.toLowerCase();
+        sanitizedContent = sanitizedContent.trim();
+        sanitizedContent = decolorize(sanitizedContent);
+
+        for (String regex : whiteList) {
+            try {
+                Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(sanitizedContent);
+                sanitizedContent = matcher.replaceAll("");
+            } catch (RuntimeException e) {
+                System.out.println(String.format("[ChatGuard] Invalid regex pattern '%s' in config: %s", regex, e.getMessage()));
+            }
+        }
+
+        return sanitizedContent.trim();
+    }
+
+    private static String decolorize(String input) {
+        // there is a method for this already in ChatColor for bukkit, but it only removes § and not &
+        input = input.replaceAll("(?i)§[0-F]", "");
+        input = input.replaceAll("(?i)&[0-F]", "");
+
+        return input;
     }
 
     public static String mergeContent(String[] content) {

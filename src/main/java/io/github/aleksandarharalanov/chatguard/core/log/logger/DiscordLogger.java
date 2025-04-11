@@ -2,10 +2,10 @@ package io.github.aleksandarharalanov.chatguard.core.log.logger;
 
 import io.github.aleksandarharalanov.chatguard.ChatGuard;
 import io.github.aleksandarharalanov.chatguard.core.config.DiscordConfig;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterTerm;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.log.embed.*;
 import io.github.aleksandarharalanov.chatguard.util.log.DiscordUtil;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -15,7 +15,12 @@ public final class DiscordLogger {
 
     private DiscordLogger() {}
 
-    public static void log(LogType logType, Player player, String content, String trigger) {
+    public static void log(LogType logType, Player player, String content) {
+        log(logType, player, content, null, false);
+    }
+
+    public static void log(LogType logType, Player player, String content, FilterTerm triggerFilter, boolean warned) 
+    {
         if (!DiscordConfig.getDiscordLogEnabled(logType)) {
             return;
         }
@@ -28,22 +33,31 @@ public final class DiscordLogger {
         webhook.setUsername(webhookName);
         webhook.setAvatarUrl(webhookIcon);
 
+        
+        String trigger = "";
+        int severity = 0;
+        
+        if(triggerFilter != null) {
+            trigger = triggerFilter.getName();
+            severity = triggerFilter.getSeverity();
+        }
+
         DiscordEmbed embed;
         switch (logType) {
             case CHAT:
-                embed = new ChatEmbed(ChatGuard.getInstance(), player, content, trigger);
+                embed = new ChatEmbed(ChatGuard.getInstance(), player, content, trigger, severity, warned);
                 break;
             case SIGN:
-                embed = new SignEmbed(ChatGuard.getInstance(), player, content, trigger);
+                embed = new SignEmbed(ChatGuard.getInstance(), player, content, trigger, severity);
                 break;
             case NAME:
-                embed = new NameEmbed(ChatGuard.getInstance(), player, content, trigger);
+                embed = new NameEmbed(ChatGuard.getInstance(), player, content, trigger, severity);
                 break;
             case CAPTCHA:
                 embed = new CaptchaEmbed(ChatGuard.getInstance(), player, content);
                 break;
             default:
-                LogUtil.logConsoleWarning("[ChatGuard] Something went wrong when constructing webhook embed to log.");
+                System.out.println("[ChatGuard] Something went wrong when constructing webhook embed to log.");
                 return;
         }
         webhook.addEmbed(embed.getEmbed());
@@ -52,7 +66,7 @@ public final class DiscordLogger {
             try {
                 webhook.execute();
             } catch (IOException e) {
-                LogUtil.logConsoleWarning(e.getMessage());
+                System.out.println(e.getMessage());
             }
         }, 1L);
     }

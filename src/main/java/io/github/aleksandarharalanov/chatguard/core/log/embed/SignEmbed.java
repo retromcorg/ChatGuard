@@ -11,27 +11,21 @@ import java.awt.Color;
 public final class SignEmbed extends DiscordEmbed {
 
     private final String trigger;
+    private final int severity;
 
-    public SignEmbed(JavaPlugin plugin, Player player, String content, String trigger) {
+    public SignEmbed(JavaPlugin plugin, Player player, String content, String trigger, int severity) {
         super(plugin, player, content);
         this.trigger = trigger;
+        this.severity = severity;
         setupBaseEmbed();
     }
 
     @Override
     protected void setupEmbedDetails() {
-        if (PenaltyConfig.isPlayerOnFinalStrike(player)) {
-            embed.setDescription(String.format(
-                    "S%d (Max)",
-                    PenaltyConfig.getPlayerStrike(player)
-            ));
-        } else {
-            embed.setDescription(String.format(
-                    "S%d ► S%d",
-                    PenaltyConfig.getPlayerStrike(player),
-                    PenaltyConfig.getPlayerStrike(player) + 1
-            ));
-        }
+        embed.setDescription(String.format(
+            "Strike: %d",
+            PenaltyConfig.getPlayerStrike(player) + 1
+        ));
 
         embed.setTitle("Sign Filter")
                 .addField("Content:", content, false)

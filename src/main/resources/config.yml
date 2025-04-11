@@ -34,11 +34,28 @@ filter:
     local-file: true
   auto-mute:
     enabled: true
-    duration: ["30m", "1h", "2h", "4h", "8h", "24h"]
+    duration:
+      - 10s
+      - 2m
+      - 10m
+      - 30m
+      - 30m
+      - 30m
+      - 1h
+      - 1h
+      - 1h
+      - 2h
+      - 4h
+      - 8h
+      - 24h
+    strike-decay:
+      enabled: true
+      period: 1w
+    warnings:
+      warning-count: 3
+      severity-bypass-threshold: 3
   rules:
-    whitelist:
-      terms: []
-      regex: []
+    whitelist: []
     blacklist:
-      terms: []
-      regex: []
+      - [name, \bexample filter\b, 2]
+      - [anothername, \banother example\b]

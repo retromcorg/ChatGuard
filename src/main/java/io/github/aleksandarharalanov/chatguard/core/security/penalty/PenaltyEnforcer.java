@@ -8,7 +8,6 @@ import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.security.common.TimeFormatter;
 import io.github.aleksandarharalanov.chatguard.core.security.penalty.plugin.EssentialsMuteHandler;
 import io.github.aleksandarharalanov.chatguard.core.security.penalty.plugin.ZCoreMuteHandler;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -33,7 +32,7 @@ public final class PenaltyEnforcer {
 
     public static void processMute(LogType logType, Player player) {
         if (muteHandler == null) {
-            LogUtil.logConsoleWarning("[ChatGuard] No compatible plugin found for auto mute feature. Please disable in config.");
+            System.out.println("[ChatGuard] No compatible plugin found for auto mute feature. Please disable in config.");
             return;
         }
 
@@ -46,11 +45,13 @@ public final class PenaltyEnforcer {
         }
 
         try {
-            muteHandler.setPlayerMuteTimeout(
-                    player.getName(),
-                    TimeFormatter.parseDateDiff(PenaltyConfig.getAutoMuteDuration(player), true));
+            String duration = PenaltyConfig.getAutoMuteDuration(player);
+
+            long timeStamp = TimeFormatter.parseDateDiff(duration, true);
+
+            muteHandler.setPlayerMuteTimeout(player.getName(), timeStamp);
         } catch (Exception e) {
-            LogUtil.logConsoleSevere(e.getMessage());
+            e.printStackTrace();
             return;
         }
 
@@ -60,15 +61,42 @@ public final class PenaltyEnforcer {
         )));
     }
 
-    public static void incrementStrikeTier(LogType logType, Player player) {
+    public static void incrementStrikeTier(LogType logType, Player player, int severity) {
         if (!logType.hasAttribute(LogAttribute.STRIKE)) {
             return;
         }
 
-        PenaltyConfig.incrementPlayerStrike(player);
+        PenaltyConfig.incrementPlayerStrike(player, severity);
     }
 
     public static IMuteHandler getMuteHandler() {
         return muteHandler;
+    }
+
+    public static void updatePlayerStrikes(Player player) {
+        if(!FilterConfig.getStrikeDecayEnabled())
+            return;
+
+        final long lastMuteTime = PenaltyConfig.getLastMuteTime(player);
+        if(lastMuteTime == -1) // player has no strikes
+            return;
+
+        final long timePassed = System.currentTimeMillis() - lastMuteTime;
+        final long decayPeriod = FilterConfig.getStrikeDecayPeriod();
+
+        final int strikesToRevoke = (int) (timePassed / decayPeriod);
+
+        // this is only really done to prevent longer decay times than would normally happen under the config
+        final long totalRevokePeriod = strikesToRevoke * decayPeriod;
+        final long newPlayerUpdatedTime = lastMuteTime + totalRevokePeriod;
+
+        PenaltyConfig.decrementPlayerStrike(player, strikesToRevoke, newPlayerUpdatedTime);
+    }
+
+    public static void handleWarning(Player player) {
+        PenaltyConfig.incrementPlayerWarnings(player);
+
+        final String coloredMessage = ColorUtil.translateColorCodes("&cWarning number: " + PenaltyConfig.getPlayerWarnings(player));
+        player.sendMessage(coloredMessage);
     }
 }

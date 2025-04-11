@@ -38,7 +38,7 @@ public final class CaptchaHandler {
 
         AudioCuePlayer.play(LogType.CAPTCHA, player, false);
         ConsoleLogger.log(LogType.CAPTCHA, player, content);
-        DiscordLogger.log(LogType.CAPTCHA, player, content, null);
+        DiscordLogger.log(LogType.CAPTCHA, player, content);
 
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             if (AccessUtil.senderHasPermission(p, "chatguard.captcha")) {

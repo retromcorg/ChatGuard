@@ -6,7 +6,6 @@ import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
 import io.github.aleksandarharalanov.chatguard.core.misc.AudioCuePlayer;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -49,7 +48,7 @@ public final class CaptchaCommand implements CommandExecutor {
         CaptchaConfig.removePlayerCaptcha(player.getName());
 
         AudioCuePlayer.play(LogType.CAPTCHA, player, true);
-        LogUtil.logConsoleInfo(String.format("[ChatGuard] Player '%s' passed captcha verification.", player.getName()));
+        System.out.println(String.format("[ChatGuard] Player '%s' passed captcha verification.", player.getName()));
 
         return true;
     }
