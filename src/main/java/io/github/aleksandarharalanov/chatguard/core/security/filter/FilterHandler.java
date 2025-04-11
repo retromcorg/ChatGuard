@@ -1,7 +1,6 @@
 package io.github.aleksandarharalanov.chatguard.core.security.filter;
 
 import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
-import io.github.aleksandarharalanov.chatguard.core.config.FilterTerm;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.security.common.ContentHandler;
 import org.bukkit.entity.Player;
