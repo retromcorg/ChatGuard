@@ -113,7 +113,7 @@ public final class FilterConfig {
         catch(
             ClassCastException e
         ) {
-            throw new RuntimeException("unknown type in config for blacklist. use either (String, String, Int) or (String, String).\nif confused, ask RitzKid76");
+            throw new RuntimeException("unknown type in config for blacklist. use either (String, String, Int) or (String, String). if confused, ask RitzKid76");
         }
     }
 }
