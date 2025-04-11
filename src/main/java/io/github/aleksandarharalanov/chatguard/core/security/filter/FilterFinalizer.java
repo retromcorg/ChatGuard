@@ -17,25 +17,34 @@ public final class FilterFinalizer {
 
     private FilterFinalizer() {}
 
-    public static void finalizeActions(LogType logType, Player player, String content, FilterTerm trigger) {
-        final boolean shouldWarn = shouldWarn(logType, player, trigger.getSeverity());
+    public static void finalizeActions(LogType logType, Player player, String content, FilterTrigger trigger) {
+        final FilterTerm filterTerm = trigger.getFilterTerm();
+        final int severity = filterTerm.getSeverity();
+        final boolean shouldWarn = shouldWarn(logType, player, severity);
 
         AudioCuePlayer.play(logType, player, false);
         ConsoleLogger.log(logType, player, content);
         FileLogger.log(logType, player, content);
-        DiscordLogger.log(logType, player, content, trigger, shouldWarn);
+        DiscordLogger.log(logType, player, content, filterTerm, shouldWarn);
+
+        if (shouldSendFeedback(logType)) {
+            final String badWord = filterTerm.getName();
+            final String flaggedSection = trigger.getSection();
+
+            player.sendMessage(ColorUtil.translateColorCodes(
+                String.format("&cYour message contains the flagged word: '%s'.", badWord)
+            ));
+            player.sendMessage(ColorUtil.translateColorCodes(
+                String.format("&cSection flagged: '%s'.", flaggedSection)
+            ));
+        }
 
         if (shouldWarn) {
             PenaltyEnforcer.handleWarning(player);
-            return;
+            return; // prevent the mute from being issued
         }
 
-        if (shouldSendFeedback(logType)) {
-            final String feedbackMessage = ColorUtil.translateColorCodes("&cBad words censored. Please follow the server rules");
-            player.sendMessage(feedbackMessage);
-        }
-
-        PenaltyEnforcer.incrementStrikeTier(logType, player, trigger.getSeverity());
+        PenaltyEnforcer.incrementStrikeTier(logType, player, severity);
         PenaltyEnforcer.processMute(logType, player);
     }
 

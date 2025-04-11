@@ -24,7 +24,7 @@ public final class FilterHandler {
 
     private static boolean isBlocked(LogType logType, Player player, String content) {
         String sanitizedContent = ContentHandler.sanitizeContent(content, FilterConfig.getWhitelist());
-        FilterTerm trigger = FilterDetector.checkFilters(sanitizedContent);
+        FilterTrigger trigger = FilterDetector.checkFilters(sanitizedContent);
 
         if (trigger == null) {
             return false;
