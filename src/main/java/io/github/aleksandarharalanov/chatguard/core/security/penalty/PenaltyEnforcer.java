@@ -73,6 +73,8 @@ public final class PenaltyEnforcer {
         return muteHandler;
     }
 
+    // TODO this needs to also run on plugin start up to clean up player data of those who havent joined the server in a while
+    // not sure how that would work with the update messages sent to the player unless its now a new entry in their yml. yikes...
     public static void updatePlayerData(Player player) {
         if(FilterConfig.getStrikeDecayEnabled())
             updatePlayerStrikes(player);
