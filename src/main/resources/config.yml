@@ -1,64 +1,38 @@
-miscellaneous:
-  audio-cues: true
-
-spam-prevention:
-  enabled:
-    chat: true
-    command: true
-  warn-player: true
-  cooldown-ms:
-    chat: [1000, 2000, 3000, 4000, 5000, 6000]
-    command: [1000, 2000, 3000, 4000, 5000, 6000]
-  rules-whitelist:
-    command: []
-
-captcha:
+enabled:
+  chat: true
+  sign: true
+  name: true
+warn-player: true
+log:
+  console: true
+  local-file: true
+auto-mute:
   enabled: true
-  threshold: 5
-  code:
-    characters: "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789"
-    length: 5
-  log-console: true
-  rules-whitelist:
-    terms: []
-    regex: []
-
-filter:
-  enabled:
-    chat: true
-    sign: true
-    name: true
-  warn-player: true
-  log:
-    console: true
-    local-file: true
-  auto-mute:
+  duration:
+    - 10s
+    - 2m
+    - 10m
+    - 30m
+    - 30m
+    - 30m
+    - 1h
+    - 1h
+    - 1h
+    - 2h
+    - 4h
+    - 8h
+    - 24h
+  strike-decay:
     enabled: true
-    duration:
-      - 10s
-      - 2m
-      - 10m
-      - 30m
-      - 30m
-      - 30m
-      - 1h
-      - 1h
-      - 1h
-      - 2h
-      - 4h
-      - 8h
-      - 24h
-    strike-decay:
-      enabled: true
-      period: 1w
-    warning-decay:
-      enabled: true
-      period: 2w
-    warnings:
-      warning-count: 3
-      severity-bypass-threshold: 3
-  rules:
-    whitelist: []
-    blacklist:
-      - [name, \bexample filter\b, 2]
-      - [anothername, \banother example\b]
+    period: 1w
+  warning-decay:
+    enabled: true
+    period: 2w
+  warnings:
+    warning-count: 3
+    severity-bypass-threshold: 3
+rules:
+  whitelist: []
+  blacklist:
+    - [name, \bexample filter\b, 2]
+    - [anothername, \banother example\b]
