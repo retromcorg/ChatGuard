@@ -1,16 +1,19 @@
 package io.github.aleksandarharalanov.chatguard;
 
-import io.github.aleksandarharalanov.chatguard.command.ChatGuardCommand;
-import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
-import io.github.aleksandarharalanov.chatguard.listener.block.SignChangeListener;
-import io.github.aleksandarharalanov.chatguard.listener.player.*;
-import io.github.aleksandarharalanov.chatguard.util.config.ConfigUtil;
-import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
-import io.github.aleksandarharalanov.chatguard.util.log.UpdateUtil;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import io.github.aleksandarharalanov.chatguard.command.ChatGuardCommand;
+import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
+import io.github.aleksandarharalanov.chatguard.listener.block.SignChangeListener;
+import io.github.aleksandarharalanov.chatguard.listener.player.PlayerChatListener;
+import io.github.aleksandarharalanov.chatguard.listener.player.PlayerJoinListener;
+import io.github.aleksandarharalanov.chatguard.listener.player.PlayerLoginListener;
+import io.github.aleksandarharalanov.chatguard.listener.player.PlayerQuitListener;
+import io.github.aleksandarharalanov.chatguard.util.config.ConfigUtil;
+import io.github.aleksandarharalanov.chatguard.util.log.LogUtil;
 
 public class ChatGuard extends JavaPlugin {
 
@@ -22,8 +25,6 @@ public class ChatGuard extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        UpdateUtil.checkAvailablePluginUpdates(this, "https://api.github.com/repos/AleksandarHaralanov/ChatGuard/releases/latest");
-
         plugin = this;
 
         // Configurations
