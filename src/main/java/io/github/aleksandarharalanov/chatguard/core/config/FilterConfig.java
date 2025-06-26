@@ -116,7 +116,7 @@ public final class FilterConfig {
                     final String name = (String) pair.get(0);
                     final String filter = (String) pair.get(1);
 
-                    final int severity = (int) pair.get(2);
+                    final int severity = (Integer) pair.get(2);
 
                     filterTerm = new FilterTerm(name, filter, severity);
                 }
