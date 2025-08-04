@@ -14,43 +14,43 @@ public final class FilterConfig {
     private FilterConfig() {}
 
     public static boolean getChatEnabled() {
-        return ChatGuard.getConfig().getBoolean("filter.enabled.chat", true);
+        return ChatGuard.getConfig().getBoolean("enabled.chat", true);
     }
 
     public static boolean getSignEnabled() {
-        return ChatGuard.getConfig().getBoolean("filter.enabled.sign", true);
+        return ChatGuard.getConfig().getBoolean("enabled.sign", true);
     }
 
     public static boolean getNameEnabled() {
-        return ChatGuard.getConfig().getBoolean("filter.enabled.name", true);
+        return ChatGuard.getConfig().getBoolean("enabled.name", true);
     }
 
     public static boolean getWarnPlayerEnabled() {
-        return ChatGuard.getConfig().getBoolean("filter.warn-player", true);
+        return ChatGuard.getConfig().getBoolean("warn-player", true);
     }
 
     public static boolean getLogConsoleEnabled() {
-        return ChatGuard.getConfig().getBoolean("filter.log.console", true);
+        return ChatGuard.getConfig().getBoolean("log.console", true);
     }
 
     public static boolean getLogLocalFileEnabled() {
-        return ChatGuard.getConfig().getBoolean("filter.log.local-file", true);
+        return ChatGuard.getConfig().getBoolean("log.local-file", true);
     }
 
     public static boolean getAutoMuteEnabled() {
-        return ChatGuard.getConfig().getBoolean("filter.auto-mute.enabled", true);
+        return ChatGuard.getConfig().getBoolean("auto-mute.enabled", true);
     }
 
     public static boolean getStrikeDecayEnabled() {
-        return ChatGuard.getConfig().getBoolean("filter.auto-mute.strike-decay.enabled", true);
+        return ChatGuard.getConfig().getBoolean("auto-mute.strike-decay.enabled", true);
     }
 
     public static boolean getWarningDecayEnabled() {
-        return ChatGuard.getConfig().getBoolean("filter.auto-mute.warning-decay.enabled", true);
+        return ChatGuard.getConfig().getBoolean("auto-mute.warning-decay.enabled", true);
     }
 
     public static long getStrikeDecayPeriod() {
-        final String configString = ChatGuard.getConfig().getString("filter.auto-mute.strike-decay.period");
+        final String configString = ChatGuard.getConfig().getString("auto-mute.strike-decay.period");
 
         try {
             final long futureTime = TimeFormatter.parseDateDiff(configString, true);
@@ -62,7 +62,7 @@ public final class FilterConfig {
     }
 
     public static long getWarningDecayPeriod() {
-        final String configString = ChatGuard.getConfig().getString("filter.auto-mute.warning-decay.period");
+        final String configString = ChatGuard.getConfig().getString("auto-mute.warning-decay.period");
 
         try {
             final long futureTime = TimeFormatter.parseDateDiff(configString, true);
@@ -74,20 +74,20 @@ public final class FilterConfig {
     }
 
     public static int getWarningcount() {
-        return ChatGuard.getConfig().getInt("filter.auto-mute.warnings.warning-count", 0);
+        return ChatGuard.getConfig().getInt("auto-mute.warnings.warning-count", 0);
     }
 
     public static int getWarningBypassThreashold() {
-        return ChatGuard.getConfig().getInt("filter.auto-mute.warnings.severity-bypass-threashold", 3);
+        return ChatGuard.getConfig().getInt("auto-mute.warnings.severity-bypass-threashold", 3);
     }
 
     public static List<String> getAutoMuteDurations() {
         List<String> def = Arrays.asList("30m", "1h", "2h", "4h", "8h", "24h");
-        return ChatGuard.getConfig().getStringList("filter.auto-mute.duration", def);
+        return ChatGuard.getConfig().getStringList("auto-mute.duration", def);
     }
 
     public static List<String> getWhitelist() {
-        return ChatGuard.getConfig().getStringList("filter.rules.whitelist", new ArrayList<>());
+        return ChatGuard.getConfig().getStringList("rules.whitelist", new ArrayList<>());
     }
 
     public static List<FilterTerm> getBlacklist() {
@@ -98,7 +98,7 @@ public final class FilterConfig {
     }
 
     public static void generateBlackListCache() {
-        List<Object> entries = ChatGuard.getConfig().getList("filter.rules.blacklist");
+        List<Object> entries = ChatGuard.getConfig().getList("rules.blacklist");
 
         List<FilterTerm> newBlackList = new ArrayList<>();
 

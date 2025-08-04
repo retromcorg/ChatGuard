@@ -1,5 +1,8 @@
 package io.github.aleksandarharalanov.chatguard.core.security.filter;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import io.github.aleksandarharalanov.chatguard.core.config.FilterConfig;
 import io.github.aleksandarharalanov.chatguard.core.config.FilterTerm;
 import io.github.aleksandarharalanov.chatguard.core.config.PenaltyConfig;
@@ -8,12 +11,8 @@ import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.log.logger.ConsoleLogger;
 import io.github.aleksandarharalanov.chatguard.core.log.logger.DiscordLogger;
 import io.github.aleksandarharalanov.chatguard.core.log.logger.FileLogger;
-import io.github.aleksandarharalanov.chatguard.core.misc.AudioCuePlayer;
 import io.github.aleksandarharalanov.chatguard.core.security.penalty.PenaltyEnforcer;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 public final class FilterFinalizer {
 
@@ -44,7 +43,6 @@ public final class FilterFinalizer {
             PenaltyEnforcer.processMute(logType, player);
         }
 
-        AudioCuePlayer.play(logType, player, false);
         ConsoleLogger.log(logType, player, content);
         FileLogger.log(logType, player, content);
         DiscordLogger.log(logType, player, content, filterTerm, shouldWarn, violationLocation);

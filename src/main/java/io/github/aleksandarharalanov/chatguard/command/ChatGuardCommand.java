@@ -17,7 +17,6 @@ public final class ChatGuardCommand implements CommandExecutor {
         subcommands.put("about", new AboutCommand(plugin));
         subcommands.put("reload", new ReloadCommand());
         subcommands.put("strike", new StrikeCommand());
-        subcommands.put("captcha", new CaptchaCommand(plugin));
     }
 
     @Override

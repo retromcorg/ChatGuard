@@ -51,9 +51,6 @@ public final class DiscordLogger {
             case NAME:
                 embed = new NameEmbed(ChatGuard.getInstance(), player, content, trigger);
                 break;
-            case CAPTCHA:
-                embed = new CaptchaEmbed(ChatGuard.getInstance(), player, content);
-                break;
             default:
                 System.out.println("[ChatGuard] Something went wrong when constructing webhook embed to log.");
                 return;
