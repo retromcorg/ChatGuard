@@ -8,6 +8,8 @@ import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.security.common.TimeFormatter;
 import io.github.aleksandarharalanov.chatguard.core.security.penalty.plugin.EssentialsMuteHandler;
 import io.github.aleksandarharalanov.chatguard.core.security.penalty.plugin.ZCoreMuteHandler;
+import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
+import io.github.aleksandarharalanov.chatguard.util.auth.Permission;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,8 +29,6 @@ public final class PenaltyEnforcer {
             muteHandler = null;
         }
     }
-
-    private PenaltyEnforcer() {}
 
     public static void processMute(LogType logType, Player player) {
         if (muteHandler == null) {
@@ -55,10 +55,19 @@ public final class PenaltyEnforcer {
             return;
         }
 
-        Bukkit.getServer().broadcastMessage(ColorUtil.translateColorCodes(String.format(
+        notifyPlayers(player.getName(), PenaltyConfig.getAutoMuteDuration(player));
+    }
+
+    private static void notifyPlayers(String playerName, String muteDuration)
+    {
+        String message = String.format(
                 "&c[ChatGuard] %s muted for %s. by system; content has bad words.",
-                player.getName(), PenaltyConfig.getAutoMuteDuration(player)
-        )));
+                playerName, muteDuration
+        );
+
+        for (Player player : Bukkit.getServer().getOnlinePlayers())
+            if (AccessUtil.senderHasPermission(player, Permission.NOTIFY))
+                player.sendMessage(message);
     }
 
     public static void incrementStrikeTier(LogType logType, Player player, int severity) {

@@ -9,6 +9,7 @@ import io.github.aleksandarharalanov.chatguard.core.security.common.TimeFormatte
 import io.github.aleksandarharalanov.chatguard.core.security.filter.FilterHandler;
 import io.github.aleksandarharalanov.chatguard.core.security.penalty.PenaltyEnforcer;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
+import io.github.aleksandarharalanov.chatguard.util.auth.Permission;
 
 public class PlayerChatListener extends PlayerListener {
 
@@ -18,7 +19,8 @@ public class PlayerChatListener extends PlayerListener {
 
         if (isPlayerMuted(player, event)) return;
         if (hasBypassPermission(player)) return;
-        if (handleChatFiltering(player, event)) return;
+
+        handleChatFiltering(player, event);
     }
 
     private static boolean isPlayerMuted(Player player, PlayerChatEvent event) {
@@ -29,18 +31,19 @@ public class PlayerChatListener extends PlayerListener {
             event.setCancelled(true);
             return true;
         }
+
         return false;
     }
 
     private static boolean hasBypassPermission(Player player) {
-        return AccessUtil.senderHasPermission(player, "chatguard.bypass");
+        return AccessUtil.senderHasPermission(player, Permission.BYPASS);
     }
 
-    private static boolean handleChatFiltering(Player player, PlayerChatEvent event) {
-        if (FilterConfig.getChatEnabled() && FilterHandler.isChatContentBlocked(player, event.getMessage())) {
+    private static void handleChatFiltering(Player player, PlayerChatEvent event) {
+        if (
+            FilterConfig.getChatEnabled() &&
+            FilterHandler.wasChatContentBlocked(player, event.getMessage())
+        )
             event.setCancelled(true);
-            return true;
-        }
-        return false;
     }
 }

@@ -17,7 +17,7 @@ public class PlayerLoginListener extends PlayerListener {
             IPData.storePlayerIP(player.getName(), event.getKickMessage());
         }
 
-        if (FilterHandler.isPlayerNameBlocked(player)) {
+        if (FilterHandler.wasPlayerNameBlocked(player)) {
             // this is pretty garbage, but i cant be asked to do this properly...
             FilterTrigger trigger = FilterHandler.GetBlockedTrigger(player.getName());
             String filterName = trigger.getFilterTerm().getName();

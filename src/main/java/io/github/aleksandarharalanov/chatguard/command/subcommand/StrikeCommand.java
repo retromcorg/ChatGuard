@@ -2,6 +2,7 @@ package io.github.aleksandarharalanov.chatguard.command.subcommand;
 
 import io.github.aleksandarharalanov.chatguard.core.config.PenaltyConfig;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
+import io.github.aleksandarharalanov.chatguard.util.auth.Permission;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +15,7 @@ public final class StrikeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!AccessUtil.senderHasPermission(sender, "chatguard.config", "[ChatGuard] You don't have permission to modify the config.")) {
+        if (!AccessUtil.senderHasPermission(sender, Permission.CONFIG, "[ChatGuard] You don't have permission to modify the config.")) {
             return true;
         }
 

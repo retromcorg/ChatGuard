@@ -16,7 +16,7 @@ public class PlayerJoinListener extends PlayerListener {
         Player player = event.getPlayer();
 
         // Fallback if PlayerLoginEvent fails
-        if (FilterConfig.getNameEnabled() && FilterHandler.isPlayerNameBlocked(player)) {
+        if (FilterConfig.getNameEnabled() && FilterHandler.wasPlayerNameBlocked(player)) {
             // this is pretty garbage, but i cant be asked to do this properly...
             FilterTrigger trigger = FilterHandler.GetBlockedTrigger(player.getName());
             String filterName = trigger.getFilterTerm().getName();

@@ -12,22 +12,22 @@ public final class FilterHandler {
 
     private FilterHandler() {}
 
-    public static boolean isChatContentBlocked(Player player, String content) {
-        return isBlocked(LogType.CHAT, player, content, null);
+    public static boolean wasChatContentBlocked(Player player, String content) {
+        return wasBlocked(LogType.CHAT, player, content, null);
     }
 
-    public static boolean isSignContentBlocked(Player player, SignChangeEvent event) {
+    public static boolean wasSignContentBlocked(Player player, SignChangeEvent event) {
         String[] content = event.getLines();
         Location eventLocation = event.getBlock().getLocation();
 
-        return isBlocked(LogType.SIGN, player, ContentHandler.mergeContent(content), eventLocation);
+        return wasBlocked(LogType.SIGN, player, ContentHandler.mergeContent(content), eventLocation);
     }
 
-    public static boolean isPlayerNameBlocked(Player player) {
-        return isBlocked(LogType.NAME, player, player.getName(), null);
+    public static boolean wasPlayerNameBlocked(Player player) {
+        return wasBlocked(LogType.NAME, player, player.getName(), null);
     }
 
-    private static boolean isBlocked(LogType logType, Player player, String content, Location violationLocation) {
+    private static boolean wasBlocked(LogType logType, Player player, String content, Location violationLocation) {
         FilterTrigger trigger = GetBlockedTrigger(content);
 
         if (trigger == null)

@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.earth2me.essentials.commands.Commandseen;
+
 import java.util.logging.Logger;
 
 /**
@@ -22,6 +24,10 @@ public final class AccessUtil {
     private static final Logger logger = Bukkit.getServer().getLogger();
 
     private AccessUtil() {}
+
+    public static boolean senderHasPermission(CommandSender sender, Permission permission, String noPermissionMessage) {
+        return senderHasPermission(sender, permission.toString(), noPermissionMessage);
+    }
 
     /**
      * Checks if the sender has the specified permission.
@@ -50,6 +56,10 @@ public final class AccessUtil {
         }
 
         return true;
+    }
+
+    public static boolean senderHasPermission(CommandSender sender, Permission permission) {
+        return senderHasPermission(sender, permission.toString());
     }
 
     /**
