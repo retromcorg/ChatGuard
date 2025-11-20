@@ -1,7 +1,7 @@
 main: io.github.aleksandarharalanov.chatguard.ChatGuard
 version: 6.0.0
 name: ChatGuard
-author: Beezle
+author: Beezle, RitzKid76
 website: github.com/AleksandarHaralanov/ChatGuard
 description: Prevents messages, usernames, and signs containing blocked terms or matching RegEx patterns, enforces mutes, logs actions, and applies escalating penalties.
 softdepend: [Essentials]
@@ -17,15 +17,23 @@ permissions:
     children:
       chatguard.bypass: true
       chatguard.config: true
-      chatguard.captcha: true
+      chatguard.filter: true
+      chatguard.staff: true
+      chatguard.notify: true
     description: Grants the player all ChatGuard permissions.
     default: op
   chatguard.bypass:
     description: Allows the player to bypass the ChatGuard protection.
     default: op
   chatguard.config:
-    description: Allows the player to reload and modify the ChatGuard configuration.
+    description: Allows the player to reload and modify the ChatGuard configuration, and edit player strike data.
     default: op
-  chatguard.captcha:
-    description: Allows the player to be notified when someone triggers a captcha verification.
+  chatguatd.filter:
+    description: Allows the player to choose whether or not to hide less-appropriate messages
+    default: op
+  chatguard.staff:
+    description: Should be given to all staff members who need to run staff-level commands
+    default: op
+  chatguard.notify:
+    description: Allows the player to see ChatGuard alerts
     default: op
