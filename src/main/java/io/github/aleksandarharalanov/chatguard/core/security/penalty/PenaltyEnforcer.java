@@ -7,7 +7,6 @@ import io.github.aleksandarharalanov.chatguard.core.log.LogAttribute;
 import io.github.aleksandarharalanov.chatguard.core.log.LogType;
 import io.github.aleksandarharalanov.chatguard.core.security.common.TimeFormatter;
 import io.github.aleksandarharalanov.chatguard.core.security.penalty.plugin.EssentialsMuteHandler;
-import io.github.aleksandarharalanov.chatguard.core.security.penalty.plugin.ZCoreMuteHandler;
 import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
 import io.github.aleksandarharalanov.chatguard.util.auth.Permission;
 import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
@@ -23,8 +22,6 @@ public final class PenaltyEnforcer {
         PluginManager pM = Bukkit.getServer().getPluginManager();
         if (pM.getPlugin("Essentials") != null) {
             muteHandler = new EssentialsMuteHandler((Essentials) pM.getPlugin("Essentials"));
-        } else if (pM.getPlugin("ZCore") != null) {
-            muteHandler = new ZCoreMuteHandler();
         } else {
             muteHandler = null;
         }

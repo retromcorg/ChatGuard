@@ -57,13 +57,6 @@
             <artifactId>project-poseidon</artifactId>
             <version>1.1.10</version>
         </dependency>
-
-        <!-- ZCore from JitPack -->
-        <dependency>
-            <groupId>com.github.zavdav</groupId>
-            <artifactId>ZCore</artifactId>
-            <version>1.0.0-rc1</version>
-        </dependency>
     </dependencies>
 
     <build>
