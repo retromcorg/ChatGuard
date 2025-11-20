@@ -1,25 +1,25 @@
 package io.github.aleksandarharalanov.chatguard.command.subcommand;
 
-import io.github.aleksandarharalanov.chatguard.ChatGuard;
-import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
-import io.github.aleksandarharalanov.chatguard.util.auth.Permission;
-import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public final class ReloadCommand implements CommandExecutor {
+import io.github.aleksandarharalanov.chatguard.ChatGuard;
+import io.github.aleksandarharalanov.chatguard.util.auth.AccessUtil;
+import io.github.aleksandarharalanov.chatguard.util.auth.Permission;
+import io.github.aleksandarharalanov.chatguard.util.auth.PermissionState;
+import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
+
+public final class ReloadCommand implements IChatGuardSubCommand {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!AccessUtil.senderHasPermission(sender, Permission.CONFIG, "[ChatGuard] You don't have permission to reload the config.")) {
-            return true;
-        }
+    public boolean onCommand(CommandSender sender, String[] args) {
+        PermissionState permission = AccessUtil.senderHasPermission(sender, Permission.CONFIG);
+        if (!permission.result())
+            return !permission.hidden();
 
-        if (sender instanceof Player) {
+        if (sender instanceof Player)
             sender.sendMessage(ColorUtil.translateColorCodes("&a[ChatGuard] Configurations reloaded."));
-        }
+
         System.out.println("[ChatGuard] Configurations reloaded.");
 
         ChatGuard.reloadConfig();

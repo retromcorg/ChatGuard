@@ -1,133 +1,39 @@
 package io.github.aleksandarharalanov.chatguard.util.auth;
 
-import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.earth2me.essentials.commands.Commandseen;
+import io.github.aleksandarharalanov.chatguard.util.misc.ColorUtil;
 
-import java.util.logging.Logger;
-
-/**
- * Utility class for handling access control for commands.
- * <p>
- * Provides methods to check permissions and enforce command usage restrictions based on the sender's type.
- *
- * @see <a href="https://github.com/AleksandarHaralanov">Aleksandar's GitHub</a>
- *
- * @author Aleksandar Haralanov (@AleksandarHaralanov)
- */
 public final class AccessUtil {
 
-    private static final Logger logger = Bukkit.getServer().getLogger();
+    public static PermissionState senderHasPermission(CommandSender sender, Permission permission) {
+        final String permissionName = permission.toString();
+        final String noPermMessage = permission.noPermissionMessage();
+        
+        if (
+            permission.requiresStaff() &&
+            !senderHasPermission(sender, Permission.STAFF).result()
+        ) return new PermissionState(false, true); // we want to send the help message here to the player to not alarm them
 
-    private AccessUtil() {}
-
-    public static boolean senderHasPermission(CommandSender sender, Permission permission, String noPermissionMessage) {
-        return senderHasPermission(sender, permission.toString(), noPermissionMessage);
+        return senderHasPermission(sender, permissionName, noPermMessage);
     }
 
-    /**
-     * Checks if the sender has the specified permission.
-     * <p>
-     * If the sender is the console, the method returns {@code true} by default.
-     * If the sender does not have the required permission and is not an operator, a content is sent to the sender.
-     *
-     * @param sender              the entity executing the command, can be a player or console
-     * @param permission          the permission node to check
-     * @param noPermissionMessage the content to send if the sender lacks the required permission
-     *
-     * @return {@code true} if the sender has the permission or is an operator; {@code false} otherwise
-     */
-    public static boolean senderHasPermission(CommandSender sender, String permission, String noPermissionMessage) {
-        if (!(sender instanceof Player)) {
-            return true;
-        }
+    private static PermissionState senderHasPermission(CommandSender sender, String permission, String noPermissionMessage) {        
+        if (!(sender instanceof Player))
+            return PermissionState.TRUE;
 
         boolean hasPermission = sender.hasPermission(permission);
         boolean isOp = sender.isOp();
-        if (!(hasPermission || isOp)) {
+
+        if (hasPermission || isOp)
+            return PermissionState.TRUE;
+
+        if (!noPermissionMessage.isEmpty())
             sender.sendMessage(ColorUtil.translateColorCodes(String.format(
-                    "&c%s", noPermissionMessage
+                "&c%s", noPermissionMessage
             )));
-            return false;
-        }
 
-        return true;
-    }
-
-    public static boolean senderHasPermission(CommandSender sender, Permission permission) {
-        return senderHasPermission(sender, permission.toString());
-    }
-
-    /**
-     * Checks if the sender has the specified permission.
-     * <p>
-     * If the sender is the console, the method returns {@code true} by default.
-     * This method does not send any messages if the sender lacks permission.
-     *
-     * @param sender     the entity executing the command, can be a player or console
-     * @param permission the permission node to check
-     *
-     * @return {@code true} if the sender has the permission or is an operator; {@code false} otherwise
-     */
-    public static boolean senderHasPermission(CommandSender sender, String permission) {
-        if (!(sender instanceof Player)) {
-            return true;
-        }
-
-        boolean hasPermission = sender.hasPermission(permission);
-        boolean isOp = sender.isOp();
-        return hasPermission || isOp;
-    }
-
-    /**
-     * Ensures that the command can only be executed in-game by a player.
-     * <p>
-     * If the sender is the console, a content is logged indicating that the command must be executed in-game.
-     * This method is typically used to prevent console execution of player-only commands.
-     *
-     * @param sender the entity executing the command, typically the player or console
-     * @param plugin the plugin instance to display the plugin name
-     *
-     * @return {@code true} if the sender is not a player, indicating that the command was blocked;
-     *         {@code false} if the sender is a player, allowing the command to proceed
-     */
-    public static boolean denyIfNotPlayer(CommandSender sender, JavaPlugin plugin) {
-        if (!(sender instanceof Player)) {
-            logger.info(String.format(
-                    "[%s] You must be in-game to run this command.",
-                    plugin.getDescription().getName()
-            ));
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Ensures that the command can only be executed through the console.
-     * <p>
-     * If the sender is the player, a content is sent to them indicating that the command can't be executed in-game.
-     * This method is typically used to prevent player execution of console-only commands.
-     *
-     * @param sender the entity executing the command, typically the player or console
-     * @param plugin the plugin instance to display the plugin name
-     *
-     * @return {@code true} if the sender is not the console, indicating that the command was blocked;
-     *         {@code false} if the sender is the console, allowing the command to proceed
-     */
-    public static boolean denyIfNotConsole(CommandSender sender, JavaPlugin plugin) {
-        if (sender instanceof Player) {
-            sender.sendMessage(ColorUtil.translateColorCodes(String.format(
-                    "&c[%s] You can't run this command in-game.",
-                    plugin.getDescription().getName()
-            )));
-            return true;
-        }
-
-        return false;
+        return PermissionState.FALSE;
     }
 }

@@ -36,7 +36,7 @@ public class PlayerChatListener extends PlayerListener {
     }
 
     private static boolean hasBypassPermission(Player player) {
-        return AccessUtil.senderHasPermission(player, Permission.BYPASS);
+        return AccessUtil.senderHasPermission(player, Permission.BYPASS).result();
     }
 
     private static void handleChatFiltering(Player player, PlayerChatEvent event) {

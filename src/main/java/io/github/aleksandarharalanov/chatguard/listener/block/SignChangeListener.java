@@ -21,7 +21,7 @@ public class SignChangeListener extends BlockListener {
     }
 
     private static boolean hasBypassPermission(Player player) {
-        return AccessUtil.senderHasPermission(player, Permission.BYPASS);
+        return AccessUtil.senderHasPermission(player, Permission.BYPASS).result();
     }
 
     private static void handleSignFiltering(Player player, SignChangeEvent event) {

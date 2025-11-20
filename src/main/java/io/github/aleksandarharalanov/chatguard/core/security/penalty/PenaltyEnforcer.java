@@ -63,7 +63,7 @@ public final class PenaltyEnforcer {
         );
 
         for (Player player : Bukkit.getServer().getOnlinePlayers())
-            if (AccessUtil.senderHasPermission(player, Permission.NOTIFY))
+            if (AccessUtil.senderHasPermission(player, Permission.NOTIFY).result())
                 player.sendMessage(message);
     }
 
